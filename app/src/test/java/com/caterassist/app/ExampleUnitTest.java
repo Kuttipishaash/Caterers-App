@@ -1,4 +1,4 @@
-package com.mebinjohnson.caterermanager;
+package com.caterassist.app;
 
 import org.junit.Test;
 
