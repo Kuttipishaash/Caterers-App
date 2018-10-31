@@ -22,7 +22,6 @@ android {
 }
 
 dependencies {
-    androidTestImplementation 'junit:junit:4.12'
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
@@ -36,6 +35,10 @@ dependencies {
     // firebase library ---------------------------------------------------------------------------
     implementation 'com.google.firebase:firebase-core:16.0.4'
     implementation 'com.google.firebase:firebase-auth:16.0.5'
+    implementation 'com.google.firebase:firebase-storage:16.0.4'
+    implementation 'com.google.firebase:firebase-database:16.0.4'
+    implementation 'com.google.firebase:firebase-config:16.1.0'
+
     // third party dependencies -------------------------------------------------------------------
     implementation 'com.balysv:material-ripple:1.0.2'
 }
