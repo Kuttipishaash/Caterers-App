@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="false"
+    android:id="@+id/login_root_view"
     android:orientation="vertical">
 
     <ImageView
@@ -39,7 +40,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/spacing_medium"
             android:fontFamily="sans-serif-light"
-            android:text="Hope you enjoy the stay"
+            android:text="Let's manage order's"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
             android:textColor="@android:color/white" />
 
@@ -75,11 +76,12 @@
             android:theme="@style/EditText.White.Hint">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/login_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="-4dp"
                 android:layout_marginRight="-4dp"
-                android:hint="USERNAME"
+                android:hint="EMAIL"
                 android:inputType="text"
                 android:maxLength="50"
                 android:maxLines="1"
@@ -100,6 +102,7 @@
             android:theme="@style/EditText.White.Hint">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/login_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="-4dp"
@@ -125,7 +128,7 @@
             android:layout_gravity="center_horizontal">
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab"
+                android:id="@+id/login_button_fab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="true"
@@ -164,6 +167,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Sign up for an account?"
+                android:id="@+id/login_create_account"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
                 android:textColor="@color/grey_10" />
 

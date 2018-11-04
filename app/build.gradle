@@ -41,4 +41,5 @@ dependencies {
 
     // third party dependencies -------------------------------------------------------------------
     implementation 'com.balysv:material-ripple:1.0.2'
+    implementation 'com.stepstone.stepper:material-stepper:4.3.1'
 }
