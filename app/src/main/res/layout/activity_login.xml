@@ -75,11 +75,12 @@
             android:theme="@style/EditText.White.Hint">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/act_login_txt_inp_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="-4dp"
                 android:layout_marginRight="-4dp"
-                android:hint="USERNAME"
+                android:hint="@string/placeholder_email"
                 android:inputType="text"
                 android:maxLength="50"
                 android:maxLines="1"
@@ -100,11 +101,12 @@
             android:theme="@style/EditText.White.Hint">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/act_login_txt_inp_passowrd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="-4dp"
                 android:layout_marginRight="-4dp"
-                android:hint="PASSWORD"
+                android:hint="@string/placeholder_password"
                 android:inputType="textPassword"
                 android:maxLength="50"
                 android:maxLines="1"
@@ -125,7 +127,7 @@
             android:layout_gravity="center_horizontal">
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab"
+                android:id="@+id/act_login_fab_login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="true"
@@ -163,7 +165,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sign up for an account?"
+                android:text="@string/link_signup"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
                 android:textColor="@color/grey_10" />
 

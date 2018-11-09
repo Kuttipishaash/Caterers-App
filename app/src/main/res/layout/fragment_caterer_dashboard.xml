@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".fragments.CatererDashboardFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Favourite shops" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/frag_cate_dash_fav_vendors"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@android:color/darker_gray" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pending orders" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/frag_cate_dash_orders_progress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@android:color/darker_gray" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Browse by catergories" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/frag_cate_dash_item_categories"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
