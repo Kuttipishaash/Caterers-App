@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.caterassist.app">
 
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -18,7 +19,13 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.HomeActivity" />
-        <activity android:name=".activities.CartActivity"></activity>
+        <activity android:name=".activities.CartActivity" />
+        <activity android:name=".activities.FAQActivity" />
+        <activity android:name=".activities.ContactUsActivity" />
+        <activity android:name=".activities.AboutUsActivity" />
+        <activity android:name=".activities.SettingsActivity" />
+        <activity android:name=".activities.SearchVendorActivity" />
+        <activity android:name=".activities.ViewVendorItemsActivity" />
     </application>
 
 </manifest>

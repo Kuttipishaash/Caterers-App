@@ -1,13 +1,21 @@
 package com.caterassist.app.utils;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.widget.Toast;
 
+import com.caterassist.app.activities.LoginActivity;
 import com.caterassist.app.models.UserDetails;
 import com.caterassist.app.utils.Constants.SharedPref;
+import com.google.firebase.auth.FirebaseAuth;
+
+import es.dmoral.toasty.Toasty;
 
 
 public class AppUtils {
+
     public static void setUserInfoSharedPreferences(UserDetails userDetails, Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(SharedPref.PREF_FILE, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -19,6 +27,11 @@ public class AppUtils {
         editor.putFloat(SharedPref.USER_LNG, userDetails.getUserLng());
         editor.putString(SharedPref.USER_IMG_URL, userDetails.getUserImageUrl());
         editor.apply();
+    }
+
+    public static String getCurrentUserUID(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SharedPref.PREF_FILE, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(SharedPref.USER_ID, "");
     }
 
     public static UserDetails getUserInfoSharedPreferences(Context context) {
@@ -45,5 +58,13 @@ public class AppUtils {
         editor.remove(SharedPref.USER_LNG);
         editor.remove(SharedPref.USER_IMG_URL);
         editor.apply();
+    }
+
+    public static void cleanUpAndLogout(Activity activity) {
+        AppUtils.clearUserInfoSharedPreferences(activity);
+        activity.startActivity(new Intent(activity, LoginActivity.class));
+        Toasty.success(activity, "Logged out successfully!", Toast.LENGTH_SHORT).show();
+        FirebaseAuth.getInstance().signOut();
+        activity.finish();
     }
 }

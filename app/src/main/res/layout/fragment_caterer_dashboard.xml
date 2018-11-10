@@ -18,12 +18,15 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Favourite shops" />
+                android:layout_marginBottom="16dp"
+                android:text="Favourite vendors"
+                android:textSize="20sp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/frag_cate_dash_fav_vendors"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:scrollbars="horizontal" />
 
             <View
                 android:layout_width="match_parent"
@@ -35,6 +38,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="20sp"
                 android:text="Pending orders" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -49,15 +53,6 @@
                 android:layout_marginBottom="16dp"
                 android:background="@android:color/darker_gray" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Browse by catergories" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/frag_cate_dash_item_categories"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
         </LinearLayout>
     </ScrollView>
 
