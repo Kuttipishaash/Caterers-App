@@ -138,7 +138,7 @@ public class CatererDashboardFragment extends Fragment {
         favouriteVendorsReference.addChildEventListener(favouriteVendorsEventListener);
         favouriteVendorsAdapter = new FavouriteVendorsAdapter();
         favouriteVendorsAdapter.setFavouriteVendorArrayList(favouriteVendorArrayList);
-        favouriteVendorsLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        favouriteVendorsLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
         favouriteVendorsRecyclerView.setLayoutManager(favouriteVendorsLayoutManager);
         favouriteVendorsRecyclerView.setAdapter(favouriteVendorsAdapter);
 

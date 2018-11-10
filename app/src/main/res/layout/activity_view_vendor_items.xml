@@ -5,4 +5,9 @@
     android:layout_height="match_parent"
     tools:context=".activities.ViewVendorItemsActivity">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/act_vendor_items_recyc_items"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
