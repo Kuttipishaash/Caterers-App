@@ -60,11 +60,11 @@ public class UserDetails {
         this.userEmail = userEmail;
     }
 
-    public boolean isVendor() {
+    public boolean getIsVendor() {
         return isVendor;
     }
 
-    public void setVendor(boolean vendor) {
+    public void setIsVendor(boolean vendor) {
         isVendor = vendor;
     }
 

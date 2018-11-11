@@ -21,12 +21,12 @@ public class AppUtils {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(SharedPref.USER_ID, userDetails.getUserID());
         editor.putString(SharedPref.USER_EMAIL, userDetails.getUserEmail());
-        editor.putBoolean(SharedPref.USER_IS_VENDOR, userDetails.isVendor());
+        editor.putBoolean(SharedPref.USER_IS_VENDOR, userDetails.getIsVendor());
         editor.putString(SharedPref.USER_NAME, userDetails.getUserName());
         editor.putFloat(SharedPref.USER_LAT, userDetails.getUserLat());
         editor.putFloat(SharedPref.USER_LNG, userDetails.getUserLng());
         editor.putString(SharedPref.USER_IMG_URL, userDetails.getUserImageUrl());
-        editor.apply();
+        editor.commit();
     }
 
     public static String getCurrentUserUID(Context context) {
@@ -39,7 +39,7 @@ public class AppUtils {
         UserDetails userDetails = new UserDetails();
         userDetails.setUserID(sharedPreferences.getString(SharedPref.USER_ID, ""));
         userDetails.setUserEmail(sharedPreferences.getString(SharedPref.USER_EMAIL, ""));
-        userDetails.setVendor(sharedPreferences.getBoolean(SharedPref.USER_IS_VENDOR, false));
+        userDetails.setIsVendor(sharedPreferences.getBoolean(SharedPref.USER_IS_VENDOR, false));
         userDetails.setUserName(sharedPreferences.getString(SharedPref.USER_NAME, ""));
         userDetails.setUserLat(sharedPreferences.getFloat(SharedPref.USER_LAT, 0.0f));
         userDetails.setUserLng(sharedPreferences.getFloat(SharedPref.USER_LNG, 0.0f));
@@ -57,7 +57,7 @@ public class AppUtils {
         editor.remove(SharedPref.USER_LAT);
         editor.remove(SharedPref.USER_LNG);
         editor.remove(SharedPref.USER_IMG_URL);
-        editor.apply();
+        editor.commit();
     }
 
     public static void cleanUpAndLogout(Activity activity) {

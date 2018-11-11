@@ -40,7 +40,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         setContentView(R.layout.activity_home);
         initViews();
         setupBottomAppBar();
-        if (userDetails.isVendor()) {
+        if (userDetails.getIsVendor()) {
             loadVendorViews();
         } else {
             loadCatererViews();
@@ -50,7 +50,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
 //TODO: GET PHONE PERMISSION
 
     private void setupBottomAppBar() {
-        if (userDetails.isVendor()) {
+        if (userDetails.getIsVendor()) {
             bottomAppBar.replaceMenu(R.menu.bottom_bar_overflow_menu_vendor);
         } else {
             bottomAppBar.replaceMenu(R.menu.bottom_bar_overflow_menu_caterer);
@@ -91,7 +91,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
 
     @Override
     protected void onResume() {
-        if (!userDetails.isVendor()) {
+        if (!userDetails.getIsVendor()) {
             hideSearchBar();
         }
         super.onResume();
@@ -132,7 +132,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.act_home_fab_search_vendor:
-                if (userDetails.isVendor()) {
+                if (userDetails.getIsVendor()) {
                     //TODO: Vendor fab
                 } else {
                     showSearchBar();
@@ -143,7 +143,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
 
     @Override
     public void onBackPressed() {
-        if (!userDetails.isVendor() && !isFABVisible) {
+        if (!userDetails.getIsVendor() && !isFABVisible) {
             hideSearchBar();
         } else {
             super.onBackPressed();
