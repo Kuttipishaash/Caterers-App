@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.caterassist.app.R;
 import com.caterassist.app.activities.AboutUsActivity;
@@ -44,26 +43,21 @@ public class BottomNavigationDrawerFragment extends BottomSheetDialogFragment {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.main_nav_faq:
-                        Toast.makeText(getContext(), "FAQ clicked", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(getActivity(), FAQActivity.class));
                         break;
                     case R.id.main_nav_contact_us:
-                        Toast.makeText(getContext(), "Contact us clicked", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(getActivity(), ContactUsActivity.class));
                         break;
                     case R.id.main_nav_about_us:
-                        Toast.makeText(getContext(), "About us clicked", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(getActivity(), AboutUsActivity.class));
                         break;
                     case R.id.main_nav_share_app:
-                        Toast.makeText(getContext(), "Share app clicked", Toast.LENGTH_SHORT).show();
+                        shareApp();
                         break;
                     case R.id.main_nav_settings:
-                        Toast.makeText(getContext(), "Settings clicked", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(getActivity(), SettingsActivity.class));
                         break;
                     case R.id.main_nav_logout:
-                        Toast.makeText(getContext(), "Logout clicked", Toast.LENGTH_SHORT).show();
                         AppUtils.cleanUpAndLogout(getActivity());
                         break;
                 }
@@ -74,5 +68,11 @@ public class BottomNavigationDrawerFragment extends BottomSheetDialogFragment {
         return parentView;
     }
 
-
+    private void shareApp() {
+        String shareText = "Download CaterAssist from Google Play to assist you with your catering or vending services: " + getString(R.string.app_link);
+        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        sharingIntent.putExtra(Intent.EXTRA_TEXT, shareText);
+        getActivity().startActivity(sharingIntent);
+    }
 }

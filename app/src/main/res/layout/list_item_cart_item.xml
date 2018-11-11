@@ -62,10 +62,10 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
-            android:id="@+id/li_item_cart_qty_inc"
+            android:id="@+id/li_item_cart_qty_dec"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_add_black" />
+            android:src="@drawable/ic_remove_black" />
 
         <EditText
             android:id="@+id/li_item_cart_item_qty"
@@ -74,9 +74,9 @@
             android:inputType="numberDecimal" />
 
         <ImageButton
-            android:id="@+id/li_item_cart_qty_dec"
+            android:id="@+id/li_item_cart_qty_inc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_remove_black" />
+            android:src="@drawable/ic_add_black" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
