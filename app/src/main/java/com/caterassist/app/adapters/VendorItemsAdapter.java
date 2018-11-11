@@ -3,8 +3,8 @@ package com.caterassist.app.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.caterassist.app.R;
@@ -51,8 +51,7 @@ public class VendorItemsAdapter extends RecyclerView.Adapter<VendorItemsAdapter.
         TextView category;
         TextView rate;
         TextView qtyInStock;
-        ImageButton increaseQty;
-        ImageButton decreaseQty;
+        LinearLayout addToCart;
 
         public VendorItemsViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -61,22 +60,19 @@ public class VendorItemsAdapter extends RecyclerView.Adapter<VendorItemsAdapter.
             category = itemView.findViewById(R.id.li_item_vend_item_category);
             rate = itemView.findViewById(R.id.li_item_vend_item_rate);
             qtyInStock = itemView.findViewById(R.id.li_item_vend_item_stock);
-            increaseQty = itemView.findViewById(R.id.li_item_vend_item_qty_increase);
-            decreaseQty = itemView.findViewById(R.id.li_item_vend_item_qty_decrease);
+            addToCart = itemView.findViewById(R.id.li_item_vend_item_add_to_cart);
 
-
-            increaseQty.setOnClickListener(this);
-            decreaseQty.setOnClickListener(this);
+            addToCart.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.li_item_vend_item_qty_increase:
-                    //TODO: Increase quantity in cart
-                    break;
-                case R.id.li_item_vend_item_qty_decrease:
-                    //TODO: Decrease quantity in cart
+                case R.id.li_item_vend_item_add_to_cart:
+                    //TODO: Add to cart
+                    //Check whether the item already exixts in the cart
+                    //If so then update its quantity.
+                    //If not then add it to the cart.
                     break;
             }
         }

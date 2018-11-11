@@ -2,11 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <ImageView
-        android:id="@+id/li_item_vend_item_image"
+        android:id="@+id/li_item_cart_item_image"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginStart="8dp"
@@ -18,68 +18,65 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
-        android:id="@+id/li_item_vend_item_add_to_cart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/btn_rounded_corners"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Add to Cart" />
-
-        <ImageView
-            android:layout_marginStart="8dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_add_to_cart_black" />
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/linearLayout2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
+        android:gravity="start|center_vertical"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/li_item_vend_item_image"
+        app:layout_constraintStart_toEndOf="@+id/li_item_cart_item_image"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/li_item_vend_item_name"
-            android:layout_width="wrap_content"
+            android:id="@+id/li_item_cart_item_name"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TextView" />
 
         <TextView
-            android:id="@+id/li_item_vend_item_category"
-            android:layout_width="wrap_content"
+            android:id="@+id/li_item_cart_item_rate"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TextView" />
 
         <TextView
-            android:id="@+id/li_item_vend_item_rate"
-            android:layout_width="wrap_content"
+            android:id="@+id/li_item_cart_item_total"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TextView" />
+    </LinearLayout>
 
-        <TextView
-            android:id="@+id/li_item_vend_item_stock"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/li_item_cart_qty_inc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:src="@drawable/ic_add_black" />
 
+        <EditText
+            android:id="@+id/li_item_cart_item_qty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal" />
+
+        <ImageButton
+            android:id="@+id/li_item_cart_qty_dec"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_remove_black" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
