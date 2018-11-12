@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/btm_sheet_option_orders"
+        android:icon="@drawable/ic_orders"
+        android:iconTint="#FFF"
+        android:title="Orders"
+        app:showAsAction="ifRoom" />
+
+</menu>

@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Caterer Manager</string>
+    <!--TODO: Change app link on production -->
+    <string name="app_link">Sample Link</string>
+
+    <string name="placeholder_email">EMAIL</string>
+    <string name="placeholder_password">PASSWORD</string>
+    <string name="link_signup">Sign up for an account?</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

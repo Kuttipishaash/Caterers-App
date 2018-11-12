@@ -1,8 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeActivity">
+    tools:context=".activities.HomeActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <FrameLayout
+        android:id="@+id/act_home_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#05dfdfdf">
+
+    </FrameLayout>
+
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bottom_app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:backgroundTint="@color/colorPrimary"
+        app:navigationIcon="@drawable/ic_menu">
+
+        <EditText
+            android:id="@+id/act_home_edt_txt_vendor_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_corners_edit_text"
+            android:hint="Search Vendors"
+            android:maxLines="1"
+            android:textAlignment="center"
+            android:textColor="@color/overlay_light_90"
+            android:textColorHint="@color/overlay_light_50" />
+    </com.google.android.material.bottomappbar.BottomAppBar>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/act_home_fab_search_vendor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_search"
+        app:layout_anchor="@id/bottom_app_bar" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="none">
+        <item
+            android:id="@+id/main_nav_faq"
+            android:icon="@drawable/ic_help"
+            android:title="FAQ" />
+        <item
+            android:id="@+id/main_nav_contact_us"
+            android:icon="@drawable/ic_mail"
+            android:title="Contact Us" />
+        <item
+            android:id="@+id/main_nav_about_us"
+            android:icon="@drawable/ic_info"
+            android:title="About Us" />
+        <item
+            android:id="@+id/main_nav_share_app"
+            android:icon="@drawable/ic_share"
+            android:title="Share App" />
+        <item
+            android:id="@+id/main_nav_settings"
+            android:icon="@drawable/ic_settings"
+            android:title="Settings" />
+        <item
+            android:id="@+id/main_nav_logout"
+            android:icon="@drawable/ic_logout"
+            android:title="Logout" />
+    </group>
+</menu>
