@@ -2,6 +2,7 @@ package com.caterassist.app.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,7 +10,7 @@ import android.widget.Toast;
 
 import com.caterassist.app.R;
 import com.caterassist.app.models.UserDetails;
-import com.caterassist.app.utils.AppUtils;
+import com.caterassist.app.utils.Constants;
 import com.caterassist.app.utils.FirebaseUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -37,6 +38,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     ValueEventListener userDetailsListener;
     private DatabaseReference userInfoReference;
+    private SharedPreferences sharedPreferences;
     private UserDetails userDetails;
     private String currentUserID;
     //TODO: Show progress dialog.
@@ -79,6 +81,9 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         usernameEdtTxt = findViewById(R.id.act_login_txt_inp_username);
         passwordEdtTxt = findViewById(R.id.act_login_txt_inp_passowrd);
         loginFAB = findViewById(R.id.act_login_fab_login);
+
+        sharedPreferences = this.getSharedPreferences(Constants.SharedPref.PREF_FILE, MODE_PRIVATE);
+
     }
 
     @Override
@@ -123,7 +128,15 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 userDetails = dataSnapshot.getValue(UserDetails.class);
                 if (userDetails != null) {
                     Log.d(TAG, "onDataChange: Fetch successful");
-                    AppUtils.setUserInfoSharedPreferences(userDetails, LoginActivity.this);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString(Constants.SharedPref.USER_ID, userDetails.getUserID());
+                    editor.putString(Constants.SharedPref.USER_EMAIL, userDetails.getUserEmail());
+                    editor.putBoolean(Constants.SharedPref.USER_IS_VENDOR, userDetails.getIsVendor());
+                    editor.putString(Constants.SharedPref.USER_NAME, userDetails.getUserName());
+                    editor.putFloat(Constants.SharedPref.USER_LAT, userDetails.getUserLat());
+                    editor.putFloat(Constants.SharedPref.USER_LNG, userDetails.getUserLng());
+                    editor.putString(Constants.SharedPref.USER_IMG_URL, userDetails.getUserImageUrl());
+                    editor.apply();
                     launchHomeActivity();
                 } else {
                     Log.e(TAG, "onDataChange: Failed to fetch");

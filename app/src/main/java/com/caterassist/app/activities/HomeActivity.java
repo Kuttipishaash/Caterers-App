@@ -1,6 +1,7 @@
 package com.caterassist.app.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,6 +13,7 @@ import com.caterassist.app.fragments.CatererDashboardFragment;
 import com.caterassist.app.fragments.VendorDashboardFragments;
 import com.caterassist.app.models.UserDetails;
 import com.caterassist.app.utils.AppUtils;
+import com.caterassist.app.utils.Constants;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -27,17 +29,28 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     private UserDetails userDetails;
     private String currentUserID;
+    private SharedPreferences sharedPreferences;
 
     private FloatingActionButton searchFAB;
     private boolean isFABVisible;
     private EditText vendorSearchEditText;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         currentUserID = checkLogin();
-        userDetails = AppUtils.getUserInfoSharedPreferences(this);
         setContentView(R.layout.activity_home);
+        sharedPreferences = this.getSharedPreferences(Constants.SharedPref.PREF_FILE, MODE_PRIVATE);
+        userDetails = new UserDetails();
+        boolean test = sharedPreferences.getBoolean(Constants.SharedPref.USER_IS_VENDOR, false);
+        userDetails.setUserID(sharedPreferences.getString(Constants.SharedPref.USER_ID, ""));
+        userDetails.setUserEmail(sharedPreferences.getString(Constants.SharedPref.USER_EMAIL, ""));
+        userDetails.setIsVendor(test);
+        userDetails.setUserName(sharedPreferences.getString(Constants.SharedPref.USER_NAME, ""));
+        userDetails.setUserLat(sharedPreferences.getFloat(Constants.SharedPref.USER_LAT, 0.0f));
+        userDetails.setUserLng(sharedPreferences.getFloat(Constants.SharedPref.USER_LNG, 0.0f));
+        userDetails.setUserImageUrl(sharedPreferences.getString(Constants.SharedPref.USER_IMG_URL, ""));
         initViews();
         setupBottomAppBar();
         if (userDetails.getIsVendor()) {
@@ -47,6 +60,8 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         }
         searchFAB.setOnClickListener(this);
     }
+
+
 //TODO: GET PHONE PERMISSION
 
     private void setupBottomAppBar() {
@@ -95,9 +110,6 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
             hideSearchBar();
         }
         super.onResume();
-        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-            AppUtils.cleanUpAndLogout(this);
-        }
     }
 
     private void hideSearchBar() {

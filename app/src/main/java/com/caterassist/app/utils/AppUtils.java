@@ -26,7 +26,7 @@ public class AppUtils {
         editor.putFloat(SharedPref.USER_LAT, userDetails.getUserLat());
         editor.putFloat(SharedPref.USER_LNG, userDetails.getUserLng());
         editor.putString(SharedPref.USER_IMG_URL, userDetails.getUserImageUrl());
-        editor.commit();
+        editor.apply();
     }
 
     public static String getCurrentUserUID(Context context) {
@@ -57,7 +57,7 @@ public class AppUtils {
         editor.remove(SharedPref.USER_LAT);
         editor.remove(SharedPref.USER_LNG);
         editor.remove(SharedPref.USER_IMG_URL);
-        editor.commit();
+        editor.apply();
     }
 
     public static void cleanUpAndLogout(Activity activity) {
