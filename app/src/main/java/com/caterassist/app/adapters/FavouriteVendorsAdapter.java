@@ -2,6 +2,7 @@ package com.caterassist.app.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,7 +85,12 @@ public class FavouriteVendorsAdapter extends RecyclerView.Adapter<FavouriteVendo
             switch (v.getId()) {
                 case R.id.li_item_fav_vendor_mail:
                     String emailAddress = favouriteVendorArrayList.get(position).getVendorEmail();
-                    //TODO : Create email intent
+                    Intent sendIntent = new Intent(Intent.ACTION_SENDTO);
+                    sendIntent.setData(Uri.parse("mailto:"));
+                    sendIntent.putExtra(Intent.EXTRA_SUBJECT, "Enquiry about vending services.");
+                    sendIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{emailAddress});
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, "");
+                    itemView.getContext().startActivity(sendIntent);
                     break;
                 case R.id.li_item_fav_vendor_call:
                     String phoneNumber = favouriteVendorArrayList.get(position).getVendorPhone();
