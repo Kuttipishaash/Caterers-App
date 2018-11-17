@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.caterassist.app.R;
+import com.caterassist.app.dialogs.AddToCartDialog;
 import com.caterassist.app.models.VendorItem;
 
 import java.util.ArrayList;
@@ -17,6 +18,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class VendorItemsAdapter extends RecyclerView.Adapter<VendorItemsAdapter.VendorItemsViewHolder> {
     private ArrayList<VendorItem> vendorItemArrayList;
+    private String vendorUID;
+
+    public void setVendorUID(String vendorUID) {
+        this.vendorUID = vendorUID;
+    }
 
     public void setVendorItemArrayList(ArrayList<VendorItem> vendorItemArrayList) {
         this.vendorItemArrayList = vendorItemArrayList;
@@ -70,9 +76,10 @@ public class VendorItemsAdapter extends RecyclerView.Adapter<VendorItemsAdapter.
             switch (v.getId()) {
                 case R.id.li_item_vend_item_add_to_cart:
                     //TODO: Add to cart
-                    //Check whether the item already exixts in the cart
-                    //If so then update its quantity.
-                    //If not then add it to the cart.
+                    AddToCartDialog addToCartDialog = new AddToCartDialog(itemView.getContext(),
+                            vendorItemArrayList.get(getAdapterPosition()),
+                            vendorUID);
+                    addToCartDialog.show();
                     break;
             }
         }

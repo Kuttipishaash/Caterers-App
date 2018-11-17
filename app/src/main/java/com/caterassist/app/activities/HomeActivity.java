@@ -41,17 +41,17 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         currentUserID = checkLogin();
         setContentView(R.layout.activity_home);
+        initViews();
+
         sharedPreferences = this.getSharedPreferences(Constants.SharedPref.PREF_FILE, MODE_PRIVATE);
         userDetails = new UserDetails();
-        boolean test = sharedPreferences.getBoolean(Constants.SharedPref.USER_IS_VENDOR, false);
         userDetails.setUserID(sharedPreferences.getString(Constants.SharedPref.USER_ID, ""));
         userDetails.setUserEmail(sharedPreferences.getString(Constants.SharedPref.USER_EMAIL, ""));
-        userDetails.setIsVendor(test);
+        userDetails.setIsVendor(sharedPreferences.getBoolean(Constants.SharedPref.USER_IS_VENDOR, false));
         userDetails.setUserName(sharedPreferences.getString(Constants.SharedPref.USER_NAME, ""));
         userDetails.setUserLat(sharedPreferences.getFloat(Constants.SharedPref.USER_LAT, 0.0f));
         userDetails.setUserLng(sharedPreferences.getFloat(Constants.SharedPref.USER_LNG, 0.0f));
         userDetails.setUserImageUrl(sharedPreferences.getString(Constants.SharedPref.USER_IMG_URL, ""));
-        initViews();
         setupBottomAppBar();
         if (userDetails.getIsVendor()) {
             loadVendorViews();

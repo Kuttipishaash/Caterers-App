@@ -125,6 +125,7 @@ public class ViewVendorItemsActivity extends Activity {
         };
         vendorItemsReference.addChildEventListener(vendorItemsEventListener);
         vendorItemsAdapter = new VendorItemsAdapter();
+        vendorItemsAdapter.setVendorUID(vendorUID);
         vendorItemsAdapter.setVendorItemArrayList(vendorItemsArrayList);
         vendorItemsLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         vendorItemsRecyclerView.setLayoutManager(vendorItemsLayoutManager);

@@ -144,6 +144,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                     editor.putFloat(Constants.SharedPref.USER_LNG, userDetails.getUserLng());
                     editor.putString(Constants.SharedPref.USER_IMG_URL, userDetails.getUserImageUrl());
                     editor.apply();
+                    boolean x = sharedPreferences.getBoolean(Constants.SharedPref.USER_IS_VENDOR, false);
+                    Log.i(TAG, "onDataChange: " + x);
                     launchHomeActivity();
                 } else {
                     Log.e(TAG, "onDataChange: Failed to fetch");

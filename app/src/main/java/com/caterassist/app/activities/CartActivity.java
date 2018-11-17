@@ -19,6 +19,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -49,7 +50,8 @@ public class CartActivity extends Activity implements View.OnClickListener {
     private void fetchCartItems() {
         String databasePath = FirebaseUtils.getDatabaseMainBranchName() +
                 FirebaseUtils.CART_BRANCH_NAME +
-                FirebaseAuth.getInstance().getUid();
+                FirebaseAuth.getInstance().getUid() + "/" +
+                FirebaseUtils.CART_ITEMS_BRANCH;
 
         cartItemsReference = FirebaseDatabase.getInstance().getReference(databasePath);
         cartItemsEventListener = new ChildEventListener() {
@@ -139,11 +141,22 @@ public class CartActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.act_cart_btn_checkout:
-                //TODO: CHeckout
+                checkout();
                 break;
             case R.id.act_cart_btn_clear_cart:
-                //TODO: Clear cart
+                if (cartItemsReference != null) {
+                    Objects.requireNonNull(cartItemsReference.getParent()).setValue(null);
+                }
                 break;
         }
+    }
+
+    private void checkout() {
+        String userOrdersDatabasePath = FirebaseUtils.getDatabaseMainBranchName() +
+                FirebaseUtils.ORDERS_CATERER_BRANCH +
+                FirebaseAuth.getInstance().getUid();
+        DatabaseReference checkoutReferecne = FirebaseDatabase.getInstance().getReference(userOrdersDatabasePath);
+        checkoutReferecne.push().setValue(cartItemsArrayList);
+        //TODO Upload order info also
     }
 }

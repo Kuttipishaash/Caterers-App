@@ -53,6 +53,7 @@ public class VendorDashboardFragments extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_vendor_dashboards, container, false);
         vendingItemsRecyclerView = view.findViewById(R.id.frag_vend_recyc_vending_items);
+        Toast.makeText(getActivity(), "This is VendorFragment", Toast.LENGTH_SHORT).show();
         fetchItems();
         return view;
     }

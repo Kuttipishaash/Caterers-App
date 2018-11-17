@@ -1,15 +1,28 @@
 package com.caterassist.app.models;
 
+import com.google.firebase.database.Exclude;
+
 public class CartItem {
-    String id;
-    String name;
-    double rate;
-    double quantity;
-    String unit;
-    String imageURL;
-    double totalAmount;
+    @Exclude
+    private String id;
+
+    private String name;
+    private double rate;
+    private double quantity;
+    private String unit;
+    private String imageURL;
+    private double totalAmount;
 
     public CartItem() {
+    }
+
+    public CartItem(String name, double rate, double quantity, String unit, String imageURL, double totalAmount) {
+        this.name = name;
+        this.rate = rate;
+        this.quantity = quantity;
+        this.unit = unit;
+        this.imageURL = imageURL;
+        this.totalAmount = totalAmount;
     }
 
     public CartItem(String id, String name, double rate, double quantity, String unit, String imageURL, double totalAmount) {
