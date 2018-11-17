@@ -6,9 +6,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.caterassist.app.R;
+import com.caterassist.app.SignUpActivity;
 import com.caterassist.app.models.UserDetails;
 import com.caterassist.app.utils.Constants;
 import com.caterassist.app.utils.FirebaseUtils;
@@ -33,6 +35,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     private static final String TAG = "LoginActivity";
     private TextInputEditText usernameEdtTxt;
     private TextInputEditText passwordEdtTxt;
+    private LinearLayout signUpLinearLayout;
     private FloatingActionButton loginFAB;
 
     private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
@@ -75,12 +78,14 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
         //Setting listeners
         loginFAB.setOnClickListener(this);
+        signUpLinearLayout.setOnClickListener(this);
     }
 
     private void initViews() {
         usernameEdtTxt = findViewById(R.id.act_login_txt_inp_username);
         passwordEdtTxt = findViewById(R.id.act_login_txt_inp_passowrd);
         loginFAB = findViewById(R.id.act_login_fab_login);
+        signUpLinearLayout = findViewById(R.id.sign_up_for_account);
 
         sharedPreferences = this.getSharedPreferences(Constants.SharedPref.PREF_FILE, MODE_PRIVATE);
 
@@ -90,6 +95,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         if (v.getId() == loginFAB.getId()) {
             login();
+        } else if (v.getId() == signUpLinearLayout.getId()) {
+            startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
         }
     }
 
