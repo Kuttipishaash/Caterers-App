@@ -1,19 +1,25 @@
 package com.caterassist.app.adapters;
 
+import android.content.DialogInterface;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.caterassist.app.R;
 import com.caterassist.app.models.CartItem;
+import com.caterassist.app.utils.FirebaseUtils;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartItemViewHolder> {
@@ -37,7 +43,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartItemViewHo
         holder.itemNameTextView.setText(cartItem.getName());
         holder.itemRateTextView.setText(String.valueOf(cartItem.getRate()));
         holder.itemTotalTextView.setText(String.valueOf(cartItem.getTotalAmount()));
-        holder.itemQtyEdtTxt.setText(String.valueOf(cartItem.getQuantity()));
+        holder.itemQtyTxtView.setText(String.valueOf(cartItem.getQuantity()));
         holder.tempQuantity = cartItem.getQuantity();
     }
 
@@ -46,15 +52,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartItemViewHo
         return cartItemsArrayList.size();
     }
 
-    class CartItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnFocusChangeListener {
+    class CartItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         ImageView itemImageView;
         TextView itemNameTextView;
         TextView itemRateTextView;
         TextView itemTotalTextView;
-        EditText itemQtyEdtTxt;
-        ImageButton itemQtyIncrease;
-        ImageButton itemQtyDecrease;
+        TextView itemQtyTxtView;
+        ImageButton removeButton;
         double tempQuantity;
 
         public CartItemViewHolder(@NonNull View itemView) {
@@ -63,39 +68,51 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartItemViewHo
             itemNameTextView = itemView.findViewById(R.id.li_item_cart_item_name);
             itemRateTextView = itemView.findViewById(R.id.li_item_cart_item_rate);
             itemTotalTextView = itemView.findViewById(R.id.li_item_cart_item_total);
-            itemQtyEdtTxt = itemView.findViewById(R.id.li_item_cart_item_qty);
-            itemQtyIncrease = itemView.findViewById(R.id.li_item_cart_qty_inc);
-            itemQtyDecrease = itemView.findViewById(R.id.li_item_cart_qty_dec);
+            itemQtyTxtView = itemView.findViewById(R.id.li_item_cart_item_qty);
+            removeButton = itemView.findViewById(R.id.li_item_cart_remove_btn);
             tempQuantity = 1;
 
-            itemQtyIncrease.setOnClickListener(this);
-            itemQtyDecrease.setOnClickListener(this);
-            itemQtyEdtTxt.setOnFocusChangeListener(this);
+            removeButton.setOnClickListener(this);
+//            itemQtyEdtTxt.setOnFocusChangeListener(this);
         }
 
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.li_item_cart_qty_inc:
-                    //TODO:Increase qty
-                    break;
-                case R.id.li_item_cart_qty_dec:
-                    //TODO:Decrease qty
+                case R.id.li_item_cart_remove_btn:
+                    removeItem();
+
                     break;
             }
         }
 
-        @Override
-        public void onFocusChange(View v, boolean hasFocus) {
-            if (v.getId() == R.id.li_item_cart_item_qty) {
-                if (hasFocus) {
-                    tempQuantity = cartItemsArrayList.get(getAdapterPosition()).getQuantity();
-                } else {
-                    if (tempQuantity != cartItemsArrayList.get(getAdapterPosition()).getQuantity()) {
-                        //TODO: change quantity.
-                    }
-                }
+        private void removeItem() {
+            AlertDialog.Builder builder;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                builder = new AlertDialog.Builder(itemView.getContext(), android.R.style.Theme_Material_Dialog_Alert);
+            } else {
+                builder = new AlertDialog.Builder(itemView.getContext());
             }
+            builder.setTitle("Remove from cart")
+                    .setMessage("Are you sure you want to remove " + cartItemsArrayList.get(getAdapterPosition()).getName() + " from cart?")
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            String databasePath = FirebaseUtils.getDatabaseMainBranchName() + FirebaseUtils.CART_BRANCH_NAME +
+                                    FirebaseAuth.getInstance().getUid() + "/" +
+                                    FirebaseUtils.CART_ITEMS_BRANCH +
+                                    cartItemsArrayList.get(getAdapterPosition()).getId();
+                            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(databasePath);
+                            databaseReference.setValue(null);
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .show();
         }
+
+
     }
 }

@@ -49,34 +49,28 @@
             android:text="TextView" />
     </LinearLayout>
 
-    <LinearLayout
+
+    <TextView
+        android:id="@+id/li_item_cart_item_qty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:gravity="center"
-        android:orientation="horizontal"
+        android:text="Quantity"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageButton
-            android:id="@+id/li_item_cart_qty_dec"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_remove_black" />
+    <ImageButton
+        android:id="@+id/li_item_cart_remove_btn"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/ic_close_black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/li_item_cart_item_qty"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="numberDecimal" />
 
-        <ImageButton
-            android:id="@+id/li_item_cart_qty_inc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_add_black" />
-    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

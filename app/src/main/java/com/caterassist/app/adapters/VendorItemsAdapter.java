@@ -75,7 +75,6 @@ public class VendorItemsAdapter extends RecyclerView.Adapter<VendorItemsAdapter.
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.li_item_vend_item_add_to_cart:
-                    //TODO: Add to cart
                     AddToCartDialog addToCartDialog = new AddToCartDialog(itemView.getContext(),
                             vendorItemArrayList.get(getAdapterPosition()),
                             vendorUID);
