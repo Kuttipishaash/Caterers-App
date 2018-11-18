@@ -94,13 +94,14 @@ public class FavouriteVendorsAdapter extends RecyclerView.Adapter<FavouriteVendo
                     break;
                 case R.id.li_item_fav_vendor_call:
                     String phoneNumber = favouriteVendorArrayList.get(position).getVendorPhone();
-                    //TODO: Create phone intent after getting permissions
+                    Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phoneNumber));
+                    itemView.getContext().startActivity(callIntent);
                     break;
                 case R.id.list_item_favourite_vendor:
                     String uID = favouriteVendorArrayList.get(position).getVendorUid();
-                    Intent intent = new Intent(context, ViewVendorItemsActivity.class);
-                    intent.putExtra(Constants.IntentExtrasKeys.VIEW_VENDOR_ITEMS_INTENT_VENDOR_UID, uID);
-                    context.startActivity(intent);
+                    Intent emailIntent = new Intent(context, ViewVendorItemsActivity.class);
+                    emailIntent.putExtra(Constants.IntentExtrasKeys.VIEW_VENDOR_ITEMS_INTENT_VENDOR_UID, uID);
+                    context.startActivity(emailIntent);
                     break;
                 case R.id.li_item_fav_vendor_remove:
                     removeVendorFromFavourites(favouriteVendorArrayList.get(position).getVendorUid());

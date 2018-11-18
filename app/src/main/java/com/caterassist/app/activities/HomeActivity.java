@@ -1,11 +1,15 @@
 package com.caterassist.app.activities;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.caterassist.app.R;
 import com.caterassist.app.fragments.BottomNavigationDrawerFragment;
@@ -19,12 +23,16 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
+import es.dmoral.toasty.Toasty;
 
 public class HomeActivity extends FragmentActivity implements View.OnClickListener {
 
     private static final String TAG = "HomeActivity";
+    private static final int CALL_PERMISSION_REQ_CODE = 101;
     BottomAppBar bottomAppBar;
     private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     private UserDetails userDetails;
@@ -42,7 +50,48 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         currentUserID = checkLogin();
         setContentView(R.layout.activity_home);
         initViews();
+        getPermissions();
 
+
+    }
+
+    private void getPermissions() {
+        int MyVersion = Build.VERSION.SDK_INT;
+        if (MyVersion > Build.VERSION_CODES.LOLLIPOP_MR1) {
+            if (!checkIfAlreadyhavePermission()) {
+                requestForSpecificPermission();
+            }
+        }
+    }
+
+    private void requestForSpecificPermission() {
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE}, CALL_PERMISSION_REQ_CODE);
+
+    }
+
+    private boolean checkIfAlreadyhavePermission() {
+        int result = ContextCompat.checkSelfPermission(this, Manifest.permission.GET_ACCOUNTS);
+        return result == PackageManager.PERMISSION_GRANTED;
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case CALL_PERMISSION_REQ_CODE:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    doIfPermissionGranted();
+                } else {
+                    Toasty.warning(this, "You need to provide call permissions to use all the features of this app.", Toast.LENGTH_SHORT).show();
+                    AppUtils.cleanUpAndLogout(this);
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
+    private void doIfPermissionGranted() {
         sharedPreferences = this.getSharedPreferences(Constants.SharedPref.PREF_FILE, MODE_PRIVATE);
         userDetails = new UserDetails();
         userDetails.setUserID(sharedPreferences.getString(Constants.SharedPref.USER_ID, ""));
@@ -60,9 +109,6 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         }
         searchFAB.setOnClickListener(this);
     }
-
-
-//TODO: GET PHONE PERMISSION
 
     private void setupBottomAppBar() {
         if (userDetails.getIsVendor()) {
@@ -106,8 +152,10 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
 
     @Override
     protected void onResume() {
-        if (!userDetails.getIsVendor()) {
-            hideSearchBar();
+        if (userDetails != null) {
+            if (!userDetails.getIsVendor()) {
+                hideSearchBar();
+            }
         }
         super.onResume();
     }

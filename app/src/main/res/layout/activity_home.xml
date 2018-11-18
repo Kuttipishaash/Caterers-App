@@ -29,6 +29,7 @@
             android:background="@drawable/rounded_corners_edit_text"
             android:hint="Search Vendors"
             android:maxLines="1"
+            android:visibility="gone"
             android:textAlignment="center"
             android:textColor="@color/overlay_light_90"
             android:textColorHint="@color/overlay_light_50" />
