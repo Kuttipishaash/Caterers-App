@@ -21,7 +21,6 @@ import com.caterassist.app.utils.Constants;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.auth.FirebaseAuth;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -33,11 +32,9 @@ import es.dmoral.toasty.Toasty;
 public class HomeActivity extends FragmentActivity implements View.OnClickListener {
 
     private static final String TAG = "HomeActivity";
-    private static final int CALL_PERMISSION_REQ_CODE = 101;
+    private static final int CALL_PERMISSION_REQ_CODE = 100;
     BottomAppBar bottomAppBar;
-    private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     private UserDetails userDetails;
-    private String currentUserID;
     private SharedPreferences sharedPreferences;
 
     private FloatingActionButton searchFAB;
@@ -48,12 +45,8 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        currentUserID = checkLogin();
         setContentView(R.layout.activity_home);
-        initViews();
         getPermissions();
-
-
     }
 
     private void getPermissions() {
@@ -61,7 +54,11 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         if (MyVersion > Build.VERSION_CODES.LOLLIPOP_MR1) {
             if (!checkIfAlreadyhavePermission()) {
                 requestForSpecificPermission();
+            } else {
+                doIfPermissionGranted();
             }
+        } else {
+            doIfPermissionGranted();
         }
     }
 
@@ -102,6 +99,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         userDetails.setUserLat(sharedPreferences.getFloat(Constants.SharedPref.USER_LAT, 0.0f));
         userDetails.setUserLng(sharedPreferences.getFloat(Constants.SharedPref.USER_LNG, 0.0f));
         userDetails.setUserImageUrl(sharedPreferences.getString(Constants.SharedPref.USER_IMG_URL, ""));
+        initViews();
         setupBottomAppBar();
         if (userDetails.getIsVendor()) {
             loadVendorViews();
@@ -110,6 +108,9 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         }
         searchFAB.setOnClickListener(this);
     }
+
+
+//TODO: GET PHONE PERMISSION
 
     private void setupBottomAppBar() {
         if (userDetails.getIsVendor()) {
@@ -141,6 +142,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
 
 
     private void loadCatererViews() {
+        searchFAB.setImageResource(R.drawable.ic_search);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.act_home_fragment, new CatererDashboardFragment());
         fragmentTransaction.commit();
@@ -148,6 +150,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
 
 
     private void loadVendorViews() {
+        searchFAB.setImageResource(R.drawable.ic_add_black);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.act_home_fragment, new VendorDashboardFragments());
         fragmentTransaction.commit();
@@ -175,17 +178,8 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         isFABVisible = false;
     }
 
-    private String checkLogin() {
-        if (firebaseAuth.getCurrentUser() == null) {
-            AppUtils.cleanUpAndLogout(this);
-            return "";
-        } else {
-            return firebaseAuth.getUid();
-        }
-    }
-
     private void initViews() {
-        searchFAB = findViewById(R.id.act_home_fab_search_vendor);
+        searchFAB = findViewById(R.id.act_home_fab);
         vendorSearchEditText = findViewById(R.id.act_home_edt_txt_vendor_search);
         bottomAppBar = findViewById(R.id.bottom_app_bar);
     }
@@ -194,9 +188,9 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.act_home_fab_search_vendor:
+            case R.id.act_home_fab:
                 if (userDetails.getIsVendor()) {
-                    //TODO: Vendor fab
+                    startActivity(new Intent(HomeActivity.this, AddEditItemActivity.class));
                 } else {
                     showSearchBar();
                 }

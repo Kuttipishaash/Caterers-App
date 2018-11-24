@@ -15,7 +15,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/user_placeholder" />
+        android:src="@drawable/user_placeholder" />
 
     <LinearLayout
         android:id="@+id/linearLayout3"
@@ -61,7 +61,7 @@
         android:layout_height="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_close_black" />
+        android:src="@drawable/ic_close_black" />
 
     <ImageButton
         android:id="@+id/li_vending_item_edit"
@@ -69,5 +69,5 @@
         android:layout_height="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_close_black" />
+        android:src="@drawable/ic_edit_black" />
 </androidx.constraintlayout.widget.ConstraintLayout>

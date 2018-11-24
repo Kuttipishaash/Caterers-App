@@ -27,7 +27,8 @@
         <activity android:name=".activities.SettingsActivity" />
         <activity android:name=".activities.SearchVendorActivity" />
         <activity android:name=".activities.ViewVendorItemsActivity" />
-        <activity android:name=".activities.CatererOrderHistoryActivity"></activity>
+        <activity android:name=".activities.CatererOrderHistoryActivity" />
+        <activity android:name=".activities.AddEditItemActivity"></activity>
     </application>
 
 </manifest>

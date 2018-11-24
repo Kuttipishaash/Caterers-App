@@ -1,5 +1,6 @@
 package com.caterassist.app.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -79,6 +80,7 @@ public class FavouriteVendorsAdapter extends RecyclerView.Adapter<FavouriteVendo
             parentView.setOnClickListener(this);
         }
 
+        @SuppressLint("MissingPermission")
         @Override
         public void onClick(View v) {
             int position = getAdapterPosition();

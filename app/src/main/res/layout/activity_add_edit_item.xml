@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".activities.AddEditItemActivity">
+
+    <Spinner
+        android:id="@+id/act_addedt_category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/act_addedt_category_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Category"
+        android:visibility="gone" />
+
+    <Spinner
+        android:id="@+id/act_addedt_item_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:enabled="false" />
+
+    <TextView
+        android:id="@+id/act_addedt_item_name_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Item Name"
+        android:visibility="gone" />
+
+
+    <EditText
+        android:id="@+id/act_addedt_rate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:hint="Rate per unit"
+        android:inputType="numberDecimal" />
+
+
+    <EditText
+        android:id="@+id/act_addedt_units_available"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:hint="Units available"
+        android:inputType="numberDecimal" />
+
+
+    <Button
+        android:id="@+id/act_addedt_submit_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:text="Save" />
+</LinearLayout>

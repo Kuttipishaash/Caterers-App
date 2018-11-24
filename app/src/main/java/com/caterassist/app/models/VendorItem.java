@@ -1,6 +1,8 @@
 package com.caterassist.app.models;
 
-public class VendorItem {
+import java.io.Serializable;
+
+public class VendorItem implements Serializable {
     private String id;
     private String name;
     private String imageUrl;

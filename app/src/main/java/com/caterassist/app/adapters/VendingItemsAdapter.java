@@ -1,14 +1,23 @@
 package com.caterassist.app.adapters;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.caterassist.app.R;
+import com.caterassist.app.activities.AddEditItemActivity;
 import com.caterassist.app.models.VendorItem;
+import com.caterassist.app.utils.FirebaseUtils;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -63,18 +72,53 @@ public class VendingItemsAdapter extends RecyclerView.Adapter<VendingItemsAdapte
             itemStock = itemView.findViewById(R.id.textVieli_vending_item_stock);
             removeItemButton = itemView.findViewById(R.id.li_vending_item_remove);
             editItemButton = itemView.findViewById(R.id.li_vending_item_edit);
+
+            removeItemButton.setOnClickListener(this);
+            editItemButton.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.li_vending_item_edit:
-                    //TODO:Edit item details
+                    Intent intent = new Intent(itemView.getContext(), AddEditItemActivity.class);
+                    intent.putExtra("item", vendingItemArrayList.get(getAdapterPosition()));
+                    itemView.getContext().startActivity(intent);
                     break;
                 case R.id.li_vending_item_remove:
-                    //TODO: Remove item
+                    showRemoveItemDialog();
                     break;
             }
+        }
+
+        private void showRemoveItemDialog() {
+            new AlertDialog.Builder(itemView.getContext())
+                    .setTitle("Remove Item")
+                    .setMessage("Are you sure to remove this item from your list?")
+                    .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //TODO:remove item from firebase
+                            String itemId = vendingItemArrayList.get(getAdapterPosition()).getId();
+                            removeItemFromStock(itemId);
+                            Toast.makeText(itemView.getContext(), "Item removed", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .show();
+        }
+
+        private void removeItemFromStock(String itemId) {
+            String databasePath = FirebaseUtils.getDatabaseMainBranchName() + FirebaseUtils.VENDOR_LIST_BRANCH_NAME
+                    + FirebaseAuth.getInstance().getUid() + "/" + itemId;
+            Toast.makeText(itemView.getContext(), databasePath, Toast.LENGTH_SHORT).show();
+            DatabaseReference vendingItemReference = FirebaseDatabase.getInstance().getReference(databasePath);
+            vendingItemReference.setValue(null);
         }
     }
 }

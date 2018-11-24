@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.caterassist.app.R;
-import com.caterassist.app.adapters.VendorItemsAdapter;
+import com.caterassist.app.adapters.VendingItemsAdapter;
 import com.caterassist.app.models.VendorItem;
 import com.caterassist.app.utils.FirebaseUtils;
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,7 +37,7 @@ public class VendorDashboardFragments extends Fragment {
     private ChildEventListener vendingItemsEventListener;
     private ArrayList<VendorItem> vendingItemsArrayList;
     private LinearLayoutManager vendingItemsLayoutManager;
-    private VendorItemsAdapter vendingItemsAdapter;
+    private VendingItemsAdapter vendingItemsAdapter;
 
 
     private RecyclerView vendingItemsRecyclerView;
@@ -54,6 +54,7 @@ public class VendorDashboardFragments extends Fragment {
         View view = inflater.inflate(R.layout.fragment_vendor_dashboards, container, false);
         vendingItemsRecyclerView = view.findViewById(R.id.frag_vend_recyc_vending_items);
         Toast.makeText(getActivity(), "This is VendorFragment", Toast.LENGTH_SHORT).show();
+        vendingItemsArrayList = new ArrayList<>();
         fetchItems();
         return view;
     }
@@ -131,8 +132,8 @@ public class VendorDashboardFragments extends Fragment {
             }
         };
         vendingItemsReference.addChildEventListener(vendingItemsEventListener);
-        vendingItemsAdapter = new VendorItemsAdapter();
-        vendingItemsAdapter.setVendorItemArrayList(vendingItemsArrayList);
+        vendingItemsAdapter = new VendingItemsAdapter();
+        vendingItemsAdapter.setVendingItemArrayList(vendingItemsArrayList);
         vendingItemsLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         vendingItemsRecyclerView.setLayoutManager(vendingItemsLayoutManager);
         vendingItemsRecyclerView.setAdapter(vendingItemsAdapter);
