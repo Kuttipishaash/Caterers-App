@@ -87,7 +87,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         loginFAB = findViewById(R.id.act_login_fab_login);
         signUpLinearLayout = findViewById(R.id.sign_up_for_account);
 
-        sharedPreferences = this.getSharedPreferences(Constants.SharedPref.PREF_FILE, MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(Constants.SharedPref.PREF_FILE, MODE_PRIVATE);
 
     }
 

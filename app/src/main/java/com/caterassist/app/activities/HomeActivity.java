@@ -23,6 +23,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
@@ -76,7 +77,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
 
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
             case CALL_PERMISSION_REQ_CODE:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -130,6 +131,8 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                     case R.id.btm_sheet_option_cart:
                         startActivity(new Intent(HomeActivity.this, CartActivity.class));
                         break;
+                    case R.id.main_nav_order_history:
+                        startActivity(new Intent(HomeActivity.this, CatererOrderHistoryActivity.class));
                 }
                 return true;
             }
