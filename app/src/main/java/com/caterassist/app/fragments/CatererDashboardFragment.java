@@ -10,7 +10,9 @@ import android.widget.Toast;
 
 import com.caterassist.app.R;
 import com.caterassist.app.adapters.FavouriteVendorsAdapter;
+import com.caterassist.app.adapters.VendorListAdapter;
 import com.caterassist.app.models.FavouriteVendor;
+import com.caterassist.app.models.UserDetails;
 import com.caterassist.app.utils.FirebaseUtils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -18,9 +20,11 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,12 +40,14 @@ public class CatererDashboardFragment extends Fragment {
     private DatabaseReference favouriteVendorsReference;
     private ChildEventListener favouriteVendorsEventListener;
     private RecyclerView favouriteVendorsRecyclerView;
-    private ArrayList<FavouriteVendor> favouriteVendorArrayList;
+    ArrayList<UserDetails> allVendorsArrayList;
     private LinearLayoutManager favouriteVendorsLayoutManager;
     private FavouriteVendorsAdapter favouriteVendorsAdapter;
-
-    private DatabaseReference pendingOrdersReference;
-    private RecyclerView ordersInProgress;
+    private ArrayList<UserDetails> favouriteVendorArrayList;
+    private DatabaseReference allVendorsRef;
+    private LinearLayoutManager allVendorsLayoutManager;
+    private VendorListAdapter allVendorsAdapter;
+    private RecyclerView allVendorsRecyclerView;
 
 
     private View fragmentView;
@@ -60,7 +66,36 @@ public class CatererDashboardFragment extends Fragment {
         initViews();
         fetchPendingOrders();
         fetchFavouriteVendors();
+        fetchAllVendors();
         return fragmentView;
+    }
+
+    private void fetchAllVendors() {
+        allVendorsArrayList = new ArrayList<>();
+        String databasePath = FirebaseUtils.getDatabaseMainBranchName() + FirebaseUtils.USER_INFO_BRANCH_NAME;
+        allVendorsRef = FirebaseDatabase.getInstance().getReference(databasePath);
+        allVendorsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    UserDetails userDetails = snapshot.getValue(UserDetails.class);
+                    if (userDetails.getIsVendor()) {
+                        userDetails.setUserID(snapshot.getKey());
+                        allVendorsArrayList.add(userDetails);
+                    }
+                }
+                allVendorsAdapter = new VendorListAdapter();
+                allVendorsAdapter.setVendorsList(allVendorsArrayList);
+                allVendorsLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+                allVendorsRecyclerView.setLayoutManager(allVendorsLayoutManager);
+                allVendorsRecyclerView.setAdapter(allVendorsAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void fetchFavouriteVendors() {
@@ -74,8 +109,8 @@ public class CatererDashboardFragment extends Fragment {
                 Log.d(TAG, "onChildAdded:" + dataSnapshot.getKey());
 
                 // A new favouriteVendor has been added, add it to the displayed list
-                FavouriteVendor favouriteVendor = dataSnapshot.getValue(FavouriteVendor.class);
-                favouriteVendor.setVendorUid(dataSnapshot.getKey());
+                UserDetails favouriteVendor = dataSnapshot.getValue(UserDetails.class);
+                favouriteVendor.setUserID(dataSnapshot.getKey());
                 favouriteVendorArrayList.add(favouriteVendor);
                 favouriteVendorsAdapter.notifyDataSetChanged();
 
@@ -87,12 +122,12 @@ public class CatererDashboardFragment extends Fragment {
 
                 // A favouriteVendor has changed, use the key to determine if we are displaying this
                 // favouriteVendor and if so displayed the changed favouriteVendor.
-                FavouriteVendor favouriteVendor = dataSnapshot.getValue(FavouriteVendor.class);
+                UserDetails favouriteVendor = dataSnapshot.getValue(UserDetails.class);
                 String favouriteVendorKey = dataSnapshot.getKey();
                 for (int i = 0; i < favouriteVendorArrayList.size(); i++) {
-                    if (favouriteVendorArrayList.get(i).getVendorUid().equals(favouriteVendorKey)) {
+                    if (favouriteVendorArrayList.get(i).getUserID().equals(favouriteVendorKey)) {
                         favouriteVendorArrayList.remove(i);
-                        favouriteVendor.setVendorUid(dataSnapshot.getKey());
+                        favouriteVendor.setUserID(dataSnapshot.getKey());
                         favouriteVendorArrayList.add(i, favouriteVendor);
                         favouriteVendorsAdapter.notifyDataSetChanged();
                         break;
@@ -109,7 +144,7 @@ public class CatererDashboardFragment extends Fragment {
                 // favouriteVendor and if so remove it.
                 String favouriteVendorKey = dataSnapshot.getKey();
                 for (int i = 0; i < favouriteVendorArrayList.size(); i++) {
-                    if (favouriteVendorArrayList.get(i).getVendorUid().equals(favouriteVendorKey)) {
+                    if (favouriteVendorArrayList.get(i).getUserID().equals(favouriteVendorKey)) {
                         favouriteVendorArrayList.remove(i);
                         favouriteVendorsAdapter.notifyDataSetChanged();
                     }
@@ -149,7 +184,7 @@ public class CatererDashboardFragment extends Fragment {
 
     private void initViews() {
         favouriteVendorsRecyclerView = fragmentView.findViewById(R.id.frag_cate_dash_fav_vendors);
-        ordersInProgress = fragmentView.findViewById(R.id.frag_cate_dash_orders_progress);
+        allVendorsRecyclerView = fragmentView.findViewById(R.id.frag_cate_all_vendors);
         favouriteVendorArrayList = new ArrayList<>();
     }
 

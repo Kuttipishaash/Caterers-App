@@ -7,7 +7,7 @@
         android:title="Cart"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/main_nav_order_history"
+        android:id="@+id/btm_sheet_caterer_order_history"
         android:icon="@drawable/ic_history_white"
         android:title="Order History"
         app:showAsAction="ifRoom" />

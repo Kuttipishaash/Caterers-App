@@ -1,5 +1,7 @@
 package com.caterassist.app.models;
 
+import com.google.firebase.database.Exclude;
+
 import java.io.Serializable;
 
 public class VendorItem implements Serializable {
@@ -24,10 +26,12 @@ public class VendorItem implements Serializable {
         this.unit = unit;
     }
 
+    @Exclude
     public String getId() {
         return id;
     }
 
+    @Exclude
     public void setId(String id) {
         this.id = id;
     }

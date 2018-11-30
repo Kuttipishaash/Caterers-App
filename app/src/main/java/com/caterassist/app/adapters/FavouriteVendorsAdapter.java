@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.caterassist.app.R;
 import com.caterassist.app.activities.ViewVendorItemsActivity;
-import com.caterassist.app.models.FavouriteVendor;
+import com.caterassist.app.models.UserDetails;
 import com.caterassist.app.utils.Constants;
 import com.caterassist.app.utils.FirebaseUtils;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,9 +28,9 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class FavouriteVendorsAdapter extends RecyclerView.Adapter<FavouriteVendorsAdapter.ViewHolder> {
-    private ArrayList<FavouriteVendor> favouriteVendorArrayList;
+    private ArrayList<UserDetails> favouriteVendorArrayList;
 
-    public void setFavouriteVendorArrayList(ArrayList<FavouriteVendor> favouriteVendorArrayList) {
+    public void setFavouriteVendorArrayList(ArrayList<UserDetails> favouriteVendorArrayList) {
         this.favouriteVendorArrayList = favouriteVendorArrayList;
     }
 
@@ -43,9 +43,8 @@ public class FavouriteVendorsAdapter extends RecyclerView.Adapter<FavouriteVendo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        FavouriteVendor favouriteVendor = favouriteVendorArrayList.get(position);
-        holder.vendorName.setText(favouriteVendor.getVendorName());
-        holder.vendorManagerName.setText(favouriteVendor.getVendorManagerName());
+        UserDetails favouriteVendor = favouriteVendorArrayList.get(position);
+        holder.vendorName.setText(favouriteVendor.getUserName());
         //TODO: Set vendor image.
     }
 
@@ -57,7 +56,6 @@ public class FavouriteVendorsAdapter extends RecyclerView.Adapter<FavouriteVendo
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private ConstraintLayout parentView;
         private TextView vendorName;
-        private TextView vendorManagerName;
         private ImageButton emailVendorButton;
         private ImageButton callVendorButton;
         private ImageView removeVendorButton;
@@ -69,7 +67,6 @@ public class FavouriteVendorsAdapter extends RecyclerView.Adapter<FavouriteVendo
             context = itemView.getContext();
             parentView = itemView.findViewById(R.id.list_item_favourite_vendor);
             vendorName = itemView.findViewById(R.id.li_item_fav_vendor_name);
-            vendorManagerName = itemView.findViewById(R.id.li_item_fav_vendor_manager_name);
             emailVendorButton = itemView.findViewById(R.id.li_item_fav_vendor_mail);
             callVendorButton = itemView.findViewById(R.id.li_item_fav_vendor_call);
             removeVendorButton = itemView.findViewById(R.id.li_item_fav_vendor_remove);
@@ -86,7 +83,7 @@ public class FavouriteVendorsAdapter extends RecyclerView.Adapter<FavouriteVendo
             int position = getAdapterPosition();
             switch (v.getId()) {
                 case R.id.li_item_fav_vendor_mail:
-                    String emailAddress = favouriteVendorArrayList.get(position).getVendorEmail();
+                    String emailAddress = favouriteVendorArrayList.get(position).getUserEmail();
                     Intent sendIntent = new Intent(Intent.ACTION_SENDTO);
                     sendIntent.setData(Uri.parse("mailto:"));
                     sendIntent.putExtra(Intent.EXTRA_SUBJECT, "Enquiry about vending services.");
@@ -95,18 +92,18 @@ public class FavouriteVendorsAdapter extends RecyclerView.Adapter<FavouriteVendo
                     itemView.getContext().startActivity(sendIntent);
                     break;
                 case R.id.li_item_fav_vendor_call:
-                    String phoneNumber = favouriteVendorArrayList.get(position).getVendorPhone();
+                    String phoneNumber = favouriteVendorArrayList.get(position).getUserPhone();
                     Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phoneNumber));
                     itemView.getContext().startActivity(callIntent);
                     break;
                 case R.id.list_item_favourite_vendor:
-                    String uID = favouriteVendorArrayList.get(position).getVendorUid();
-                    Intent emailIntent = new Intent(context, ViewVendorItemsActivity.class);
-                    emailIntent.putExtra(Constants.IntentExtrasKeys.VIEW_VENDOR_ITEMS_INTENT_VENDOR_UID, uID);
-                    context.startActivity(emailIntent);
+                    String uID = favouriteVendorArrayList.get(position).getUserID();
+                    Intent viewVendorItemsIntent = new Intent(context, ViewVendorItemsActivity.class);
+                    viewVendorItemsIntent.putExtra(Constants.IntentExtrasKeys.VIEW_VENDOR_ITEMS_INTENT_VENDOR_UID, uID);
+                    context.startActivity(viewVendorItemsIntent);
                     break;
                 case R.id.li_item_fav_vendor_remove:
-                    removeVendorFromFavourites(favouriteVendorArrayList.get(position).getVendorUid());
+                    removeVendorFromFavourites(favouriteVendorArrayList.get(position).getUserID());
                     break;
             }
         }

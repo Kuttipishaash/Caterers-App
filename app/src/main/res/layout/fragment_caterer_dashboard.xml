@@ -19,7 +19,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:text="Favourite vendors"
+                android:text="Favourites"
                 android:textSize="20sp" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -39,19 +39,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
-                android:text="Pending orders" />
+                android:text="All Vendors" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/frag_cate_dash_orders_progress"
+                android:id="@+id/frag_cate_all_vendors"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:background="@android:color/darker_gray" />
 
         </LinearLayout>
     </ScrollView>
