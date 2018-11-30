@@ -4,14 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="false"
+    android:background="@color/colorPrimary"
     android:orientation="vertical">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:foreground="@color/cyan_800_overlay"
-        android:scaleType="centerCrop"
-        android:src="@drawable/image_26" />
 
     <LinearLayout
         android:layout_width="330dp"
@@ -39,7 +34,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/spacing_medium"
             android:fontFamily="sans-serif-light"
-            android:text="Hope you enjoy the stay"
+            android:text="Caterer Manager"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
             android:textColor="@android:color/white" />
 
@@ -82,6 +77,7 @@
                 android:layout_marginRight="-4dp"
                 android:hint="@string/placeholder_email"
                 android:inputType="text"
+                android:textColorHint="@android:color/white"
                 android:maxLength="50"
                 android:maxLines="1"
                 android:singleLine="true"
@@ -107,11 +103,11 @@
                 android:layout_marginLeft="-4dp"
                 android:layout_marginRight="-4dp"
                 android:hint="@string/placeholder_password"
+                android:textColorHint="@android:color/white"
                 android:inputType="textPassword"
                 android:maxLength="50"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:textColor="@color/grey_10"
                 android:theme="@style/EditText.White" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -132,7 +128,7 @@
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 android:textStyle="bold"
-                android:tint="@color/cyan_800"
+                android:tint="@color/colorAccent"
                 app:backgroundTint="@android:color/white"
                 app:fabSize="normal"
                 app:rippleColor="@color/cyan_800"
