@@ -4,11 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="false"
-    android:background="@color/colorPrimary"
     android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="290dp"
+        android:background="@drawable/gradient" />
 
 
     <LinearLayout
+        android:id="@+id/login_content"
         android:layout_width="330dp"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
@@ -77,11 +82,11 @@
                 android:layout_marginRight="-4dp"
                 android:hint="@string/placeholder_email"
                 android:inputType="text"
-                android:textColorHint="@android:color/white"
                 android:maxLength="50"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:textColor="@color/grey_10"
+                android:textColor="@color/grey_800"
+                android:textColorHint="@color/grey_700"
                 android:theme="@style/EditText.White" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -103,11 +108,12 @@
                 android:layout_marginLeft="-4dp"
                 android:layout_marginRight="-4dp"
                 android:hint="@string/placeholder_password"
-                android:textColorHint="@android:color/white"
                 android:inputType="textPassword"
                 android:maxLength="50"
                 android:maxLines="1"
                 android:singleLine="true"
+                android:textColor="@color/grey_800"
+                android:textColorHint="@color/grey_700"
                 android:theme="@style/EditText.White" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -127,11 +133,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="true"
-                android:textStyle="bold"
+                android:elevation="0dp"
                 android:tint="@color/colorAccent"
-                app:backgroundTint="@android:color/white"
+                app:backgroundTint="@color/colorPrimaryDark"
+                app:borderWidth="0dp"
+                app:elevation="0dp"
                 app:fabSize="normal"
-                app:rippleColor="@color/cyan_800"
+                app:rippleColor="@color/colorAccent"
                 app:srcCompat="@drawable/ic_chevron_right" />
 
 
@@ -163,7 +171,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/link_signup"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
-                android:textColor="@color/grey_10" />
+                android:textColor="@color/grey_600" />
 
 
         </LinearLayout>
@@ -173,4 +181,5 @@
             android:layout_height="@dimen/spacing_medium" />
 
     </LinearLayout>
+
 </RelativeLayout>
