@@ -29,6 +29,7 @@
         <activity android:name=".activities.ViewVendorItemsActivity" />
         <activity android:name=".activities.OrderHistoryActivity" />
         <activity android:name=".activities.AddEditItemActivity" />
+        <activity android:name=".activities.SignUpActivity" />
     </application>
 
 </manifest>

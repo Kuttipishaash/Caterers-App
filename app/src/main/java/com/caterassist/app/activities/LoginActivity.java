@@ -10,7 +10,6 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.caterassist.app.R;
-import com.caterassist.app.SignUpActivity;
 import com.caterassist.app.models.UserDetails;
 import com.caterassist.app.utils.Constants;
 import com.caterassist.app.utils.FirebaseUtils;

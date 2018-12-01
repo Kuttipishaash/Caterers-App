@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#1c1c1c</color>
-    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorPrimary">#FFB75E</color>
+    <color name="colorPrimaryDark">#ED8F03</color>
     <color name="colorPrimaryLight">#4c4c4c</color>
     <color name="colorAccent">#F9D423</color>
     <color name="colorAccentSecondary">#F50057</color>
+
+    <color name="theme_color_one">#ED8F03</color>
+    <color name="theme_color_two">#FFB75E</color>
 
     <color name="overlay_dark_10">#1A000000</color>
     <color name="overlay_dark_20">#33000000</color>
