@@ -29,9 +29,14 @@ public class AppUtils {
         editor.apply();
     }
 
-    public static String getCurrentUserUID(Context context) {
+    public static String getCurrentUserName(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(SharedPref.PREF_FILE, Context.MODE_PRIVATE);
-        return sharedPreferences.getString(SharedPref.USER_ID, "");
+        return sharedPreferences.getString(SharedPref.USER_NAME, "");
+    }
+
+    public static boolean isCurrentUserVendor(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SharedPref.PREF_FILE, Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean(SharedPref.USER_IS_VENDOR, false);
     }
 
     public static UserDetails getUserInfoSharedPreferences(Context context) {

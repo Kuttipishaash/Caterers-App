@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.caterassist.app.R;
 import com.caterassist.app.adapters.VendorItemsAdapter;
+import com.caterassist.app.models.UserDetails;
 import com.caterassist.app.models.VendorItem;
 import com.caterassist.app.utils.Constants;
 import com.caterassist.app.utils.FirebaseUtils;
@@ -16,9 +17,11 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import es.dmoral.toasty.Toasty;
@@ -27,8 +30,10 @@ public class ViewVendorItemsActivity extends Activity {
 
     private static final String TAG = "VendorItemsViewAct";
     private String vendorUID;
+    private UserDetails vendorDetails;
 
     private DatabaseReference vendorItemsReference;
+    private DatabaseReference vendorInfoReference;
     private ChildEventListener vendorItemsEventListener;
     private RecyclerView vendorItemsRecyclerView;
     private ArrayList<VendorItem> vendorItemsArrayList;
@@ -40,15 +45,41 @@ public class ViewVendorItemsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_vendor_items);
         Intent intent = getIntent();
-        if (intent != null) {
+        if (intent.getStringExtra(Constants.IntentExtrasKeys.VIEW_VENDOR_ITEMS_INTENT_VENDOR_UID) != null) {
             vendorUID = intent.getStringExtra(Constants.IntentExtrasKeys.VIEW_VENDOR_ITEMS_INTENT_VENDOR_UID);
             initViews();
-            fetchVendorItems();
+            fetchVendorDetails();
         } else {
             Toasty.error(this, "No vendor data", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(ViewVendorItemsActivity.this, HomeActivity.class));
             finish();
         }
+    }
+
+    private void fetchVendorDetails() {
+        String databasePath = FirebaseUtils.getDatabaseMainBranchName() +
+                FirebaseUtils.USER_INFO_BRANCH_NAME +
+                vendorUID;
+        vendorInfoReference = FirebaseDatabase.getInstance().getReference(databasePath);
+        vendorInfoReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                vendorDetails = dataSnapshot.getValue(UserDetails.class);
+                vendorDetails.setUserID(vendorUID);
+                vendorItemsAdapter = new VendorItemsAdapter();
+                vendorItemsAdapter.setVendorDetails(vendorDetails);
+                vendorItemsAdapter.setVendorItemArrayList(vendorItemsArrayList);
+                vendorItemsLayoutManager = new LinearLayoutManager(ViewVendorItemsActivity.this, RecyclerView.VERTICAL, false);
+                vendorItemsRecyclerView.setLayoutManager(vendorItemsLayoutManager);
+                vendorItemsRecyclerView.setAdapter(vendorItemsAdapter);
+                fetchVendorItems();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void fetchVendorItems() {
@@ -124,12 +155,7 @@ public class ViewVendorItemsActivity extends Activity {
             }
         };
         vendorItemsReference.addChildEventListener(vendorItemsEventListener);
-        vendorItemsAdapter = new VendorItemsAdapter();
-        vendorItemsAdapter.setVendorUID(vendorUID);
-        vendorItemsAdapter.setVendorItemArrayList(vendorItemsArrayList);
-        vendorItemsLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
-        vendorItemsRecyclerView.setLayoutManager(vendorItemsLayoutManager);
-        vendorItemsRecyclerView.setAdapter(vendorItemsAdapter);
+
     }
 
     private void initViews() {

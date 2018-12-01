@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.caterassist.app.R;
 import com.caterassist.app.models.CartItem;
+import com.caterassist.app.models.UserDetails;
 import com.caterassist.app.models.VendorItem;
 import com.caterassist.app.utils.FirebaseUtils;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,13 +30,13 @@ public class AddToCartDialog extends Dialog implements View.OnClickListener {
     private Button cancelButton, confirmButton;
     private EditText itemQuantitiyEdtTxt;
     private VendorItem vendorItem;
-    private String vendorUID;
+    private UserDetails vendorDetails;
 
-    public AddToCartDialog(@NonNull Context context, VendorItem vendorItem, String vendorUID) {
+    public AddToCartDialog(@NonNull Context context, VendorItem vendorItem, UserDetails vendorDetails) {
         super(context);
         this.context = context;
         this.vendorItem = vendorItem;
-        this.vendorUID = vendorUID;
+        this.vendorDetails = vendorDetails;
     }
 
     @Override
@@ -99,7 +100,7 @@ public class AddToCartDialog extends Dialog implements View.OnClickListener {
         String cartItemsPath = databasePath + FirebaseUtils.CART_ITEMS_BRANCH;
         DatabaseReference itemsReference = FirebaseDatabase.getInstance().getReference(cartItemsPath);
         itemsReference.child(cartItem.getId()).setValue(cartItem);
-        Objects.requireNonNull(itemsReference.getParent()).child(FirebaseUtils.CART_VENDOR_BRANCH).setValue(vendorUID);
+        Objects.requireNonNull(itemsReference.getParent()).child(FirebaseUtils.CART_VENDOR_BRANCH).setValue(vendorDetails);
         dismiss();
     }
 }

@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.caterassist.app.R;
 import com.caterassist.app.dialogs.AddToCartDialog;
+import com.caterassist.app.models.UserDetails;
 import com.caterassist.app.models.VendorItem;
 
 import java.util.ArrayList;
@@ -18,10 +19,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class VendorItemsAdapter extends RecyclerView.Adapter<VendorItemsAdapter.VendorItemsViewHolder> {
     private ArrayList<VendorItem> vendorItemArrayList;
-    private String vendorUID;
+    private UserDetails vendorDetails;
 
-    public void setVendorUID(String vendorUID) {
-        this.vendorUID = vendorUID;
+    public void setVendorDetails(UserDetails vendorDetails) {
+        this.vendorDetails = vendorDetails;
     }
 
     public void setVendorItemArrayList(ArrayList<VendorItem> vendorItemArrayList) {
@@ -77,7 +78,7 @@ public class VendorItemsAdapter extends RecyclerView.Adapter<VendorItemsAdapter.
                 case R.id.li_item_vend_item_add_to_cart:
                     AddToCartDialog addToCartDialog = new AddToCartDialog(itemView.getContext(),
                             vendorItemArrayList.get(getAdapterPosition()),
-                            vendorUID);
+                            vendorDetails);
                     addToCartDialog.show();
                     break;
             }

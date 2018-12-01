@@ -10,6 +10,9 @@ import android.widget.Toast;
 import com.caterassist.app.R;
 import com.caterassist.app.adapters.CartAdapter;
 import com.caterassist.app.models.CartItem;
+import com.caterassist.app.models.OrderDetails;
+import com.caterassist.app.models.UserDetails;
+import com.caterassist.app.utils.AppUtils;
 import com.caterassist.app.utils.FirebaseUtils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -17,10 +20,14 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Objects;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -33,7 +40,7 @@ public class CartActivity extends Activity implements View.OnClickListener {
     private ArrayList<CartItem> cartItemsArrayList;
     private LinearLayoutManager cartItemsLayoutManager;
     private CartAdapter cartItemsAdapter;
-
+    private UserDetails vendorDetails;
 
     private RecyclerView cartItemsRecyclerView;
     private LinearLayout checkoutButton;
@@ -47,13 +54,28 @@ public class CartActivity extends Activity implements View.OnClickListener {
         fetchCartItems();
     }
 
+
     private void fetchCartItems() {
-        String databasePath = FirebaseUtils.getDatabaseMainBranchName() +
+        final String databasePath = FirebaseUtils.getDatabaseMainBranchName() +
                 FirebaseUtils.CART_BRANCH_NAME +
                 FirebaseAuth.getInstance().getUid() + "/" +
                 FirebaseUtils.CART_ITEMS_BRANCH;
 
         cartItemsReference = FirebaseDatabase.getInstance().getReference(databasePath);
+        DatabaseReference vendorIDReference = cartItemsReference.getParent().child(FirebaseUtils.CART_VENDOR_BRANCH);
+        vendorIDReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                vendorDetails = dataSnapshot.getValue(UserDetails.class);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                //TODO: Handle failure
+            }
+        });
+
+
         cartItemsEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
@@ -141,7 +163,9 @@ public class CartActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.act_cart_btn_checkout:
-                checkout();
+                if (vendorDetails != null) {
+                    checkout();
+                }
                 break;
             case R.id.act_cart_btn_clear_cart:
                 if (cartItemsReference != null) {
@@ -152,11 +176,27 @@ public class CartActivity extends Activity implements View.OnClickListener {
     }
 
     private void checkout() {
-        String userOrdersDatabasePath = FirebaseUtils.getDatabaseMainBranchName() +
+        String userOrdersItemsDatabasePath = FirebaseUtils.getDatabaseMainBranchName() +
                 FirebaseUtils.ORDERS_CATERER_BRANCH +
                 FirebaseAuth.getInstance().getUid();
-        DatabaseReference checkoutReferecne = FirebaseDatabase.getInstance().getReference(userOrdersDatabasePath);
-        checkoutReferecne.push().setValue(cartItemsArrayList);
-        //TODO Upload order info also
+        DatabaseReference checkoutReferecne = FirebaseDatabase.getInstance().getReference(userOrdersItemsDatabasePath).push();
+        checkoutReferecne.child(FirebaseUtils.ORDER_ITEMS_BRANCH).setValue(cartItemsArrayList);
+        double orderTotalAmt = 0.0;
+        for (CartItem cartItem : cartItemsArrayList) {
+            orderTotalAmt += cartItem.getTotalAmount();
+        }
+        OrderDetails orderDetails = new OrderDetails();
+        orderDetails.setVendorId(vendorDetails.getUserID());
+        orderDetails.setCatererID(FirebaseAuth.getInstance().getUid());
+        orderDetails.setOrderStatus(0);
+        orderDetails.setVendorName(vendorDetails.getUserName());
+        orderDetails.setVendorPhone(vendorDetails.getUserPhone());
+        orderDetails.setOrderTotalAmount(orderTotalAmt);
+        orderDetails.setCatererName(AppUtils.getCurrentUserName(this));
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        Date date = new Date();
+        orderDetails.setOrderTime(formatter.format(date));
+        checkoutReferecne.child(FirebaseUtils.ORDER_INFO_BRANCH).setValue(orderDetails);
+        Objects.requireNonNull(cartItemsReference.getParent()).setValue(null);
     }
 }

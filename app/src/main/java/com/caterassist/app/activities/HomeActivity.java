@@ -133,10 +133,10 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                         startActivity(new Intent(HomeActivity.this, CartActivity.class));
                         break;
                     case R.id.btm_sheet_caterer_order_history:
-                        startActivity(new Intent(HomeActivity.this, CatererOrderHistoryActivity.class));
+                        startActivity(new Intent(HomeActivity.this, OrderHistoryActivity.class));
                         break;
                     case R.id.btm_sheet_vendor_order_history:
-                        startActivity(new Intent(HomeActivity.this, VendorOrderHistoryActivity.class));
+                        startActivity(new Intent(HomeActivity.this, OrderHistoryActivity.class));
                         break;
                 }
                 return true;

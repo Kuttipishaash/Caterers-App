@@ -9,10 +9,13 @@ public class FirebaseUtils {
     public static final String VENDOR_LIST_BRANCH_NAME = "vendingList/";
     public static final String CART_BRANCH_NAME = "cart/";
     public static final String CART_ITEMS_BRANCH = "items/";
-    public static final String CART_VENDOR_BRANCH = "vendorID/";
+    public static final String CART_VENDOR_BRANCH = "vendorDetails/";
     public static final String ORDERS_CATERER_BRANCH = "catererOrders/";
+    public static final String ORDERS_VENDOR_BRANCH = "vendorOrders/";
     public static final String CATEGORIES_BRANCH = "categories/";
     public static final String ITEMS_BRANCH = "items/";
+    public static final String ORDER_ITEMS_BRANCH = "orderItems";
+    public static final String ORDER_INFO_BRANCH = "orderInfo";
 
 
     public static String getDatabaseMainBranchName() {
