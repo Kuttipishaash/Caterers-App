@@ -39,6 +39,7 @@
         android:id="@+id/act_home_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:tint="#fff"
         app:layout_anchor="@id/bottom_app_bar" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
