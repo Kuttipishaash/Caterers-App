@@ -139,8 +139,10 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                     editor.putString(Constants.SharedPref.USER_EMAIL, userDetails.getUserEmail());
                     editor.putBoolean(Constants.SharedPref.USER_IS_VENDOR, userDetails.getIsVendor());
                     editor.putString(Constants.SharedPref.USER_NAME, userDetails.getUserName());
-                    editor.putFloat(Constants.SharedPref.USER_LAT, userDetails.getUserLat());
-                    editor.putFloat(Constants.SharedPref.USER_LNG, userDetails.getUserLng());
+                    editor.putString(Constants.SharedPref.USER_STREET, userDetails.getUserStreetName());
+                    editor.putString(Constants.SharedPref.USER_PHONE, userDetails.getUserPhone());
+                    editor.putString(Constants.SharedPref.USER_LOC, userDetails.getUserLocationName());
+                    editor.putString(Constants.SharedPref.USER_DISTRICT, userDetails.getUserDistrictName());
                     editor.putString(Constants.SharedPref.USER_IMG_URL, userDetails.getUserImageUrl());
                     editor.apply();
                     launchHomeActivity();

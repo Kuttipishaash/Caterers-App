@@ -12,6 +12,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.caterassist.app.R;
+import com.caterassist.app.models.GenericItem;
 import com.caterassist.app.models.VendorItem;
 import com.caterassist.app.utils.FirebaseUtils;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,13 +30,15 @@ public class AddEditItemActivity extends Activity implements View.OnClickListene
 
     private static final String TAG = "AddEditItemAct";
     ArrayList<String> categoriesArrayList;
-    ArrayList<String> itemsArrayList;
+    ArrayList<String> itemNamesArrayList;
+    ArrayList<GenericItem> itemsArrayList;
     Spinner itemCategorySpinner;
     TextView itemCategoryTxtView;
     Spinner itemNameSpinner;
     TextView itemNameTxtView;
     EditText itemRateEdtTxt;
     EditText itemStockEdtTxt;
+    TextView unitTextView;
     Button saveButton;
     VendorItem vendorItem;
 
@@ -47,6 +50,7 @@ public class AddEditItemActivity extends Activity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_edit_item);
         categoriesArrayList = new ArrayList<>();
+        itemNamesArrayList = new ArrayList<>();
         itemsArrayList = new ArrayList<>();
 
         initViews();
@@ -90,6 +94,7 @@ public class AddEditItemActivity extends Activity implements View.OnClickListene
                 itemNameTxtView.setVisibility(View.VISIBLE);
                 itemCategoryTxtView.setText(vendorItem.getCategory());
                 itemNameTxtView.setText(vendorItem.getName());
+                unitTextView.setText(vendorItem.getUnit());
                 itemRateEdtTxt.setText(String.valueOf(vendorItem.getRatePerUnit()));
                 itemStockEdtTxt.setText(String.valueOf(vendorItem.getStock()));
                 itemRateEdtTxt.setEnabled(true);
@@ -109,7 +114,7 @@ public class AddEditItemActivity extends Activity implements View.OnClickListene
         itemRateEdtTxt = findViewById(R.id.act_addedt_rate);
         itemStockEdtTxt = findViewById(R.id.act_addedt_units_available);
         saveButton = findViewById(R.id.act_addedt_submit_btn);
-
+        unitTextView = findViewById(R.id.act_addedt_item_unit);
         saveButton.setOnClickListener(this);
     }
 
@@ -130,13 +135,8 @@ public class AddEditItemActivity extends Activity implements View.OnClickListene
     }
 
     private void setValues() {
-        if (!isEdit) {
-            vendorItem.setUnit("sample");
-        }
         vendorItem.setRatePerUnit(Double.parseDouble(itemRateEdtTxt.getText().toString()));
         vendorItem.setStock(Double.parseDouble(itemStockEdtTxt.getText().toString()));
-        //TODO : Change unit and set image url
-
     }
 
 
@@ -150,12 +150,14 @@ public class AddEditItemActivity extends Activity implements View.OnClickListene
             itemsRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    itemNamesArrayList.clear();
                     itemsArrayList.clear();
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        String itemName = snapshot.getValue().toString();
-                        itemsArrayList.add(itemName);
+                        GenericItem item = snapshot.getValue(GenericItem.class);
+                        itemNamesArrayList.add(item.getItemName());
+                        itemsArrayList.add(item);
                     }
-                    ArrayAdapter<String> itemsAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, itemsArrayList);
+                    ArrayAdapter<String> itemsAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, itemNamesArrayList);
                     itemNameSpinner.setAdapter(itemsAdapter);
                     itemNameSpinner.setOnItemSelectedListener(AddEditItemActivity.this);
                     itemRateEdtTxt.setEnabled(true);
@@ -169,8 +171,9 @@ public class AddEditItemActivity extends Activity implements View.OnClickListene
                 }
             });
         } else if (parent.getId() == R.id.act_addedt_item_name) {
-            vendorItem.setName(itemsArrayList.get(position));
-
+            vendorItem.setName(itemNamesArrayList.get(position));
+            vendorItem.setUnit(itemsArrayList.get(position).getUnit());
+            unitTextView.setText(itemsArrayList.get(position).getUnit());
         }
     }
 

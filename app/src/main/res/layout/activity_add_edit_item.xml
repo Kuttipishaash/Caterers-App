@@ -42,7 +42,10 @@
         android:hint="Rate per unit"
         android:inputType="numberDecimal" />
 
-
+    <TextView
+        android:id="@+id/act_addedt_item_unit"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
     <EditText
         android:id="@+id/act_addedt_units_available"
         android:layout_width="match_parent"

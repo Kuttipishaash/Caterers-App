@@ -23,8 +23,10 @@ public class AppUtils {
         editor.putString(SharedPref.USER_EMAIL, userDetails.getUserEmail());
         editor.putBoolean(SharedPref.USER_IS_VENDOR, userDetails.getIsVendor());
         editor.putString(SharedPref.USER_NAME, userDetails.getUserName());
-        editor.putFloat(SharedPref.USER_LAT, userDetails.getUserLat());
-        editor.putFloat(SharedPref.USER_LNG, userDetails.getUserLng());
+        editor.putString(SharedPref.USER_STREET, userDetails.getUserStreetName());
+        editor.putString(SharedPref.USER_LOC, userDetails.getUserLocationName());
+        editor.putString(SharedPref.USER_DISTRICT, userDetails.getUserDistrictName());
+        editor.putString(SharedPref.USER_PHONE, userDetails.getUserPhone());
         editor.putString(SharedPref.USER_IMG_URL, userDetails.getUserImageUrl());
         editor.apply();
     }
@@ -46,9 +48,11 @@ public class AppUtils {
         userDetails.setUserEmail(sharedPreferences.getString(SharedPref.USER_EMAIL, ""));
         userDetails.setIsVendor(sharedPreferences.getBoolean(SharedPref.USER_IS_VENDOR, false));
         userDetails.setUserName(sharedPreferences.getString(SharedPref.USER_NAME, ""));
-        userDetails.setUserLat(sharedPreferences.getFloat(SharedPref.USER_LAT, 0.0f));
-        userDetails.setUserLng(sharedPreferences.getFloat(SharedPref.USER_LNG, 0.0f));
+        userDetails.setUserStreetName(sharedPreferences.getString(SharedPref.USER_STREET, ""));
+        userDetails.setUserLocationName(sharedPreferences.getString(SharedPref.USER_LOC, ""));
+        userDetails.setUserDistrictName(sharedPreferences.getString(SharedPref.USER_DISTRICT, ""));
         userDetails.setUserImageUrl(sharedPreferences.getString(SharedPref.USER_IMG_URL, ""));
+        userDetails.setUserPhone(sharedPreferences.getString(SharedPref.USER_PHONE, ""));
         return userDetails;
     }
 
@@ -59,8 +63,10 @@ public class AppUtils {
         editor.remove(SharedPref.USER_EMAIL);
         editor.remove(SharedPref.USER_IS_VENDOR);
         editor.remove(SharedPref.USER_NAME);
-        editor.remove(SharedPref.USER_LAT);
-        editor.remove(SharedPref.USER_LNG);
+        editor.remove(SharedPref.USER_STREET);
+        editor.remove(SharedPref.USER_LOC);
+        editor.remove(SharedPref.USER_DISTRICT);
+        editor.remove(SharedPref.USER_PHONE);
         editor.remove(SharedPref.USER_IMG_URL);
         editor.apply();
     }

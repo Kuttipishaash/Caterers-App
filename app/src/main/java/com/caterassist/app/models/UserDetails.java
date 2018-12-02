@@ -9,22 +9,23 @@ public class UserDetails {
     private String userPhone;
     private String userEmail;
     private boolean isVendor;
-    private float userLat;
-    private float userLng;
+    private String userStreetName;
+    private String userLocationName;
+    private String userDistrictName;
     private String userImageUrl;
 
     public UserDetails() {
     }
 
-    public UserDetails(String userID, String userName, String userPhone, String userEmail,
-                       boolean isVendor, float userLat, float userLng, String userImageUrl) {
+    public UserDetails(String userID, String userName, String userPhone, String userEmail, boolean isVendor, String userStreetName, String userLocationName, String userDistrictName, String userImageUrl) {
         this.userID = userID;
         this.userName = userName;
         this.userPhone = userPhone;
         this.userEmail = userEmail;
         this.isVendor = isVendor;
-        this.userLat = userLat;
-        this.userLng = userLng;
+        this.userStreetName = userStreetName;
+        this.userLocationName = userLocationName;
+        this.userDistrictName = userDistrictName;
         this.userImageUrl = userImageUrl;
     }
 
@@ -68,20 +69,28 @@ public class UserDetails {
         isVendor = vendor;
     }
 
-    public float getUserLat() {
-        return userLat;
+    public String getUserStreetName() {
+        return userStreetName;
     }
 
-    public void setUserLat(float userLat) {
-        this.userLat = userLat;
+    public void setUserStreetName(String userStreetName) {
+        this.userStreetName = userStreetName;
     }
 
-    public float getUserLng() {
-        return userLng;
+    public String getUserLocationName() {
+        return userLocationName;
     }
 
-    public void setUserLng(float userLng) {
-        this.userLng = userLng;
+    public void setUserLocationName(String userLocationName) {
+        this.userLocationName = userLocationName;
+    }
+
+    public String getUserDistrictName() {
+        return userDistrictName;
+    }
+
+    public void setUserDistrictName(String userDistrictName) {
+        this.userDistrictName = userDistrictName;
     }
 
     public String getUserImageUrl() {

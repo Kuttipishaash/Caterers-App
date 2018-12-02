@@ -9,8 +9,9 @@ public class Constants {
         public static final String USER_NAME = "pref_name";
         public static final String USER_EMAIL = "pref_email";
         public static final String USER_IS_VENDOR = "pref_is_vendor";
-        public static final String USER_LAT = "pref_latitude";
-        public static final String USER_LNG = "perf_longitude";
+        public static final String USER_STREET = "pref_street";
+        public static final String USER_LOC = "perf_location";
+        public static final String USER_DISTRICT = "perf_district";
         public static final String USER_IMG_URL = "pref_user_image";
         public static final String USER_PHONE = "pref_phone";
     }
