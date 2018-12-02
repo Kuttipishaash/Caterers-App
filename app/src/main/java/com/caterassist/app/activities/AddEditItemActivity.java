@@ -10,11 +10,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.caterassist.app.R;
 import com.caterassist.app.models.GenericItem;
 import com.caterassist.app.models.VendorItem;
 import com.caterassist.app.utils.FirebaseUtils;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -25,6 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
+import es.dmoral.toasty.Toasty;
 
 public class AddEditItemActivity extends Activity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
@@ -126,10 +130,36 @@ public class AddEditItemActivity extends Activity implements View.OnClickListene
 
             if (isEdit) {
                 setValues();
-                itemManagereference.child(vendorItem.getId()).setValue(vendorItem);
+                itemManagereference.child(vendorItem.getId()).setValue(vendorItem)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toasty.success(AddEditItemActivity.this, "Item edited successfully", Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toasty.error(AddEditItemActivity.this, "Item edit failed", Toast.LENGTH_SHORT).show();
+                            }
+                        });
             } else {
                 setValues();
-                itemManagereference.push().setValue(vendorItem);
+                itemManagereference.push().setValue(vendorItem)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toasty.success(AddEditItemActivity.this, "Item added successfully", Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toasty.error(AddEditItemActivity.this, "Item could not be added. Please try again!", Toast.LENGTH_SHORT).show();
+                            }
+                        });
             }
         }
     }
