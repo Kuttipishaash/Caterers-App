@@ -14,6 +14,8 @@ import com.caterassist.app.models.OrderDetails;
 import com.caterassist.app.models.UserDetails;
 import com.caterassist.app.utils.AppUtils;
 import com.caterassist.app.utils.FirebaseUtils;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -30,6 +32,7 @@ import java.util.Objects;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import es.dmoral.toasty.Toasty;
 
 public class CartActivity extends Activity implements View.OnClickListener {
 
@@ -189,13 +192,13 @@ public class CartActivity extends Activity implements View.OnClickListener {
         String userOrdersItemsDatabasePath = FirebaseUtils.getDatabaseMainBranchName() +
                 FirebaseUtils.ORDERS_CATERER_BRANCH +
                 FirebaseAuth.getInstance().getUid();
-        DatabaseReference checkoutReferecne = FirebaseDatabase.getInstance().getReference(userOrdersItemsDatabasePath).push();
+        final DatabaseReference checkoutReferecne = FirebaseDatabase.getInstance().getReference(userOrdersItemsDatabasePath).push();
         checkoutReferecne.child(FirebaseUtils.ORDER_ITEMS_BRANCH).setValue(cartItemsArrayList);
         double orderTotalAmt = 0.0;
         for (CartItem cartItem : cartItemsArrayList) {
             orderTotalAmt += cartItem.getTotalAmount();
         }
-        OrderDetails orderDetails = new OrderDetails();
+        final OrderDetails orderDetails = new OrderDetails();
         orderDetails.setVendorId(vendorDetails.getUserID());
         orderDetails.setCatererID(FirebaseAuth.getInstance().getUid());
         orderDetails.setOrderStatus(0);
@@ -206,7 +209,31 @@ public class CartActivity extends Activity implements View.OnClickListener {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date date = new Date();
         orderDetails.setOrderTime(formatter.format(date));
-        checkoutReferecne.child(FirebaseUtils.ORDER_INFO_BRANCH).setValue(orderDetails);
-        Objects.requireNonNull(cartItemsReference.getParent()).setValue(null);
+        checkoutReferecne.child(FirebaseUtils.ORDER_INFO_BRANCH).setValue(orderDetails)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Objects.requireNonNull(cartItemsReference.getParent()).setValue(null)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Toasty.success(CartActivity.this, "Checkout successful", Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toasty.success(CartActivity.this, "Checkout failed", Toast.LENGTH_SHORT).show();
+                                        checkoutReferecne.child(FirebaseUtils.ORDER_INFO_BRANCH).setValue(null);
+                                    }
+                                });
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toasty.success(CartActivity.this, "Checkout failed", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }

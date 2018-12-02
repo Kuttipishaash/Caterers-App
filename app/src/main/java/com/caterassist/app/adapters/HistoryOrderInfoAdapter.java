@@ -55,9 +55,6 @@ public class HistoryOrderInfoAdapter extends RecyclerView.Adapter<HistoryOrderIn
             case 3:
                 status = "Completed";
                 break;
-            case 4:
-                status = "Cancelled";
-                break;
             default:
                 status = "Status Unavailable";
                 break;
