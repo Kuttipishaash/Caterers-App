@@ -58,15 +58,11 @@ public class CartActivity extends Activity implements View.OnClickListener {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        cartItemsReference.addChildEventListener(cartItemsEventListener);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        cartItemsReference.removeEventListener(cartItemsEventListener);
+    protected void onDestroy() {
+        super.onDestroy();
+        if (cartItemsEventListener != null) {
+            cartItemsReference.removeEventListener(cartItemsEventListener);
+        }
     }
 
     private void fetchCartItems() {
@@ -156,6 +152,7 @@ public class CartActivity extends Activity implements View.OnClickListener {
                         Toast.LENGTH_SHORT).show();
             }
         };
+        cartItemsReference.addChildEventListener(cartItemsEventListener);
         cartItemsAdapter = new CartAdapter();
         cartItemsAdapter.setCartItemsArrayList(cartItemsArrayList);
         cartItemsLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);

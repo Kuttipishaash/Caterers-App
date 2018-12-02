@@ -154,18 +154,15 @@ public class ViewVendorItemsActivity extends Activity {
                         Toast.LENGTH_SHORT).show();
             }
         };
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
         vendorItemsReference.addChildEventListener(vendorItemsEventListener);
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        vendorItemsReference.removeEventListener(vendorItemsEventListener);
+    protected void onDestroy() {
+        super.onDestroy();
+        if (vendorItemsEventListener != null) {
+            vendorItemsReference.removeEventListener(vendorItemsEventListener);
+        }
     }
 
     private void initViews() {

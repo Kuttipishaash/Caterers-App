@@ -64,10 +64,17 @@ public class CatererDashboardFragment extends Fragment {
         //TODO: Remove the toast
         Toast.makeText(this.getContext(), "This is caterer fragment", Toast.LENGTH_SHORT).show();
         initViews();
-        fetchPendingOrders();
         fetchFavouriteVendors();
         fetchAllVendors();
         return fragmentView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (favouriteVendorsEventListener != null) {
+            favouriteVendorsReference.removeEventListener(favouriteVendorsEventListener);
+        }
     }
 
     private void fetchAllVendors() {
@@ -177,9 +184,6 @@ public class CatererDashboardFragment extends Fragment {
         favouriteVendorsRecyclerView.setLayoutManager(favouriteVendorsLayoutManager);
         favouriteVendorsRecyclerView.setAdapter(favouriteVendorsAdapter);
 
-    }
-
-    private void fetchPendingOrders() {
     }
 
     private void initViews() {

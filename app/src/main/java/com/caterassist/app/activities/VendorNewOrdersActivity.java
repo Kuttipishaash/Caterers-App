@@ -42,15 +42,11 @@ public class VendorNewOrdersActivity extends Activity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        query.addChildEventListener(childEventListener);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        query.removeEventListener(childEventListener);
+    protected void onDestroy() {
+        super.onDestroy();
+        if (childEventListener != null) {
+            query.removeEventListener(childEventListener);
+        }
     }
 
     private void fetchOrders() {
@@ -115,5 +111,6 @@ public class VendorNewOrdersActivity extends Activity {
                         Toast.LENGTH_SHORT).show();
             }
         };
+        query.addChildEventListener(childEventListener);
     }
 }
