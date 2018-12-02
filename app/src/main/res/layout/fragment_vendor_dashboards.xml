@@ -10,7 +10,7 @@
 
 
     <RelativeLayout
-        android:id="@+id/vendor_dash_toolbar"
+        android:id="@+id/vendor_dash_toolbar_container"
         android:layout_width="match_parent"
         android:layout_height="270dp"
         android:background="@drawable/gradient">
@@ -38,7 +38,7 @@
             android:orientation="vertical">
 
             <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
+                android:id="@+id/vendor_dash_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"

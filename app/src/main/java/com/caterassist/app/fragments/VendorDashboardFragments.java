@@ -10,7 +10,9 @@ import android.widget.Toast;
 
 import com.caterassist.app.R;
 import com.caterassist.app.adapters.VendingItemsAdapter;
+import com.caterassist.app.models.UserDetails;
 import com.caterassist.app.models.VendorItem;
+import com.caterassist.app.utils.AppUtils;
 import com.caterassist.app.utils.FirebaseUtils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -21,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -41,6 +44,7 @@ public class VendorDashboardFragments extends Fragment {
 
 
     private RecyclerView vendingItemsRecyclerView;
+    private Toolbar toolbar;
 
     public VendorDashboardFragments() {
         // Required empty public constructor
@@ -53,8 +57,14 @@ public class VendorDashboardFragments extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_vendor_dashboards, container, false);
         vendingItemsRecyclerView = view.findViewById(R.id.frag_vend_recyc_vending_items);
+        toolbar = view.findViewById(R.id.vendor_dash_toolbar);
         Toast.makeText(getActivity(), "This is VendorFragment", Toast.LENGTH_SHORT).show();
         vendingItemsArrayList = new ArrayList<>();
+        UserDetails userDetails = AppUtils.getUserInfoSharedPreferences(getContext());
+        String title = "Hi," + userDetails.getUserName();
+        toolbar.setTitle(title);
+        String subtitle = userDetails.getUserLocationName() + ", " + userDetails.getUserDistrictName();
+        toolbar.setSubtitle(subtitle);
         fetchItems();
         return view;
     }
