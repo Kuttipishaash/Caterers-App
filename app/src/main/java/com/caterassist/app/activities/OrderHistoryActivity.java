@@ -17,6 +17,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 import java.util.ArrayList;
 
@@ -57,7 +58,8 @@ public class OrderHistoryActivity extends Activity {
         orderHistoryRecycView.setAdapter(catererOrderInfoAdapter);
         String databasePath = FirebaseUtils.getDatabaseMainBranchName() + FirebaseUtils.ORDERS_CATERER_BRANCH + FirebaseAuth.getInstance().getUid();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(databasePath);
-        databaseReference.addChildEventListener(new ChildEventListener() {
+        Query query = databaseReference.orderByChild(FirebaseUtils.ORDER_INFO_SORT_CHILD);
+        query.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 DataSnapshot orderDetailsSnapshot = dataSnapshot.child(FirebaseUtils.ORDER_INFO_BRANCH);
@@ -118,7 +120,8 @@ public class OrderHistoryActivity extends Activity {
         orderHistoryRecycView.setAdapter(vendorOrderInfoAdapter);
         String databasePath = FirebaseUtils.getDatabaseMainBranchName() + FirebaseUtils.ORDERS_VENDOR_BRANCH + FirebaseAuth.getInstance().getUid();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(databasePath);
-        databaseReference.addChildEventListener(new ChildEventListener() {
+        Query query = databaseReference.orderByChild(FirebaseUtils.ORDER_INFO_SORT_CHILD);
+        query.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 DataSnapshot orderDetailsSnapshot = dataSnapshot.child(FirebaseUtils.ORDER_INFO_BRANCH);
