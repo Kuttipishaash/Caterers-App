@@ -17,6 +17,8 @@ public class FirebaseUtils {
     public static final String ORDER_ITEMS_BRANCH = "orderItems";
     public static final String ORDER_INFO_BRANCH = "orderInfo";
     public static final String ORDER_INFO_SORT_CHILD = "orderInfo/orderStatus";
+    public static final String VENDOR_PENDING_ORDERS = "pendingVendorOrders/";
+    public static final String ORDERS_AWAITING_APPROVAL = "ordersPending/";
 
 
     public static String getDatabaseMainBranchName() {

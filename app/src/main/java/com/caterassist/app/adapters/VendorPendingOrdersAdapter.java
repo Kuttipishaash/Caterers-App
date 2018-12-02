@@ -1,5 +1,6 @@
 package com.caterassist.app.adapters;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,14 +8,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.caterassist.app.R;
+import com.caterassist.app.activities.OrderDetailsActivity;
 import com.caterassist.app.models.OrderDetails;
+import com.caterassist.app.utils.Constants;
+import com.caterassist.app.utils.FirebaseUtils;
 
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class CatererOrderInfoAdapter extends RecyclerView.Adapter<CatererOrderInfoAdapter.ViewHolder> {
+public class VendorPendingOrdersAdapter extends RecyclerView.Adapter<VendorPendingOrdersAdapter.ViewHolder> {
     ArrayList<OrderDetails> orderDetailsArrayList;
 
     public void setOrderDetailsArrayList(ArrayList<OrderDetails> orderDetailsArrayList) {
@@ -43,7 +47,7 @@ public class CatererOrderInfoAdapter extends RecyclerView.Adapter<CatererOrderIn
         return orderDetailsArrayList.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         LinearLayout parentLayout;
         TextView orderIDTxtView;
         TextView orderStatusTxtView;
@@ -59,6 +63,19 @@ public class CatererOrderInfoAdapter extends RecyclerView.Adapter<CatererOrderIn
             vendorNameTxtView = itemView.findViewById(R.id.li_caterer_order_info_vendor_name);
             orderTimeStampTxtView = itemView.findViewById(R.id.li_caterer_order_info_timestamp);
             orderTotalAmtTxtView = itemView.findViewById(R.id.li_caterer_order_info_order_total);
+
+            parentLayout.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (v.getId() == parentLayout.getId()) {
+                Intent intent = new Intent(itemView.getContext(), OrderDetailsActivity.class);
+                intent.putExtra(Constants.IntentExtrasKeys.ORDER_DETAILS_BRANCH, FirebaseUtils.VENDOR_PENDING_ORDERS);
+                intent.putExtra(Constants.IntentExtrasKeys.ORDER_ID, orderDetailsArrayList.get(getAdapterPosition()).getOrderId());
+                itemView.getContext().startActivity(intent);
+
+            }
         }
     }
 }

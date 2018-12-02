@@ -9,34 +9,45 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
-            android:id="@+id/vendor_order_info_parent"
-            android:layout_width="wrap_content"
+            android:id="@+id/history_order_info_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="16dp">
 
             <TextView
-                android:id="@+id/li_vendor_order_info_id"
+                android:id="@+id/li_history_order_info_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/li_history_order_info_name_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/li_history_order_info_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+            <TextView
+                android:id="@+id/li_history_order_info_order_total"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:id="@+id/li_vendor_order_info_caterer_name"
+                android:id="@+id/li_history_order_info_timestamp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:id="@+id/li_vendor_order_info_order_total"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/li_vendor_order_info_timestamp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/li_vendor_order_info_status"
+                android:id="@+id/li_history_order_info_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>

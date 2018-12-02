@@ -147,6 +147,7 @@
                             android:orientation="vertical">
 
                             <com.google.android.material.floatingactionbutton.FloatingActionButton
+                                android:id="@+id/frag_vend_dash_awaiting_orders_fab"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:clickable="true"
@@ -164,6 +165,11 @@
                                 android:text="REQUESTS"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                                 android:textColor="@color/grey_40" />
+
+                            <TextView
+                                android:id="@+id/frag_vend_dash_awaiting_orders"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
                         </LinearLayout>
                     </LinearLayout>
 

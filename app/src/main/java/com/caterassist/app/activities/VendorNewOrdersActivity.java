@@ -6,9 +6,8 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.caterassist.app.R;
-import com.caterassist.app.adapters.HistoryOrderInfoAdapter;
+import com.caterassist.app.adapters.VendorPendingOrdersAdapter;
 import com.caterassist.app.models.OrderDetails;
-import com.caterassist.app.utils.AppUtils;
 import com.caterassist.app.utils.FirebaseUtils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -25,26 +24,22 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class OrderHistoryActivity extends Activity {
-    private static final String TAG = "CatererOrderInfo";
-    HistoryOrderInfoAdapter historyOrderInfoAdapter;
-    boolean isVendor;
+public class VendorNewOrdersActivity extends Activity {
+    private static final String TAG = "VendorNewOrders";
     Query query;
-    private RecyclerView orderHistoryRecycView;
+    ChildEventListener childEventListener;
     private ArrayList<OrderDetails> orderDetailsArrayList;
-    private ChildEventListener childEventListener;
+    private RecyclerView pendingOrdersRecycView;
+    private LinearLayoutManager pendingOrdersLayoutManager;
+    private VendorPendingOrdersAdapter pendingOrdersAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_order_history);
-        isVendor = AppUtils.isCurrentUserVendor(this);
-        orderDetailsArrayList = new ArrayList<>();
-        orderHistoryRecycView = findViewById(R.id.act_order_hist_recyc_view);
-        fetchOrderDetails();
-
+        setContentView(R.layout.activity_vendor_new_orders);
+        pendingOrdersRecycView = findViewById(R.id.act_vend_new_orders_recyc_view);
+        fetchOrders();
     }
-
 
     @Override
     protected void onResume() {
@@ -58,14 +53,15 @@ public class OrderHistoryActivity extends Activity {
         query.removeEventListener(childEventListener);
     }
 
-    private void fetchOrderDetails() {
-        historyOrderInfoAdapter = new HistoryOrderInfoAdapter();
-        historyOrderInfoAdapter.setOrderDetailsArrayList(orderDetailsArrayList);
-        historyOrderInfoAdapter.setVendor(isVendor);
-        RecyclerView.LayoutManager catererOrdersLayoutManager = new LinearLayoutManager(OrderHistoryActivity.this, RecyclerView.VERTICAL, false);
-        orderHistoryRecycView.setLayoutManager(catererOrdersLayoutManager);
-        orderHistoryRecycView.setAdapter(historyOrderInfoAdapter);
-        String databasePath = FirebaseUtils.getDatabaseMainBranchName() + getOrdersBranchName() + FirebaseAuth.getInstance().getUid();
+    private void fetchOrders() {
+        orderDetailsArrayList = new ArrayList<>();
+        pendingOrdersAdapter = new VendorPendingOrdersAdapter();
+        pendingOrdersAdapter.setOrderDetailsArrayList(orderDetailsArrayList);
+        pendingOrdersLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
+        pendingOrdersRecycView.setLayoutManager(pendingOrdersLayoutManager);
+        pendingOrdersRecycView.setAdapter(pendingOrdersAdapter);
+
+        String databasePath = FirebaseUtils.getDatabaseMainBranchName() + FirebaseUtils.VENDOR_PENDING_ORDERS + FirebaseAuth.getInstance().getUid();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(databasePath);
         query = databaseReference.orderByChild(FirebaseUtils.ORDER_INFO_SORT_CHILD);
         childEventListener = new ChildEventListener() {
@@ -75,7 +71,7 @@ public class OrderHistoryActivity extends Activity {
                 OrderDetails orderDetails = orderDetailsSnapshot.getValue(OrderDetails.class);
                 orderDetails.setOrderId(dataSnapshot.getKey());
                 orderDetailsArrayList.add(orderDetails);
-                historyOrderInfoAdapter.notifyDataSetChanged();
+                pendingOrdersAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -88,7 +84,7 @@ public class OrderHistoryActivity extends Activity {
                         orderDetailsArrayList.remove(i);
                         orderDetails.setOrderId(dataSnapshot.getKey());
                         orderDetailsArrayList.add(i, orderDetails);
-                        historyOrderInfoAdapter.notifyDataSetChanged();
+                        pendingOrdersAdapter.notifyDataSetChanged();
                         break;
                     }
                 }
@@ -100,7 +96,7 @@ public class OrderHistoryActivity extends Activity {
                 for (int i = 0; i < orderDetailsArrayList.size(); i++) {
                     if (orderDetailsArrayList.get(i).getOrderId().equals(orderKey)) {
                         orderDetailsArrayList.remove(i);
-                        historyOrderInfoAdapter.notifyDataSetChanged();
+                        pendingOrdersAdapter.notifyDataSetChanged();
                     }
                 }
             }
@@ -115,18 +111,9 @@ public class OrderHistoryActivity extends Activity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.w(TAG, "postComments:onCancelled", databaseError.toException());
-                Toast.makeText(OrderHistoryActivity.this, "Failed to load caterer orders.",
+                Toast.makeText(VendorNewOrdersActivity.this, "Failed to load pending orders.",
                         Toast.LENGTH_SHORT).show();
             }
         };
-    }
-
-
-    private String getOrdersBranchName() {
-        if (isVendor) {
-            return FirebaseUtils.ORDERS_VENDOR_BRANCH;
-        } else {
-            return FirebaseUtils.ORDERS_CATERER_BRANCH;
-        }
     }
 }

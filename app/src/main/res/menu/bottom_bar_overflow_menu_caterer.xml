@@ -8,7 +8,7 @@
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/btm_sheet_caterer_order_history"
-        android:icon="@drawable/ic_history_white"
+        android:icon="@drawable/ic_orders"
         android:title="Order History"
         app:showAsAction="ifRoom" />
 

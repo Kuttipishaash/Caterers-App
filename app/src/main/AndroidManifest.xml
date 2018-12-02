@@ -30,6 +30,8 @@
         <activity android:name=".activities.OrderHistoryActivity" />
         <activity android:name=".activities.AddEditItemActivity" />
         <activity android:name=".activities.SignUpActivity" />
+        <activity android:name=".activities.VendorNewOrdersActivity" />
+        <activity android:name=".activities.OrderDetailsActivity"></activity>
     </application>
 
 </manifest>

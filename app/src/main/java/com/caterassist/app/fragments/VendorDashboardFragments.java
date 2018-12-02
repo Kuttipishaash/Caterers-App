@@ -1,28 +1,34 @@
 package com.caterassist.app.fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.caterassist.app.R;
+import com.caterassist.app.activities.VendorNewOrdersActivity;
 import com.caterassist.app.adapters.VendingItemsAdapter;
 import com.caterassist.app.models.UserDetails;
 import com.caterassist.app.models.VendorItem;
 import com.caterassist.app.utils.AppUtils;
 import com.caterassist.app.utils.FirebaseUtils;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -32,7 +38,7 @@ import androidx.recyclerview.widget.RecyclerView;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class VendorDashboardFragments extends Fragment {
+public class VendorDashboardFragments extends Fragment implements View.OnClickListener {
 
     private static final String TAG = "VendorDashboard";
 
@@ -41,10 +47,13 @@ public class VendorDashboardFragments extends Fragment {
     private ArrayList<VendorItem> vendingItemsArrayList;
     private LinearLayoutManager vendingItemsLayoutManager;
     private VendingItemsAdapter vendingItemsAdapter;
-
+    TextView awaitingOrderNumberTxtView;
 
     private RecyclerView vendingItemsRecyclerView;
     private Toolbar toolbar;
+    private Integer approvalAwaitingOrders;
+    private FloatingActionButton awaitingOrdersFab;
+    private View parentView;
 
     public VendorDashboardFragments() {
         // Required empty public constructor
@@ -55,9 +64,10 @@ public class VendorDashboardFragments extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_vendor_dashboards, container, false);
-        vendingItemsRecyclerView = view.findViewById(R.id.frag_vend_recyc_vending_items);
-        toolbar = view.findViewById(R.id.vendor_dash_toolbar);
+        parentView = inflater.inflate(R.layout.fragment_vendor_dashboards, container, false);
+
+        initViews();
+
         Toast.makeText(getActivity(), "This is VendorFragment", Toast.LENGTH_SHORT).show();
         vendingItemsArrayList = new ArrayList<>();
         UserDetails userDetails = AppUtils.getUserInfoSharedPreferences(getContext());
@@ -66,7 +76,46 @@ public class VendorDashboardFragments extends Fragment {
         String subtitle = userDetails.getUserLocationName() + ", " + userDetails.getUserDistrictName();
         toolbar.setSubtitle(subtitle);
         fetchItems();
-        return view;
+        fetchPendingOrders();
+        return parentView;
+    }
+
+    private void initViews() {
+        vendingItemsRecyclerView = parentView.findViewById(R.id.frag_vend_recyc_vending_items);
+        toolbar = parentView.findViewById(R.id.vendor_dash_toolbar);
+        awaitingOrderNumberTxtView = parentView.findViewById(R.id.frag_vend_dash_awaiting_orders);
+        awaitingOrdersFab = parentView.findViewById(R.id.frag_vend_dash_awaiting_orders_fab);
+
+        awaitingOrdersFab.setOnClickListener(this);
+    }
+
+    private void fetchPendingOrders() {
+        String databasePath = FirebaseUtils.getDatabaseMainBranchName() + FirebaseUtils.ORDERS_AWAITING_APPROVAL + FirebaseAuth.getInstance().getUid();
+        DatabaseReference awaitingOrdersReference = FirebaseDatabase.getInstance().getReference(databasePath);
+        awaitingOrdersReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                try {
+                    approvalAwaitingOrders = dataSnapshot.getValue(Integer.class);
+                    if (approvalAwaitingOrders.intValue() == 0) {
+                        awaitingOrderNumberTxtView.setText("No pending orders");
+                    } else {
+                        String pendingText = approvalAwaitingOrders + " pending orders";
+                        awaitingOrderNumberTxtView.setText(pendingText);
+                    }
+                } catch (NullPointerException e) {
+                    approvalAwaitingOrders = 0;
+                    awaitingOrderNumberTxtView.setText("No pending orders");
+                    Log.e(TAG, "onDataChange: Approval awaiting order variable null in firebase");
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void fetchItems() {
@@ -150,4 +199,10 @@ public class VendorDashboardFragments extends Fragment {
     }
 
 
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.frag_vend_dash_awaiting_orders_fab) {
+            startActivity(new Intent(getActivity(), VendorNewOrdersActivity.class));
+        }
+    }
 }

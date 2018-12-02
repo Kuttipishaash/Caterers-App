@@ -54,6 +54,17 @@ public class CartActivity extends Activity implements View.OnClickListener {
         fetchCartItems();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        cartItemsReference.addChildEventListener(cartItemsEventListener);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        cartItemsReference.removeEventListener(cartItemsEventListener);
+    }
 
     private void fetchCartItems() {
         final String databasePath = FirebaseUtils.getDatabaseMainBranchName() +
@@ -142,7 +153,6 @@ public class CartActivity extends Activity implements View.OnClickListener {
                         Toast.LENGTH_SHORT).show();
             }
         };
-        cartItemsReference.addChildEventListener(cartItemsEventListener);
         cartItemsAdapter = new CartAdapter();
         cartItemsAdapter.setCartItemsArrayList(cartItemsArrayList);
         cartItemsLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
