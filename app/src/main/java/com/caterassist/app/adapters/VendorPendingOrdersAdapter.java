@@ -68,9 +68,14 @@ public class VendorPendingOrdersAdapter extends RecyclerView.Adapter<VendorPendi
                 holder.updateStatusBtn.setVisibility(View.VISIBLE);
                 statusText = "Order ready";
                 break;
+            case 3:
+                buttonText = "";
+                holder.updateStatusBtn.setVisibility(View.GONE);
+                statusText = "Order completed!";
+                break;
             default:
                 buttonText = "";
-                statusText = "Status Unavailable!";
+                statusText = "Status Unavailable";
                 holder.updateStatusBtn.setVisibility(View.GONE);
                 break;
         }

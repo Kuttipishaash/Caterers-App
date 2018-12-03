@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.caterassist.app.R;
 import com.caterassist.app.adapters.CartAdapter;
 import com.caterassist.app.models.CartItem;
+import com.caterassist.app.models.Order;
 import com.caterassist.app.models.OrderDetails;
 import com.caterassist.app.models.UserDetails;
 import com.caterassist.app.utils.AppUtils;
@@ -186,11 +187,7 @@ public class CartActivity extends Activity implements View.OnClickListener {
     }
 
     private void checkout() {
-        String userOrdersItemsDatabasePath = FirebaseUtils.getDatabaseMainBranchName() +
-                FirebaseUtils.ORDERS_CATERER_BRANCH +
-                FirebaseAuth.getInstance().getUid();
-        final DatabaseReference checkoutReferecne = FirebaseDatabase.getInstance().getReference(userOrdersItemsDatabasePath).push();
-        checkoutReferecne.child(FirebaseUtils.ORDER_ITEMS_BRANCH).setValue(cartItemsArrayList);
+
         double orderTotalAmt = 0.0;
         for (CartItem cartItem : cartItemsArrayList) {
             orderTotalAmt += cartItem.getTotalAmount();
@@ -206,7 +203,15 @@ public class CartActivity extends Activity implements View.OnClickListener {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date date = new Date();
         orderDetails.setOrderTime(formatter.format(date));
-        checkoutReferecne.child(FirebaseUtils.ORDER_INFO_BRANCH).setValue(orderDetails)
+
+        String userOrdersItemsDatabasePath = FirebaseUtils.getDatabaseMainBranchName() +
+                FirebaseUtils.ORDERS_CATERER_BRANCH +
+                FirebaseAuth.getInstance().getUid();
+        final DatabaseReference checkoutReferecne = FirebaseDatabase.getInstance().getReference(userOrdersItemsDatabasePath);
+        Order order = new Order();
+        order.setOrderItems(cartItemsArrayList);
+        order.setOrderInfo(orderDetails);
+        checkoutReferecne.push().setValue(order)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
