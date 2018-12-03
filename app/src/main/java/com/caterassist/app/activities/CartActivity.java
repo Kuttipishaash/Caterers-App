@@ -31,6 +31,7 @@ import java.util.Date;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import es.dmoral.toasty.Toasty;
@@ -159,6 +160,8 @@ public class CartActivity extends Activity implements View.OnClickListener {
         cartItemsLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         cartItemsRecyclerView.setLayoutManager(cartItemsLayoutManager);
         cartItemsRecyclerView.setAdapter(cartItemsAdapter);
+        cartItemsRecyclerView.addItemDecoration(new DividerItemDecoration(this,
+                DividerItemDecoration.VERTICAL));
     }
 
     private void initViews() {

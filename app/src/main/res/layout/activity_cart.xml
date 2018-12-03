@@ -34,7 +34,7 @@
             android:background="@color/colorPrimary"
             android:gravity="center"
             android:orientation="horizontal"
-            android:padding="12dp">
+            android:padding="15dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -53,13 +53,13 @@
             android:background="@color/colorAccent"
             android:gravity="center"
             android:orientation="horizontal"
-            android:padding="12dp">
+            android:padding="15dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Checkout"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>
