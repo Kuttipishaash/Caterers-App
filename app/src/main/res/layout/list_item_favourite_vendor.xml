@@ -10,9 +10,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:background="@color/transparent"
+        android:clipToPadding="false"
+        android:elevation="0dp"
         app:cardCornerRadius="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -70,7 +73,8 @@
                     android:paddingTop="8dp"
                     android:paddingEnd="24dp"
                     android:paddingBottom="8dp"
-                    android:src="@drawable/ic_mail_yellow" />
+                    android:src="@drawable/ic_mail_yellow"
+                    android:tint="@color/white" />
 
                 <ImageButton
                     android:id="@+id/li_item_fav_vendor_call"
@@ -81,7 +85,8 @@
                     android:paddingTop="8dp"
                     android:paddingEnd="24dp"
                     android:paddingBottom="8dp"
-                    android:src="@drawable/ic_phone_black" />
+                    android:src="@drawable/ic_phone_black"
+                    android:tint="@color/white" />
             </LinearLayout>
 
             <ImageView
@@ -94,6 +99,7 @@
                 android:paddingEnd="6dp"
                 android:paddingBottom="6dp"
                 android:src="@drawable/ic_close_black"
+                android:tint="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>

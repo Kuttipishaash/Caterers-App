@@ -134,7 +134,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/spacing_medium"
-                                android:text="VENDORS"
+                                android:text="CATERERS"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                                 android:textColor="@color/grey_40" />
                         </LinearLayout>
@@ -169,7 +169,11 @@
                             <TextView
                                 android:id="@+id/frag_vend_dash_awaiting_orders"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
+                                android:layout_height="wrap_content"
+                                android:text="No Pending Orders"
+                                android:textSize="10sp"
+                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                                android:textColor="@color/colorAccent" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -242,6 +246,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:nestedScrollingEnabled="false"
+                            android:dividerHeight="4px"
                             android:padding="@dimen/spacing_middle" />
                     </LinearLayout>
 

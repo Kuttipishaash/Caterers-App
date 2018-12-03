@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -98,14 +99,14 @@ public class VendorDashboardFragments extends Fragment implements View.OnClickLi
                 try {
                     approvalAwaitingOrders = dataSnapshot.getValue(Integer.class);
                     if (approvalAwaitingOrders.intValue() == 0) {
-                        awaitingOrderNumberTxtView.setText("No pending orders");
+                        awaitingOrderNumberTxtView.setText("No Pending Orders");
                     } else {
                         String pendingText = approvalAwaitingOrders + " pending orders";
                         awaitingOrderNumberTxtView.setText(pendingText);
                     }
                 } catch (NullPointerException e) {
                     approvalAwaitingOrders = 0;
-                    awaitingOrderNumberTxtView.setText("No pending orders");
+                    awaitingOrderNumberTxtView.setText("No Pending Orders");
                     Log.e(TAG, "onDataChange: Approval awaiting order variable null in firebase");
                 }
 
@@ -196,6 +197,8 @@ public class VendorDashboardFragments extends Fragment implements View.OnClickLi
         vendingItemsLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         vendingItemsRecyclerView.setLayoutManager(vendingItemsLayoutManager);
         vendingItemsRecyclerView.setAdapter(vendingItemsAdapter);
+        vendingItemsRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),
+                DividerItemDecoration.VERTICAL));
     }
 
 

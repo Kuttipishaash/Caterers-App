@@ -24,4 +24,9 @@
         <item name="colorAccent">@android:color/white</item>
     </style>
 
+    <style name="AppTheme.Spinner" parent="Widget.AppCompat.Spinner.DropDown">
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+    </style>
+
 </resources>
