@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.caterassist.app.R;
+import com.caterassist.app.activities.ProfileActivity;
 import com.caterassist.app.activities.VendorNewOrdersActivity;
 import com.caterassist.app.adapters.VendingItemsAdapter;
 import com.caterassist.app.models.UserDetails;
@@ -53,13 +54,22 @@ public class VendorDashboardFragments extends Fragment implements View.OnClickLi
     private RecyclerView vendingItemsRecyclerView;
     private Toolbar toolbar;
     private Integer approvalAwaitingOrders;
-    private FloatingActionButton awaitingOrdersFab;
+    private FloatingActionButton awaitingOrdersFab, viewProfileFab;
     private View parentView;
 
     public VendorDashboardFragments() {
         // Required empty public constructor
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        UserDetails userDetails = AppUtils.getUserInfoSharedPreferences(getContext());
+        String title = "Hi," + userDetails.getUserName();
+        toolbar.setTitle(title);
+        String subtitle = userDetails.getUserLocationName() + ", " + userDetails.getUserDistrictName();
+        toolbar.setSubtitle(subtitle);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -86,8 +96,10 @@ public class VendorDashboardFragments extends Fragment implements View.OnClickLi
         toolbar = parentView.findViewById(R.id.vendor_dash_toolbar);
         awaitingOrderNumberTxtView = parentView.findViewById(R.id.frag_vend_dash_awaiting_orders);
         awaitingOrdersFab = parentView.findViewById(R.id.frag_vend_dash_awaiting_orders_fab);
+        viewProfileFab = parentView.findViewById(R.id.vendor_view_profile);
 
         awaitingOrdersFab.setOnClickListener(this);
+        viewProfileFab.setOnClickListener(this);
     }
 
     private void fetchPendingOrders() {
@@ -206,6 +218,8 @@ public class VendorDashboardFragments extends Fragment implements View.OnClickLi
     public void onClick(View v) {
         if (v.getId() == R.id.frag_vend_dash_awaiting_orders_fab) {
             startActivity(new Intent(getActivity(), VendorNewOrdersActivity.class));
+        } else if (v.getId() == R.id.vendor_view_profile) {
+            startActivity(new Intent(getActivity(), ProfileActivity.class));
         }
     }
 }

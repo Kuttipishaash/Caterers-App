@@ -93,6 +93,7 @@
                             <com.google.android.material.floatingactionbutton.FloatingActionButton
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:id="@+id/caterer_view_profile"
                                 android:clickable="true"
                                 android:tint="@android:color/white"
                                 app:backgroundTint="@color/light_green_500"

@@ -1,5 +1,6 @@
 package com.caterassist.app.models;
 
+import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
 @IgnoreExtraProperties
@@ -29,10 +30,12 @@ public class UserDetails {
         this.userImageUrl = userImageUrl;
     }
 
+    @Exclude
     public String getUserID() {
         return userID;
     }
 
+    @Exclude
     public void setUserID(String userID) {
         this.userID = userID;
     }

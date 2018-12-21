@@ -1,6 +1,7 @@
 package com.caterassist.app.fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,11 +10,13 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.caterassist.app.R;
+import com.caterassist.app.activities.ProfileActivity;
 import com.caterassist.app.adapters.FavouriteVendorsAdapter;
 import com.caterassist.app.adapters.VendorListAdapter;
 import com.caterassist.app.models.FavouriteVendor;
 import com.caterassist.app.models.UserDetails;
 import com.caterassist.app.utils.FirebaseUtils;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -34,7 +37,7 @@ import androidx.recyclerview.widget.RecyclerView;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CatererDashboardFragment extends Fragment {
+public class CatererDashboardFragment extends Fragment implements View.OnClickListener {
 
     private static final String TAG = "CatererDashboardFrag";
 
@@ -49,6 +52,7 @@ public class CatererDashboardFragment extends Fragment {
     private LinearLayoutManager allVendorsLayoutManager;
     private VendorListAdapter allVendorsAdapter;
     private RecyclerView allVendorsRecyclerView;
+    private FloatingActionButton viewProfileFAB;
 
 
     private View fragmentView;
@@ -192,7 +196,17 @@ public class CatererDashboardFragment extends Fragment {
     private void initViews() {
         favouriteVendorsRecyclerView = fragmentView.findViewById(R.id.frag_cate_dash_fav_vendors);
         allVendorsRecyclerView = fragmentView.findViewById(R.id.frag_cate_all_vendors);
+        viewProfileFAB = fragmentView.findViewById(R.id.caterer_view_profile);
         favouriteVendorArrayList = new ArrayList<>();
+
+        viewProfileFAB.setOnClickListener(this);
     }
 
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == viewProfileFAB.getId()) {
+            startActivity(new Intent(getActivity(), ProfileActivity.class));
+        }
+
+    }
 }

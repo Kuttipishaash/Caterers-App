@@ -74,6 +74,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/act_settings_my_profile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="?attr/selectableItemBackground"
@@ -89,7 +90,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Manage Vendor"
+                        android:text="My Profile"
                         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                         android:textColor="@color/grey_90"
                         android:textStyle="bold" />
