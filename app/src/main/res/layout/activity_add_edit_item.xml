@@ -26,6 +26,7 @@
         android:layout_marginRight="@dimen/spacing_middle"
         android:layout_marginBottom="@dimen/spacing_medium"
         android:clipToPadding="false"
+        android:padding="10dp"
         app:cardBackgroundColor="@android:color/white"
         app:cardCornerRadius="10dp"
         app:cardElevation="2dp">
@@ -179,6 +180,7 @@
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/spacing_mxlarge" />
