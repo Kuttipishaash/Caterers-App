@@ -2,6 +2,7 @@ package com.caterassist.app.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.caterassist.app.R;
 import com.caterassist.app.models.UserDetails;
 import com.caterassist.app.utils.AppUtils;
@@ -18,13 +20,15 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import androidx.annotation.NonNull;
 import es.dmoral.toasty.Toasty;
 
 public class ProfileActivity extends Activity implements View.OnClickListener {
     private UserDetails userDetails;
-
+    private static final String TAG = "ProfileAct";
     //Views
     private TextView emailTxtView;
     private TextView phoneTxtView;
@@ -52,7 +56,14 @@ public class ProfileActivity extends Activity implements View.OnClickListener {
         streetEdtTxt.setText(userDetails.getUserStreetName());
         localityEdtTxt.setText(userDetails.getUserLocationName());
         districtEdtTxt.setText(userDetails.getUserDistrictName());
-        //TODO: Set user image.
+        if (userDetails.getUserImageUrl() != null) {
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+            storageReference.child(userDetails.getUserImageUrl()).getDownloadUrl().addOnSuccessListener(uri -> {
+                Glide.with(ProfileActivity.this)
+                        .load(uri)
+                        .into(profileImage);
+            }).addOnFailureListener(exception -> Log.i(TAG, "setInitialValues: No profile image link"));
+        }
     }
 
     private void initViews() {

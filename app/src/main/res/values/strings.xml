@@ -12,4 +12,13 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="lorem_title">Lorem ipsum.</string>
+
+
+    <!-- Validation Error Strings -->
+    <string name="name_error">Enter a valid name</string>
+    <string name="addr_error">Enter a valid address</string>
+    <string name="email_error">Enter a valid email</string>
+    <string name="mobile_error">Enter a valid phone number</string>
+    <string name="pass_error">Password should be at least 8 characters long and must contain an uppercase, a lowercase, a special character and a digit.</string>
+
 </resources>
