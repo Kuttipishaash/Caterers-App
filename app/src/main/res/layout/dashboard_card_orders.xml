@@ -22,7 +22,8 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
-                android:src="@drawable/ic_order_pending"
+                android:src="@drawable/ic_assignment_turned_in_black_24dp"
+                android:tint="@color/blue_900"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -55,11 +56,11 @@
                     android:textSize="14sp" />
 
                 <Button
+                    style="@style/Rounded_Button_Accent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="16dp"
-                    android:backgroundTint="@color/amber_400"
                     android:text="View Orders" />
             </LinearLayout>
 

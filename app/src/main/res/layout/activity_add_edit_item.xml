@@ -149,10 +149,10 @@
 
                     <Button
                         android:id="@+id/act_addedt_default_img"
+                        style="@style/Rounded_Button_Accent"
                         android:layout_width="match_parent"
                         android:layout_height="10dp"
                         android:layout_weight="1"
-                        android:background="@drawable/rounded_button"
                         android:text="Default Image" />
 
                     <View
@@ -162,10 +162,10 @@
 
                     <Button
                         android:id="@+id/act_addedt_upload_img"
+                        style="@style/Rounded_Button_Accent"
                         android:layout_width="match_parent"
                         android:layout_height="10dp"
                         android:layout_weight="1"
-                        android:background="@drawable/rounded_button"
                         android:text="Upload Image" />
 
                 </LinearLayout>

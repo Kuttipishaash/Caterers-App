@@ -57,6 +57,7 @@
 
         <Button
             android:id="@+id/diag_add_to_cart_cancel_btn"
+            style="@style/Rounded_Button_Accent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cancel"
@@ -64,6 +65,7 @@
 
         <Button
             android:id="@+id/diag_add_to_cart_confirm_button"
+            style="@style/Rounded_Button_Accent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Confirm"
