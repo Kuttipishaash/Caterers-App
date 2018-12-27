@@ -51,7 +51,7 @@ public class ViewVendorItemsActivity extends Activity {
             fetchVendorDetails();
         } else {
             Toasty.error(this, "No vendor data", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(ViewVendorItemsActivity.this, HomeActivity.class));
+            startActivity(new Intent(ViewVendorItemsActivity.this, VendorHomeActivity.class));
             finish();
         }
     }

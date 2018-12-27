@@ -1,20 +1,21 @@
-package com.caterassist.app.fragments;
+package com.caterassist.app.activities;
 
-
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.caterassist.app.R;
-import com.caterassist.app.activities.ProfileActivity;
 import com.caterassist.app.adapters.FavouriteVendorsAdapter;
 import com.caterassist.app.adapters.VendorListAdapter;
 import com.caterassist.app.models.FavouriteVendor;
 import com.caterassist.app.models.UserDetails;
+import com.caterassist.app.utils.AppUtils;
 import com.caterassist.app.utils.FirebaseUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,23 +29,21 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import es.dmoral.toasty.Toasty;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
-public class CatererDashboardFragment extends Fragment implements View.OnClickListener {
-
+public class CatererHomeActivity extends Activity implements View.OnClickListener {
     private static final String TAG = "CatererDashboardFrag";
-
+    private static final int CALL_PERMISSION_REQ_CODE = 100;
+    ArrayList<UserDetails> allVendorsArrayList;
+    //TODO: toolbar
     private DatabaseReference favouriteVendorsReference;
     private ChildEventListener favouriteVendorsEventListener;
     private RecyclerView favouriteVendorsRecyclerView;
-    ArrayList<UserDetails> allVendorsArrayList;
     private LinearLayoutManager favouriteVendorsLayoutManager;
     private FavouriteVendorsAdapter favouriteVendorsAdapter;
     private ArrayList<UserDetails> favouriteVendorArrayList;
@@ -55,28 +54,64 @@ public class CatererDashboardFragment extends Fragment implements View.OnClickLi
     private FloatingActionButton viewProfileFAB;
 
 
-    private View fragmentView;
-
-    public CatererDashboardFragment() {
-        // Required empty public constructor
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_caterer_home);
+        getPermissions();
     }
 
+    private void getPermissions() {
+        int MyVersion = Build.VERSION.SDK_INT;
+        if (MyVersion > Build.VERSION_CODES.LOLLIPOP_MR1) {
+            if (!checkIfAlreadyhavePermission()) {
+                requestForSpecificPermission();
+            } else {
+                doIfPermissionGranted();
+            }
+        } else {
+            doIfPermissionGranted();
+        }
+    }
+
+    private void requestForSpecificPermission() {
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE}, CALL_PERMISSION_REQ_CODE);
+
+    }
+
+    private boolean checkIfAlreadyhavePermission() {
+        int result = ContextCompat.checkSelfPermission(this, Manifest.permission.GET_ACCOUNTS);
+        return result == PackageManager.PERMISSION_GRANTED;
+    }
+
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        fragmentView = inflater.inflate(R.layout.fragment_caterer_dashboard, container, false);
-        //TODO: Remove the toast
-        Toast.makeText(this.getContext(), "This is caterer fragment", Toast.LENGTH_SHORT).show();
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case CALL_PERMISSION_REQ_CODE:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    doIfPermissionGranted();
+                } else {
+                    Toasty.warning(this, "You need to provide call permissions to use all the features of this app.", Toast.LENGTH_SHORT).show();
+                    AppUtils.cleanUpAndLogout(this);
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
+    private void doIfPermissionGranted() {
         initViews();
         fetchFavouriteVendors();
         fetchAllVendors();
-        return fragmentView;
+        //TODO:Set bottom bar
+//        setupBottomAppBar();
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
+    public void onDestroy() {
+        super.onDestroy();
         if (favouriteVendorsEventListener != null) {
             favouriteVendorsReference.removeEventListener(favouriteVendorsEventListener);
         }
@@ -98,10 +133,10 @@ public class CatererDashboardFragment extends Fragment implements View.OnClickLi
                 }
                 allVendorsAdapter = new VendorListAdapter();
                 allVendorsAdapter.setVendorsList(allVendorsArrayList);
-                allVendorsLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+                allVendorsLayoutManager = new LinearLayoutManager(CatererHomeActivity.this, RecyclerView.VERTICAL, false);
                 allVendorsRecyclerView.setLayoutManager(allVendorsLayoutManager);
                 allVendorsRecyclerView.setAdapter(allVendorsAdapter);
-                allVendorsRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),
+                allVendorsRecyclerView.addItemDecoration(new DividerItemDecoration(CatererHomeActivity.this,
                         DividerItemDecoration.VERTICAL));
             }
 
@@ -180,23 +215,23 @@ public class CatererDashboardFragment extends Fragment implements View.OnClickLi
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.w(TAG, "postComments:onCancelled", databaseError.toException());
-                Toast.makeText(getContext(), "Failed to load favourite vendors.",
+                Toast.makeText(CatererHomeActivity.this, "Failed to load favourite vendors.",
                         Toast.LENGTH_SHORT).show();
             }
         };
         favouriteVendorsReference.addChildEventListener(favouriteVendorsEventListener);
         favouriteVendorsAdapter = new FavouriteVendorsAdapter();
         favouriteVendorsAdapter.setFavouriteVendorArrayList(favouriteVendorArrayList);
-        favouriteVendorsLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
+        favouriteVendorsLayoutManager = new LinearLayoutManager(CatererHomeActivity.this, RecyclerView.HORIZONTAL, false);
         favouriteVendorsRecyclerView.setLayoutManager(favouriteVendorsLayoutManager);
         favouriteVendorsRecyclerView.setAdapter(favouriteVendorsAdapter);
 
     }
 
     private void initViews() {
-        favouriteVendorsRecyclerView = fragmentView.findViewById(R.id.frag_cate_dash_fav_vendors);
-        allVendorsRecyclerView = fragmentView.findViewById(R.id.frag_cate_all_vendors);
-        viewProfileFAB = fragmentView.findViewById(R.id.caterer_view_profile);
+        favouriteVendorsRecyclerView = findViewById(R.id.frag_cate_dash_fav_vendors);
+        allVendorsRecyclerView = findViewById(R.id.frag_cate_all_vendors);
+        viewProfileFAB = findViewById(R.id.caterer_view_profile);
         favouriteVendorArrayList = new ArrayList<>();
 
         viewProfileFAB.setOnClickListener(this);
@@ -205,8 +240,11 @@ public class CatererDashboardFragment extends Fragment implements View.OnClickLi
     @Override
     public void onClick(View v) {
         if (v.getId() == viewProfileFAB.getId()) {
-            startActivity(new Intent(getActivity(), ProfileActivity.class));
+            startActivity(new Intent(this, ProfileActivity.class));
         }
 
     }
+
+
 }
+

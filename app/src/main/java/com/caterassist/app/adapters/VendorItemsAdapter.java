@@ -6,16 +6,25 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.caterassist.app.R;
 import com.caterassist.app.dialogs.AddToCartDialog;
 import com.caterassist.app.models.UserDetails;
 import com.caterassist.app.models.VendorItem;
+import com.caterassist.app.utils.FirebaseUtils;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import es.dmoral.toasty.Toasty;
 
 public class VendorItemsAdapter extends RecyclerView.Adapter<VendorItemsAdapter.VendorItemsViewHolder> {
     private ArrayList<VendorItem> vendorItemArrayList;
@@ -76,12 +85,42 @@ public class VendorItemsAdapter extends RecyclerView.Adapter<VendorItemsAdapter.
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.li_item_vend_item_add_to_cart:
-                    AddToCartDialog addToCartDialog = new AddToCartDialog(itemView.getContext(),
-                            vendorItemArrayList.get(getAdapterPosition()),
-                            vendorDetails);
-                    addToCartDialog.show();
+                    String databasePath = FirebaseUtils.getDatabaseMainBranchName()
+                            + FirebaseUtils.CART_BRANCH_NAME
+                            + FirebaseAuth.getInstance().getUid() + "/"
+                            + FirebaseUtils.CART_VENDOR_BRANCH;
+                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(databasePath);
+                    databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            UserDetails userDetails = dataSnapshot.getValue(UserDetails.class);
+                            if (userDetails != null) {
+                                if (userDetails.getUserID().equals(vendorDetails.getUserID())) {
+                                    addItemToCart();
+                                } else {
+                                    Toasty.warning(itemView.getContext(),
+                                            "You cannot add items from a different vendor to the cart.",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                addItemToCart();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
                     break;
             }
+        }
+
+        private void addItemToCart() {
+            AddToCartDialog addToCartDialog = new AddToCartDialog(itemView.getContext(),
+                    vendorItemArrayList.get(getAdapterPosition()),
+                    vendorDetails);
+            addToCartDialog.show();
         }
     }
 }

@@ -6,6 +6,8 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -25,11 +27,18 @@ import java.util.ArrayList;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class VendorListAdapter extends RecyclerView.Adapter<VendorListAdapter.ViewHolder> {
-    ArrayList<UserDetails> vendorsList;
+public class VendorListAdapter extends RecyclerView.Adapter<VendorListAdapter.ViewHolder> implements Filterable {
+    private ArrayList<UserDetails> vendorsList;
+    private ArrayList<UserDetails> filteredVendorsList;
+    private VendorListAdapterListener vendorListAdapterListener;
 
     public void setVendorsList(ArrayList<UserDetails> vendorsList) {
         this.vendorsList = vendorsList;
+        this.filteredVendorsList = vendorsList;
+    }
+
+    public void setVendorListAdapterListener(VendorListAdapterListener vendorListAdapterListener) {
+        this.vendorListAdapterListener = vendorListAdapterListener;
     }
 
     @NonNull
@@ -49,6 +58,36 @@ public class VendorListAdapter extends RecyclerView.Adapter<VendorListAdapter.Vi
     @Override
     public int getItemCount() {
         return vendorsList.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                String charString = constraint.toString();
+                if (charString.isEmpty()) {
+                    filteredVendorsList = vendorsList;
+                } else {
+                    ArrayList<UserDetails> filteredList = new ArrayList<>();
+                    for (UserDetails vendor : vendorsList) {
+                        if (vendor.getUserName().toLowerCase().contains(charString.toLowerCase())) {
+                            filteredList.add(vendor);
+                        }
+                    }
+                    filteredVendorsList = filteredList;
+                }
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = filteredVendorsList;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                filteredVendorsList = (ArrayList<UserDetails>) results.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -90,5 +129,9 @@ public class VendorListAdapter extends RecyclerView.Adapter<VendorListAdapter.Vi
                 databaseReference.child(vendorsList.get(getAdapterPosition()).getUserID()).setValue(vendorsList.get(getAdapterPosition()));
             }
         }
+    }
+
+    public interface VendorListAdapterListener {
+        void onVendorListItemSelected(UserDetails userDetails);
     }
 }

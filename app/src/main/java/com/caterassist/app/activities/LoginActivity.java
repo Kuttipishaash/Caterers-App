@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.caterassist.app.R;
 import com.caterassist.app.models.UserDetails;
+import com.caterassist.app.utils.AppUtils;
 import com.caterassist.app.utils.Constants;
 import com.caterassist.app.utils.FirebaseUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -52,6 +53,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         }
         if (firebaseAuth.getCurrentUser() != null) {
             Log.i(TAG, "User is already logged in.");
+            userDetails = AppUtils.getUserInfoSharedPreferences(this);
             launchHomeActivity();
         }
         super.onResume();
@@ -65,7 +67,11 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         super.onPause();
     }
     private void launchHomeActivity() {
-        startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+        if (userDetails.getIsVendor()) {
+            startActivity(new Intent(LoginActivity.this, VendorHomeActivity.class));
+        } else {
+            startActivity(new Intent(LoginActivity.this, CatererHomeActivity.class));
+        }
         finish();
     }
 

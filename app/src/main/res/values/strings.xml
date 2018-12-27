@@ -4,14 +4,22 @@
     <!--TODO: Change app link on production -->
     <string name="app_link">Sample Link</string>
 
-    <string name="placeholder_email">EMAIL</string>
-    <string name="placeholder_password">PASSWORD</string>
     <string name="link_signup">Sign up for an account?</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="lorem_title">Lorem ipsum.</string>
+
+    <!-- Placeholders -->
+    <string name="placeholder_name">Name</string>
+    <string name="placeholder_email">test@email.com</string>
+    <string name="placeholder_password">PASSWORD</string>
+    <string name="placeholder_text">Lorem ipsum</string>
+    <string name="placeholder_long_text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+        Ab commodi consectetur deleniti deserunt dolorem doloremque earum fugiat iusto laborum
+        laudantium libero maxime molestiae pariatur quae qui,repellat suscipit, totam ullam!</string>
+    <string name="placeholder_unit">UNITS</string>
 
 
     <!-- Validation Error Strings -->
@@ -20,5 +28,10 @@
     <string name="email_error">Enter a valid email</string>
     <string name="mobile_error">Enter a valid phone number</string>
     <string name="pass_error">Password should be at least 8 characters long and must contain an uppercase, a lowercase, a special character and a digit.</string>
+
+
+    <!-- Search -->
+    <string name="action_search">Search</string>
+    <string name="search_hint">Type name…</string>
 
 </resources>

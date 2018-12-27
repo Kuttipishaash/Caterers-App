@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.basgeekball.awesomevalidation.AwesomeValidation;
@@ -17,10 +19,7 @@ import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.caterassist.app.R;
 import com.caterassist.app.models.UserDetails;
 import com.caterassist.app.utils.FirebaseUtils;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -53,6 +52,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private AwesomeValidation awesomeValidation;
     private UserDetails userDetails;
     private ImagePicker imagePicker;
+    private RadioGroup catergoryRadGrp;
+    private RadioButton catererRadBtn, vendorRadBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,8 +77,10 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         userProfileImageView = findViewById(R.id.act_sign_user_img);
         passwordEdtTxt = findViewById(R.id.act_sign_passwd_edt_txt);
         passwordReEdtTxt = findViewById(R.id.act_sign_re_passwd_edt_txt);
-
-
+        catergoryRadGrp = findViewById(R.id.act_sign_category_rad_grp);
+        catererRadBtn = findViewById(R.id.act_sign_category_caterer);
+        vendorRadBtn = findViewById(R.id.act_sign_category_vendor);
+        catergoryRadGrp.check(catererRadBtn.getId());
         submitBtn.setOnClickListener(this);
         chooseImageBtn.setOnClickListener(this);
     }
@@ -157,7 +160,13 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         if (districtEdtTxt.getText() != null)
             userDetails.setUserDistrictName(districtEdtTxt.getText().toString());
         if (imageFileUri == null) {
-            imageFileUri = Uri.parse("android.resource://com.caterassist.app/drawable/user_placeholder.png");
+            imageFileUri = Uri.parse("android.resource://com.caterassist.app/drawable/user_placeholder");
+        }
+        int checkedRadBtnId = catergoryRadGrp.getCheckedRadioButtonId();
+        if (checkedRadBtnId == catererRadBtn.getId()) {
+            userDetails.setIsVendor(false);
+        } else {
+            userDetails.setIsVendor(true);
         }
 
         StorageReference storageRef = FirebaseStorage.getInstance().getReference("images/" + userDetails.getUserEmail());
@@ -171,29 +180,26 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                     userDetails.setUserImageUrl(imagePath);
                     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
                     firebaseAuth.createUserWithEmailAndPassword(userDetails.getUserEmail(), passwordEdtTxt.getText().toString())
-                            .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if (task.isSuccessful()) {
-                                        // Sign in success, update UI with the signed-in user's information
-                                        String databasePath = FirebaseUtils.getDatabaseMainBranchName() + FirebaseUtils.USER_PENDING_REGISTRATION_BRANCH;
-                                        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(databasePath);
-                                        databaseReference.push().setValue(userDetails)
-                                                .addOnSuccessListener(aVoid -> {
-                                                    Toasty.success(SignUpActivity.this, "Registration request recorded successfully.", Toast.LENGTH_LONG).show();
-                                                    finish();
-                                                })
-                                                .addOnFailureListener(e ->
-                                                        Toasty.error(SignUpActivity.this, "Registration request 2 failed!", Toast.LENGTH_LONG).show());
+                            .addOnCompleteListener(this, task -> {
+                                if (task.isSuccessful()) {
+                                    // Sign in success, update UI with the signed-in user's information
+                                    String databasePath = FirebaseUtils.getDatabaseMainBranchName() + FirebaseUtils.USER_PENDING_REGISTRATION_BRANCH;
+                                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(databasePath);
+                                    databaseReference.child(FirebaseAuth.getInstance().getUid()).setValue(userDetails)
+                                            .addOnSuccessListener(aVoid -> {
+                                                Toasty.success(SignUpActivity.this, "Registration request recorded successfully.", Toast.LENGTH_LONG).show();
+                                                finish();
+                                            })
+                                            .addOnFailureListener(e ->
+                                                    Toasty.error(SignUpActivity.this, "Registration request 2 failed!", Toast.LENGTH_LONG).show());
 
-                                        Log.d(TAG, "createUserWithEmail:success");
-                                        firebaseAuth.signOut();
-                                    } else {
-                                        // If sign in fails, display a message to the user.
-                                        Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                        Toasty.error(SignUpActivity.this, "Registration request failed!",
-                                                Toast.LENGTH_SHORT).show();
-                                    }
+                                    Log.d(TAG, "createUserWithEmail:success");
+                                    firebaseAuth.signOut();
+                                } else {
+                                    // If sign in fails, display a message to the user.
+                                    Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                                    Toasty.error(SignUpActivity.this, "Registration request failed!",
+                                            Toast.LENGTH_SHORT).show();
                                 }
                             });
                 });
