@@ -52,6 +52,7 @@ public class VendorListAdapter extends RecyclerView.Adapter<VendorListAdapter.Vi
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         UserDetails vendorDetails = filteredVendorsList.get(position);
         holder.vendorNameTextView.setText(vendorDetails.getUserName());
+        holder.vendorLocationTextView.setText(vendorDetails.getUserLocationName());
         //TODO: Set image
     }
 
@@ -71,7 +72,7 @@ public class VendorListAdapter extends RecyclerView.Adapter<VendorListAdapter.Vi
                 } else {
                     ArrayList<UserDetails> filteredList = new ArrayList<>();
                     for (UserDetails vendor : vendorsList) {
-                        if (vendor.getUserName().toLowerCase().contains(charString.toLowerCase())) {
+                        if (vendor.getUserName().toLowerCase().contains(charString.toLowerCase()) || vendor.getUserLocationName().toLowerCase().contains(charString.toLowerCase())) {
                             filteredList.add(vendor);
                         }
                     }
@@ -93,6 +94,7 @@ public class VendorListAdapter extends RecyclerView.Adapter<VendorListAdapter.Vi
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView vendorImageView;
         TextView vendorNameTextView;
+        TextView vendorLocationTextView;
         ImageButton callVendorBtn;
         LinearLayout parentLayout;
         ImageButton addFavouriteButton;
@@ -101,6 +103,7 @@ public class VendorListAdapter extends RecyclerView.Adapter<VendorListAdapter.Vi
             super(itemView);
             vendorImageView = itemView.findViewById(R.id.li_vendors_image);
             vendorNameTextView = itemView.findViewById(R.id.li_vendor_name);
+            vendorLocationTextView = itemView.findViewById(R.id.li_vendor_loc);
             parentLayout = itemView.findViewById(R.id.li_vendor_parent_layout);
             callVendorBtn = itemView.findViewById(R.id.li_vendor_call);
             addFavouriteButton = itemView.findViewById(R.id.li_vendor_add_favourite);
