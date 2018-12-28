@@ -269,7 +269,7 @@
     </RelativeLayout>
 
     <com.google.android.material.bottomappbar.BottomAppBar
-        android:id="@+id/bottom_app_bar"
+        android:id="@+id/bottom_app_bar_vendor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
@@ -294,7 +294,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:tint="#fff"
-        app:layout_anchor="@id/bottom_app_bar" />
+        app:layout_anchor="@id/bottom_app_bar_vendor" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 

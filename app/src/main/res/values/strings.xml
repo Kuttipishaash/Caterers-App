@@ -33,5 +33,6 @@
     <!-- Search -->
     <string name="action_search">Search</string>
     <string name="search_hint">Type name…</string>
+    <string name="action_cart">Cart</string>
 
 </resources>

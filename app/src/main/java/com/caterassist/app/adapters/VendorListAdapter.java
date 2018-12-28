@@ -50,14 +50,14 @@ public class VendorListAdapter extends RecyclerView.Adapter<VendorListAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        UserDetails vendorDetails = vendorsList.get(position);
+        UserDetails vendorDetails = filteredVendorsList.get(position);
         holder.vendorNameTextView.setText(vendorDetails.getUserName());
         //TODO: Set image
     }
 
     @Override
     public int getItemCount() {
-        return vendorsList.size();
+        return filteredVendorsList.size();
     }
 
     @Override
@@ -115,18 +115,18 @@ public class VendorListAdapter extends RecyclerView.Adapter<VendorListAdapter.Vi
         @Override
         public void onClick(View v) {
             if (v.getId() == R.id.li_vendor_parent_layout) {
-                String uID = vendorsList.get(getAdapterPosition()).getUserID();
+                String uID = filteredVendorsList.get(getAdapterPosition()).getUserID();
                 Intent viewVendorItemsIntent = new Intent(itemView.getContext(), ViewVendorItemsActivity.class);
                 viewVendorItemsIntent.putExtra(Constants.IntentExtrasKeys.VIEW_VENDOR_ITEMS_INTENT_VENDOR_UID, uID);
                 itemView.getContext().startActivity(viewVendorItemsIntent);
             } else if (v.getId() == R.id.li_vendor_call) {
-                String phoneNumber = vendorsList.get(getAdapterPosition()).getUserPhone();
+                String phoneNumber = filteredVendorsList.get(getAdapterPosition()).getUserPhone();
                 Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phoneNumber));
                 itemView.getContext().startActivity(callIntent);
             } else if (v.getId() == R.id.li_vendor_add_favourite) {
                 String databasePath = FirebaseUtils.getDatabaseMainBranchName() + FirebaseUtils.FAVOURITE_VENDORS_BRANCH_NAME + FirebaseAuth.getInstance().getUid();
                 DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(databasePath);
-                databaseReference.child(vendorsList.get(getAdapterPosition()).getUserID()).setValue(vendorsList.get(getAdapterPosition()));
+                databaseReference.child(filteredVendorsList.get(getAdapterPosition()).getUserID()).setValue(filteredVendorsList.get(getAdapterPosition()));
             }
         }
     }

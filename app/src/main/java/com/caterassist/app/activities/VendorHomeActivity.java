@@ -62,11 +62,7 @@ public class VendorHomeActivity extends FragmentActivity implements View.OnClick
     @Override
     public void onResume() {
         super.onResume();
-        UserDetails userDetails = AppUtils.getUserInfoSharedPreferences(this);
-        String title = "Hi," + userDetails.getUserName();
-        toolbar.setTitle(title);
-        String subtitle = userDetails.getUserLocationName() + ", " + userDetails.getUserDistrictName();
-        toolbar.setSubtitle(subtitle);
+
     }
 
     @Override
@@ -87,7 +83,7 @@ public class VendorHomeActivity extends FragmentActivity implements View.OnClick
         viewProfileFab = findViewById(R.id.vendor_view_profile);
 
         addEditItemFAB = findViewById(R.id.act_home_fab);
-        bottomAppBar = findViewById(R.id.bottom_app_bar);
+        bottomAppBar = findViewById(R.id.bottom_app_bar_vendor);
 
         awaitingOrdersFab.setOnClickListener(this);
         viewProfileFab.setOnClickListener(this);
@@ -262,6 +258,7 @@ public class VendorHomeActivity extends FragmentActivity implements View.OnClick
         setupBottomAppBar();
         Toast.makeText(this, "This is VendorFragment", Toast.LENGTH_SHORT).show();
         vendingItemsArrayList = new ArrayList<>();
+
         UserDetails userDetails = AppUtils.getUserInfoSharedPreferences(this);
         String title = "Hi," + userDetails.getUserName();
         toolbar.setTitle(title);

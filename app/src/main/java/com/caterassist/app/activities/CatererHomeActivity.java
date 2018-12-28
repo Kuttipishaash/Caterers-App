@@ -1,22 +1,27 @@
 package com.caterassist.app.activities;
 
 import android.Manifest;
-import android.app.Activity;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.caterassist.app.R;
 import com.caterassist.app.adapters.FavouriteVendorsAdapter;
 import com.caterassist.app.adapters.VendorListAdapter;
+import com.caterassist.app.fragments.BottomNavigationDrawerFragment;
 import com.caterassist.app.models.FavouriteVendor;
 import com.caterassist.app.models.UserDetails;
 import com.caterassist.app.utils.AppUtils;
 import com.caterassist.app.utils.FirebaseUtils;
+import com.google.android.material.bottomappbar.BottomAppBar;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -31,12 +36,13 @@ import java.util.ArrayList;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import es.dmoral.toasty.Toasty;
 
-public class CatererHomeActivity extends Activity implements View.OnClickListener {
+public class CatererHomeActivity extends FragmentActivity implements View.OnClickListener {
     private static final String TAG = "CatererDashboardFrag";
     private static final int CALL_PERMISSION_REQ_CODE = 100;
     ArrayList<UserDetails> allVendorsArrayList;
@@ -52,6 +58,8 @@ public class CatererHomeActivity extends Activity implements View.OnClickListene
     private VendorListAdapter allVendorsAdapter;
     private RecyclerView allVendorsRecyclerView;
     private FloatingActionButton viewProfileFAB;
+    private BottomAppBar bottomAppBar;
+    private SearchView searchView;
 
 
     @Override
@@ -103,10 +111,9 @@ public class CatererHomeActivity extends Activity implements View.OnClickListene
 
     private void doIfPermissionGranted() {
         initViews();
+        setupBottomAppBar();
         fetchFavouriteVendors();
         fetchAllVendors();
-        //TODO:Set bottom bar
-//        setupBottomAppBar();
     }
 
     @Override
@@ -117,6 +124,53 @@ public class CatererHomeActivity extends Activity implements View.OnClickListene
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        // close search view on back button pressed
+        if (!searchView.isIconified()) {
+            searchView.setIconified(true);
+            return;
+        }
+        super.onBackPressed();
+    }
+
+    private void setupBottomAppBar() {
+        bottomAppBar.replaceMenu(R.menu.bottom_bar_overflow_menu_caterer);
+
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        searchView = (SearchView) bottomAppBar.getMenu().findItem(R.id.action_search).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setMaxWidth(Integer.MAX_VALUE);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                allVendorsAdapter.getFilter().filter(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                allVendorsAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+
+        bottomAppBar.setNavigationOnClickListener(v -> {
+            BottomSheetDialogFragment bottomSheetDialogFragment = new BottomNavigationDrawerFragment();
+            bottomSheetDialogFragment.show(getSupportFragmentManager(), bottomSheetDialogFragment.getTag());
+        });
+        bottomAppBar.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.btm_sheet_option_cart:
+                    startActivity(new Intent(CatererHomeActivity.this, CartActivity.class));
+                    break;
+                case R.id.btm_sheet_caterer_order_history:
+                    startActivity(new Intent(CatererHomeActivity.this, OrderHistoryActivity.class));
+                    break;
+            }
+            return true;
+        });
+    }
     private void fetchAllVendors() {
         allVendorsArrayList = new ArrayList<>();
         String databasePath = FirebaseUtils.getDatabaseMainBranchName() + FirebaseUtils.USER_INFO_BRANCH_NAME;
@@ -233,6 +287,7 @@ public class CatererHomeActivity extends Activity implements View.OnClickListene
         allVendorsRecyclerView = findViewById(R.id.frag_cate_all_vendors);
         viewProfileFAB = findViewById(R.id.caterer_view_profile);
         favouriteVendorArrayList = new ArrayList<>();
+        bottomAppBar = findViewById(R.id.bottom_app_bar_caterer);
 
         viewProfileFAB.setOnClickListener(this);
     }
