@@ -5,7 +5,6 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -38,31 +37,28 @@ public class BottomNavigationDrawerFragment extends BottomSheetDialogFragment {
 
         parentView = inflater.inflate(R.layout.fragment_navigation_bottm_sheet, container, false);
         navigationView = parentView.findViewById(R.id.navigation_view);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                switch (menuItem.getItemId()) {
-                    case R.id.main_nav_faq:
-                        startActivity(new Intent(getActivity(), FAQActivity.class));
-                        break;
-                    case R.id.main_nav_contact_us:
-                        startActivity(new Intent(getActivity(), ContactUsActivity.class));
-                        break;
-                    case R.id.main_nav_about_us:
-                        startActivity(new Intent(getActivity(), AboutUsActivity.class));
-                        break;
-                    case R.id.main_nav_share_app:
-                        shareApp();
-                        break;
-                    case R.id.main_nav_settings:
-                        startActivity(new Intent(getActivity(), SettingsActivity.class));
-                        break;
-                    case R.id.main_nav_logout:
-                        AppUtils.cleanUpAndLogout(getActivity());
-                        break;
-                }
-                return true;
+        navigationView.setNavigationItemSelectedListener(menuItem -> {
+            switch (menuItem.getItemId()) {
+                case R.id.main_nav_faq:
+                    startActivity(new Intent(getActivity(), FAQActivity.class));
+                    break;
+                case R.id.main_nav_contact_us:
+                    startActivity(new Intent(getActivity(), ContactUsActivity.class));
+                    break;
+                case R.id.main_nav_about_us:
+                    startActivity(new Intent(getActivity(), AboutUsActivity.class));
+                    break;
+                case R.id.main_nav_share_app:
+                    shareApp();
+                    break;
+                case R.id.main_nav_settings:
+                    startActivity(new Intent(getActivity(), SettingsActivity.class));
+                    break;
+                case R.id.main_nav_logout:
+                    AppUtils.cleanUpAndLogout(getActivity());
+                    break;
             }
+            return true;
         });
 
         return parentView;

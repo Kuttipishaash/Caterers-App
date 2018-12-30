@@ -25,6 +25,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import androidx.annotation.NonNull;
 import es.dmoral.toasty.Toasty;
@@ -67,6 +68,20 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         super.onPause();
     }
     private void launchHomeActivity() {
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(task -> {
+                    if (!task.isSuccessful()) {
+                        Log.w(TAG, "getInstanceId failed", task.getException());
+                        return;
+                    }
+                    // Get new Instance ID token
+                    String token = task.getResult().getToken();
+                    Log.e(TAG, token);
+                    Toasty.info(LoginActivity.this, token, Toast.LENGTH_SHORT).show();
+
+                });
+
+
         if (userDetails.getIsVendor()) {
             startActivity(new Intent(LoginActivity.this, VendorHomeActivity.class));
         } else {

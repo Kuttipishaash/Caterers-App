@@ -50,9 +50,6 @@ public class HistoryOrderInfoAdapter extends RecyclerView.Adapter<HistoryOrderIn
                 status = "Approved and Processing";
                 break;
             case 2:
-                status = "Ready";
-                break;
-            case 3:
                 status = "Completed";
                 break;
             default:
@@ -63,6 +60,7 @@ public class HistoryOrderInfoAdapter extends RecyclerView.Adapter<HistoryOrderIn
         holder.orderTimeStampTxtView.setText(orderDetails.getOrderTime());
 
         if (isVendor) {
+            holder.orderStatusTxtView.setVisibility(View.GONE);
             holder.orderNameLabel.setText("Caterer : ");
             holder.nameTxtView.setText(orderDetails.getCatererName());
         } else {

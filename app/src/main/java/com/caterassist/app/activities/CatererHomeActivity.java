@@ -175,6 +175,13 @@ public class CatererHomeActivity extends FragmentActivity implements View.OnClic
         allVendorsArrayList = new ArrayList<>();
         String databasePath = FirebaseUtils.getDatabaseMainBranchName() + FirebaseUtils.USER_INFO_BRANCH_NAME;
         allVendorsRef = FirebaseDatabase.getInstance().getReference(databasePath);
+        allVendorsAdapter = new VendorListAdapter();
+        allVendorsAdapter.setVendorsList(allVendorsArrayList);
+        allVendorsLayoutManager = new LinearLayoutManager(CatererHomeActivity.this, RecyclerView.VERTICAL, false);
+        allVendorsRecyclerView.setLayoutManager(allVendorsLayoutManager);
+        allVendorsRecyclerView.setAdapter(allVendorsAdapter);
+        allVendorsRecyclerView.addItemDecoration(new DividerItemDecoration(CatererHomeActivity.this,
+                DividerItemDecoration.VERTICAL));
         allVendorsRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -183,15 +190,10 @@ public class CatererHomeActivity extends FragmentActivity implements View.OnClic
                     if (userDetails.getIsVendor()) {
                         userDetails.setUserID(snapshot.getKey());
                         allVendorsArrayList.add(userDetails);
+                        allVendorsAdapter.notifyDataSetChanged();
                     }
                 }
-                allVendorsAdapter = new VendorListAdapter();
-                allVendorsAdapter.setVendorsList(allVendorsArrayList);
-                allVendorsLayoutManager = new LinearLayoutManager(CatererHomeActivity.this, RecyclerView.VERTICAL, false);
-                allVendorsRecyclerView.setLayoutManager(allVendorsLayoutManager);
-                allVendorsRecyclerView.setAdapter(allVendorsAdapter);
-                allVendorsRecyclerView.addItemDecoration(new DividerItemDecoration(CatererHomeActivity.this,
-                        DividerItemDecoration.VERTICAL));
+
             }
 
             @Override
@@ -205,12 +207,15 @@ public class CatererHomeActivity extends FragmentActivity implements View.OnClic
         String databasePath = FirebaseUtils.getDatabaseMainBranchName() +
                 FirebaseUtils.FAVOURITE_VENDORS_BRANCH_NAME +
                 FirebaseAuth.getInstance().getUid();
+        favouriteVendorsAdapter = new FavouriteVendorsAdapter();
+        favouriteVendorsAdapter.setFavouriteVendorArrayList(favouriteVendorArrayList);
+        favouriteVendorsLayoutManager = new LinearLayoutManager(CatererHomeActivity.this, RecyclerView.HORIZONTAL, false);
+        favouriteVendorsRecyclerView.setLayoutManager(favouriteVendorsLayoutManager);
+        favouriteVendorsRecyclerView.setAdapter(favouriteVendorsAdapter);
         favouriteVendorsReference = FirebaseDatabase.getInstance().getReference(databasePath);
         favouriteVendorsEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
-                Log.d(TAG, "onChildAdded:" + dataSnapshot.getKey());
-
                 // A new favouriteVendor has been added, add it to the displayed list
                 UserDetails favouriteVendor = dataSnapshot.getValue(UserDetails.class);
                 favouriteVendor.setUserID(dataSnapshot.getKey());
@@ -221,8 +226,6 @@ public class CatererHomeActivity extends FragmentActivity implements View.OnClic
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
-                Log.d(TAG, "onChildChanged:" + dataSnapshot.getKey());
-
                 // A favouriteVendor has changed, use the key to determine if we are displaying this
                 // favouriteVendor and if so displayed the changed favouriteVendor.
                 UserDetails favouriteVendor = dataSnapshot.getValue(UserDetails.class);
@@ -274,11 +277,7 @@ public class CatererHomeActivity extends FragmentActivity implements View.OnClic
             }
         };
         favouriteVendorsReference.addChildEventListener(favouriteVendorsEventListener);
-        favouriteVendorsAdapter = new FavouriteVendorsAdapter();
-        favouriteVendorsAdapter.setFavouriteVendorArrayList(favouriteVendorArrayList);
-        favouriteVendorsLayoutManager = new LinearLayoutManager(CatererHomeActivity.this, RecyclerView.HORIZONTAL, false);
-        favouriteVendorsRecyclerView.setLayoutManager(favouriteVendorsLayoutManager);
-        favouriteVendorsRecyclerView.setAdapter(favouriteVendorsAdapter);
+
 
     }
 

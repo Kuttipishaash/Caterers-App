@@ -24,7 +24,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class VendorNewOrdersActivity extends Activity {
+public class VendorPendingOrdersActivity extends Activity {
     private static final String TAG = "VendorNewOrders";
     Query query;
     ChildEventListener childEventListener;
@@ -36,8 +36,8 @@ public class VendorNewOrdersActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_vendor_new_orders);
-        pendingOrdersRecycView = findViewById(R.id.act_vend_new_orders_recyc_view);
+        setContentView(R.layout.activity_vendor_pending_orders);
+        pendingOrdersRecycView = findViewById(R.id.act_vend_pending_orders_recyc_view);
         fetchOrders();
     }
 
@@ -107,7 +107,7 @@ public class VendorNewOrdersActivity extends Activity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.w(TAG, "postComments:onCancelled", databaseError.toException());
-                Toast.makeText(VendorNewOrdersActivity.this, "Failed to load pending orders.",
+                Toast.makeText(VendorPendingOrdersActivity.this, "Failed to load pending orders.",
                         Toast.LENGTH_SHORT).show();
             }
         };

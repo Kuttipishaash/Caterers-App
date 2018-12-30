@@ -3,10 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.VendorNewOrdersActivity">
+    tools:context=".activities.VendorPendingOrdersActivity">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/act_vend_new_orders_recyc_view"
+        android:id="@+id/act_vend_pending_orders_recyc_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,5 @@
 package com.caterassist.app.adapters;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.view.LayoutInflater;
@@ -16,8 +15,6 @@ import com.caterassist.app.activities.OrderDetailsActivity;
 import com.caterassist.app.models.OrderDetails;
 import com.caterassist.app.utils.Constants;
 import com.caterassist.app.utils.FirebaseUtils;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -55,27 +52,26 @@ public class VendorPendingOrdersAdapter extends RecyclerView.Adapter<VendorPendi
         switch (orderDetails.getOrderStatus()) {
             case 0:
                 buttonText = "Approve Order";
+                holder.rejectOrderBtn.setVisibility(View.VISIBLE);
                 holder.updateStatusBtn.setVisibility(View.VISIBLE);
-                statusText = "Order awaiting approval!";
+                statusText = "Awaiting approval!";
                 break;
             case 1:
-                buttonText = "Mark as Ready";
+                buttonText = "Mark as Completed";
+                holder.rejectOrderBtn.setVisibility(View.GONE);
                 holder.updateStatusBtn.setVisibility(View.VISIBLE);
                 statusText = "Approved";
                 break;
             case 2:
-                buttonText = "Mark as Completed";
-                holder.updateStatusBtn.setVisibility(View.VISIBLE);
-                statusText = "Order ready";
-                break;
-            case 3:
                 buttonText = "";
+                holder.rejectOrderBtn.setVisibility(View.GONE);
                 holder.updateStatusBtn.setVisibility(View.GONE);
-                statusText = "Order completed!";
+                statusText = "Completed!";
                 break;
             default:
                 buttonText = "";
                 statusText = "Status Unavailable";
+                holder.rejectOrderBtn.setVisibility(View.GONE);
                 holder.updateStatusBtn.setVisibility(View.GONE);
                 break;
         }
@@ -96,6 +92,7 @@ public class VendorPendingOrdersAdapter extends RecyclerView.Adapter<VendorPendi
         TextView vendorNameTxtView;
         TextView orderTotalAmtTxtView;
         Button updateStatusBtn;
+        Button rejectOrderBtn;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -106,8 +103,11 @@ public class VendorPendingOrdersAdapter extends RecyclerView.Adapter<VendorPendi
             orderTimeStampTxtView = itemView.findViewById(R.id.li_caterer_order_info_timestamp);
             orderTotalAmtTxtView = itemView.findViewById(R.id.li_caterer_order_info_order_total);
             updateStatusBtn = itemView.findViewById(R.id.li_caterer_order_status_update);
+            rejectOrderBtn = itemView.findViewById(R.id.li_caterer_order_reject);
+
             parentLayout.setOnClickListener(this);
             updateStatusBtn.setOnClickListener(this);
+            rejectOrderBtn.setOnClickListener(this);
         }
 
         @Override
@@ -119,7 +119,49 @@ public class VendorPendingOrdersAdapter extends RecyclerView.Adapter<VendorPendi
                 itemView.getContext().startActivity(intent);
             } else if (v.getId() == updateStatusBtn.getId()) {
                 updateOrderStatus();
+            } else if (v.getId() == rejectOrderBtn.getId()) {
+                rejectOrder();
             }
+        }
+
+        private void rejectOrder() {
+            AlertDialog.Builder builder;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                builder = new AlertDialog.Builder(itemView.getContext(), android.R.style.Theme_Material_Dialog_Alert);
+            } else {
+                builder = new AlertDialog.Builder(itemView.getContext());
+            }
+            final OrderDetails orderDetails = orderDetailsArrayList.get(getAdapterPosition());
+            String message = "Reject order?";
+            String subMessage = " reject the following order ";
+            builder.setTitle(message)
+                    .setMessage("This action cannot be undone. You are about to" + subMessage + "\nOrder id :" + orderDetails.getOrderId()
+                            + "\nOrdered by: " + orderDetails.getCatererName()
+                            + "\nOn: " + orderDetails.getOrderTime())
+                    .setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                        String orderID = orderDetails.getOrderId();
+                        String vendorOrderDatabasePath = FirebaseUtils.getDatabaseMainBranchName() +
+                                FirebaseUtils.VENDOR_PENDING_ORDERS +
+                                orderDetails.getVendorId()
+                                + "/" + orderID;
+                        String catererOrderDatabasePath = FirebaseUtils.getDatabaseMainBranchName() +
+                                FirebaseUtils.ORDERS_CATERER_BRANCH +
+                                orderDetails.getCatererID()
+                                + "/" + orderID;
+                        DatabaseReference vendorDatabaseReference = FirebaseDatabase.getInstance().getReference(vendorOrderDatabasePath);
+                        vendorDatabaseReference.setValue(null)
+                                .addOnSuccessListener(aVoid -> {
+                                    DatabaseReference catererDatabaseReference = FirebaseDatabase.getInstance().getReference(catererOrderDatabasePath);
+                                    catererDatabaseReference.setValue(null)
+                                            .addOnSuccessListener(aVoid1 -> Toasty.info(itemView.getContext(), "Order rejected", Toast.LENGTH_SHORT).show())
+                                            .addOnFailureListener(e -> Toasty.error(itemView.getContext(), "Order rejection failed!", Toast.LENGTH_SHORT).show());
+                                })
+                                .addOnFailureListener(e -> Toasty.error(itemView.getContext(), "Order rejection failed!", Toast.LENGTH_SHORT).show());
+                    })
+                    .setNegativeButton(android.R.string.no, (dialog, which) -> dialog.dismiss())
+                    .show();
+
+
         }
 
         private void updateOrderStatus() {
@@ -138,10 +180,6 @@ public class VendorPendingOrdersAdapter extends RecyclerView.Adapter<VendorPendi
                     subMessage = " approve the following order ";
                     break;
                 case 1:
-                    message = "Mark order as ready?";
-                    subMessage = " mark the following order as READY ";
-                    break;
-                case 2:
                     message = "Mark order as completed?";
                     subMessage = " mark the following order as COMPLETED ";
                     break;
@@ -155,35 +193,19 @@ public class VendorPendingOrdersAdapter extends RecyclerView.Adapter<VendorPendi
                     .setMessage("This action cannot be undone. You are about to" + subMessage + "\nOrder id :" + orderDetails.getOrderId()
                             + "\nOrdered by: " + orderDetails.getCatererName()
                             + "\nOn: " + orderDetails.getOrderTime())
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            String databasePath = FirebaseUtils.getDatabaseMainBranchName() + FirebaseUtils.VENDOR_PENDING_ORDERS +
-                                    FirebaseAuth.getInstance().getUid() + "/" +
-                                    orderDetailsArrayList.get(getAdapterPosition()).getOrderId() + "/" +
-                                    FirebaseUtils.ORDER_INFO_BRANCH +
-                                    FirebaseUtils.ORDER_STATUS;
-                            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(databasePath);
-                            //TODO: show progress bar
-                            databaseReference.setValue(orderDetailsArrayList.get(getAdapterPosition()).getOrderStatus() + 1)
-                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-                                            Toasty.success(itemView.getContext(), "Order status updated successfully", Toast.LENGTH_SHORT).show();
-                                        }
-                                    })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Toasty.error(itemView.getContext(), "Order status update failed! Please try again...", Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-                        }
+                    .setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                        String databasePath = FirebaseUtils.getDatabaseMainBranchName() + FirebaseUtils.VENDOR_PENDING_ORDERS +
+                                FirebaseAuth.getInstance().getUid() + "/" +
+                                orderDetailsArrayList.get(getAdapterPosition()).getOrderId() + "/" +
+                                FirebaseUtils.ORDER_INFO_BRANCH +
+                                FirebaseUtils.ORDER_STATUS;
+                        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(databasePath);
+                        //TODO: show progress bar
+                        databaseReference.setValue(orderDetailsArrayList.get(getAdapterPosition()).getOrderStatus() + 1)
+                                .addOnSuccessListener(aVoid -> Toasty.success(itemView.getContext(), "Order status updated successfully", Toast.LENGTH_SHORT).show())
+                                .addOnFailureListener(e -> Toasty.error(itemView.getContext(), "Order status update failed! Please try again...", Toast.LENGTH_SHORT).show());
                     })
-                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    })
+                    .setNegativeButton(android.R.string.no, (dialog, which) -> dialog.dismiss())
                     .show();
         }
     }

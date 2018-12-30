@@ -122,6 +122,14 @@
                     android:layout_height="wrap_content"
                     android:padding="10dp"
                     android:textColor="@color/white" />
+                <Button
+                    android:id="@+id/li_caterer_order_reject"
+                    style="@style/Rounded_Button_Accent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="Reject Order"
+                    android:textColor="@color/white" />
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>

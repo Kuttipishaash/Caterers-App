@@ -1,7 +1,6 @@
 package com.caterassist.app.adapters;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -95,21 +94,12 @@ public class VendingItemsAdapter extends RecyclerView.Adapter<VendingItemsAdapte
             new AlertDialog.Builder(itemView.getContext())
                     .setTitle("Remove Item")
                     .setMessage("Are you sure to remove this item from your list?")
-                    .setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            //TODO:remove item from firebase
-                            String itemId = vendingItemArrayList.get(getAdapterPosition()).getId();
-                            removeItemFromStock(itemId);
-                            Toast.makeText(itemView.getContext(), "Item removed", Toast.LENGTH_SHORT).show();
-                        }
+                    .setPositiveButton("YES", (dialog, which) -> {
+                        String itemId = vendingItemArrayList.get(getAdapterPosition()).getId();
+                        removeItemFromStock(itemId);
+                        Toast.makeText(itemView.getContext(), "Item removed", Toast.LENGTH_SHORT).show();
                     })
-                    .setNegativeButton("NO", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    })
+                    .setNegativeButton("NO", (dialog, which) -> dialog.dismiss())
                     .show();
         }
 

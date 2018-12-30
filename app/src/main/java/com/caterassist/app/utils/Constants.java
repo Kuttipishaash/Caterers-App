@@ -25,4 +25,9 @@ public class Constants {
     public static class PermissionRequestCodes {
         public static final int CALL_PERMISSION_REQUEST = 1;
     }
+
+    public static class NotificationChannelConstants {
+        public static final String GENERAL_CHANNEL_ID = "general";
+        public static final String GENERAL_CHANNEL_NAME = "General";
+    }
 }
