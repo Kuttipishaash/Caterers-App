@@ -193,9 +193,6 @@ public class CartActivity extends Activity implements View.OnClickListener {
                 .setTitle(getResources().getString(R.string.dialog_title_clear_cart))
                 .setMessage(
                         getResources().getString(R.string.dialog_message_clear_cart))
-                .setIcon(
-                        getResources().getDrawable(
-                                android.R.drawable.ic_dialog_alert))
                 .setPositiveButton(
                         getResources().getString(R.string.dialog_btn_yes),
                         (dialog, which) -> {
@@ -214,9 +211,7 @@ public class CartActivity extends Activity implements View.OnClickListener {
                         })
                 .setNegativeButton(
                         getResources().getString(R.string.dialog_btn_no),
-                        (dialog, which) -> {
-                            dialog.dismiss();
-                        }).show();
+                        (dialog, which) -> dialog.dismiss()).show();
     }
 
     private void checkout() {
@@ -224,9 +219,6 @@ public class CartActivity extends Activity implements View.OnClickListener {
                 .setTitle(getResources().getString(R.string.dialog_title_place_order))
                 .setMessage(
                         getResources().getString(R.string.dialog_message_place_order))
-                .setIcon(
-                        getResources().getDrawable(
-                                android.R.drawable.ic_dialog_alert))
                 .setPositiveButton(
                         getResources().getString(R.string.dialog_btn_yes),
                         (dialog, which) -> {
