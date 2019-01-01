@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.caterassist.app.R;
 import com.caterassist.app.activities.ViewVendorItemsActivity;
 import com.caterassist.app.models.UserDetails;
@@ -20,6 +22,8 @@ import com.caterassist.app.utils.FirebaseUtils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
@@ -45,7 +49,19 @@ public class FavouriteVendorsAdapter extends RecyclerView.Adapter<FavouriteVendo
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         UserDetails favouriteVendor = favouriteVendorArrayList.get(position);
         holder.vendorName.setText(favouriteVendor.getUserName());
-        //TODO: Set vendor image.
+        String imageUrl = favouriteVendor.getUserImageUrl();
+        if (imageUrl != null) {
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+            storageReference.child(imageUrl).getDownloadUrl().addOnSuccessListener(uri -> {
+                RequestOptions requestOptions = new RequestOptions();
+                requestOptions.placeholder(R.drawable.placeholder);
+                requestOptions.error(R.drawable.ic_error_placeholder);
+                Glide.with(holder.itemView.getContext())
+                        .setDefaultRequestOptions(requestOptions)
+                        .load(uri)
+                        .into(holder.vendorImage);
+            }).addOnFailureListener(exception -> holder.vendorImage.setImageResource(R.drawable.ic_error_placeholder));
+        }
     }
 
     @Override
@@ -59,6 +75,7 @@ public class FavouriteVendorsAdapter extends RecyclerView.Adapter<FavouriteVendo
         private ImageButton emailVendorButton;
         private ImageButton callVendorButton;
         private ImageView removeVendorButton;
+        private ImageView vendorImage;
         private Context context;
 
 
@@ -66,6 +83,7 @@ public class FavouriteVendorsAdapter extends RecyclerView.Adapter<FavouriteVendo
             super(itemView);
             context = itemView.getContext();
             parentView = itemView.findViewById(R.id.list_item_favourite_vendor);
+            vendorImage = itemView.findViewById(R.id.li_item_fav_vendor_image);
             vendorName = itemView.findViewById(R.id.li_item_fav_vendor_name);
             emailVendorButton = itemView.findViewById(R.id.li_item_fav_vendor_mail);
             callVendorButton = itemView.findViewById(R.id.li_item_fav_vendor_call);

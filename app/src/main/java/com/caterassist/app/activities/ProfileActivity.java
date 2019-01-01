@@ -11,19 +11,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.caterassist.app.R;
 import com.caterassist.app.models.UserDetails;
 import com.caterassist.app.utils.AppUtils;
 import com.caterassist.app.utils.FirebaseUtils;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import androidx.annotation.NonNull;
 import es.dmoral.toasty.Toasty;
 
 public class ProfileActivity extends Activity implements View.OnClickListener {
@@ -59,7 +57,11 @@ public class ProfileActivity extends Activity implements View.OnClickListener {
         if (userDetails.getUserImageUrl() != null) {
             StorageReference storageReference = FirebaseStorage.getInstance().getReference();
             storageReference.child(userDetails.getUserImageUrl()).getDownloadUrl().addOnSuccessListener(uri -> {
+                RequestOptions requestOptions = new RequestOptions();
+                requestOptions.placeholder(R.drawable.user_placeholder);
+                requestOptions.error(R.drawable.ic_error_placeholder);
                 Glide.with(ProfileActivity.this)
+                        .setDefaultRequestOptions(requestOptions)
                         .load(uri)
                         .into(profileImage);
             }).addOnFailureListener(exception -> Log.i(TAG, "setInitialValues: No profile image link"));
@@ -85,20 +87,12 @@ public class ProfileActivity extends Activity implements View.OnClickListener {
             if (validateInputFields()) {
                 String databasePath = FirebaseUtils.getDatabaseMainBranchName() + FirebaseUtils.USER_INFO_BRANCH_NAME + FirebaseAuth.getInstance().getUid();
                 DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(databasePath);
-                databaseReference.setValue(userDetails).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toasty.success(ProfileActivity.this, "User profile updated successfully.", Toast.LENGTH_SHORT).show();
-                        AppUtils.setUserInfoSharedPreferences(userDetails, ProfileActivity.this);
-                        finish();
-                    }
+                databaseReference.setValue(userDetails).addOnSuccessListener(aVoid -> {
+                    Toasty.success(ProfileActivity.this, "User profile updated successfully.", Toast.LENGTH_SHORT).show();
+                    AppUtils.setUserInfoSharedPreferences(userDetails, ProfileActivity.this);
+                    finish();
                 })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toasty.error(ProfileActivity.this, "User profile update failed!", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                        .addOnFailureListener(e -> Toasty.error(ProfileActivity.this, "User profile update failed!", Toast.LENGTH_SHORT).show());
             }
         }
     }

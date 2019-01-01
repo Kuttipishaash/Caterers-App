@@ -8,6 +8,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.caterassist.app.R;
 import com.caterassist.app.dialogs.AddToCartDialog;
 import com.caterassist.app.models.UserDetails;
@@ -19,6 +21,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
@@ -53,7 +57,19 @@ public class VendorItemsAdapter extends RecyclerView.Adapter<VendorItemsAdapter.
         holder.rate.setText(String.valueOf(vendorItem.getRatePerUnit()));
         String itemInStock = vendorItem.getStock() + " " + vendorItem.getUnit();
         holder.category.setText(itemInStock);
-        //TODO: Set item image.
+        String imageUrl = vendorItem.getImageUrl();
+        if (imageUrl != null) {
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+            storageReference.child(imageUrl).getDownloadUrl().addOnSuccessListener(uri -> {
+                RequestOptions requestOptions = new RequestOptions();
+                requestOptions.placeholder(R.drawable.placeholder);
+                requestOptions.error(R.drawable.ic_error_placeholder);
+                Glide.with(holder.itemView.getContext())
+                        .setDefaultRequestOptions(requestOptions)
+                        .load(uri)
+                        .into(holder.image);
+            }).addOnFailureListener(exception -> holder.image.setImageResource(R.drawable.ic_error_placeholder));
+        }
     }
 
     @Override

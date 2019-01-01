@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.caterassist.app.R;
 import com.caterassist.app.activities.AddEditItemActivity;
 import com.caterassist.app.models.VendorItem;
@@ -17,6 +19,8 @@ import com.caterassist.app.utils.FirebaseUtils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
@@ -40,7 +44,19 @@ public class VendingItemsAdapter extends RecyclerView.Adapter<VendingItemsAdapte
     @Override
     public void onBindViewHolder(@NonNull VendingItemViewHolder holder, int position) {
         VendorItem vendorItem = vendingItemArrayList.get(position);
-        //TODO:Set image
+        String imageUrl = vendorItem.getImageUrl();
+        if (imageUrl != null) {
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+            storageReference.child(imageUrl).getDownloadUrl().addOnSuccessListener(uri -> {
+                RequestOptions requestOptions = new RequestOptions();
+                requestOptions.placeholder(R.drawable.placeholder);
+                requestOptions.error(R.drawable.ic_error_placeholder);
+                Glide.with(holder.itemView.getContext())
+                        .setDefaultRequestOptions(requestOptions)
+                        .load(uri)
+                        .into(holder.itemImage);
+            }).addOnFailureListener(exception -> holder.itemImage.setImageResource(R.drawable.ic_error_placeholder));
+        }
         holder.itemName.setText(vendorItem.getName());
         holder.itemCategory.setText(vendorItem.getCategory());
         holder.itemRate.setText(String.valueOf(vendorItem.getRatePerUnit()));

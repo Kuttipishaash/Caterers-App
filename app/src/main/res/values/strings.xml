@@ -13,7 +13,7 @@
 
     <!-- Placeholders -->
     <string name="placeholder_name">Name</string>
-    <string name="placeholder_email">test@email.com</string>
+    <string name="placeholder_email">EMAIL</string>
     <string name="placeholder_password">PASSWORD</string>
     <string name="placeholder_text">Lorem ipsum</string>
     <string name="placeholder_long_text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
@@ -35,4 +35,15 @@
     <string name="search_hint">Type name…</string>
     <string name="action_cart">Cart</string>
 
+    <!-- Dialog Strings -->
+    <string name="dialog_btn_yes">YES</string>
+    <string name="dialog_btn_no">NO</string>
+    <string name="dialog_title_place_order">Confirm Order</string>
+    <string name="dialog_message_place_order">Are you sure to place this order? This action cannot be undone.</string>
+    <string name="dialog_title_clear_cart">Clearing Cart Items</string>
+    <string name="dialog_message_clear_cart">Are you sure to clear your cart? This will remove all the items from your cart.</string>
+    <string name="toast_cannot_clear_cart">Cart couldn\'t be cleard! Please try again.</string>
+    <string name="toast_cart_cleared">Cart cleared</string>
+    <string name="toast_checkout_success">Checkout successful</string>
+    <string name="toast_checkout_failed">Checkout failed</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.caterassist.app.activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,8 +16,6 @@ import com.caterassist.app.models.OrderDetails;
 import com.caterassist.app.models.UserDetails;
 import com.caterassist.app.utils.AppUtils;
 import com.caterassist.app.utils.FirebaseUtils;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -83,7 +82,6 @@ public class CartActivity extends Activity implements View.OnClickListener {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                //TODO: Handle failure
             }
         });
 
@@ -183,62 +181,97 @@ public class CartActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.act_cart_btn_clear_cart:
                 if (cartItemsReference != null) {
-                    Objects.requireNonNull(cartItemsReference.getParent()).setValue(null);
+                    clearCart();
                 }
                 break;
         }
     }
 
+    private void clearCart() {
+
+        new AlertDialog.Builder(this)
+                .setTitle(getResources().getString(R.string.dialog_title_clear_cart))
+                .setMessage(
+                        getResources().getString(R.string.dialog_message_clear_cart))
+                .setIcon(
+                        getResources().getDrawable(
+                                android.R.drawable.ic_dialog_alert))
+                .setPositiveButton(
+                        getResources().getString(R.string.dialog_btn_yes),
+                        (dialog, which) -> {
+                            if (cartItemsReference.getParent() != null) {
+                                (cartItemsReference.getParent()).setValue(null)
+                                        .addOnSuccessListener(aVoid -> Toasty.success(CartActivity.this,
+                                                getString(R.string.toast_cart_cleared),
+                                                Toast.LENGTH_SHORT)
+                                                .show())
+                                        .addOnFailureListener(e -> Toasty.error(CartActivity.this,
+                                                getString(R.string.toast_cannot_clear_cart),
+                                                Toast.LENGTH_SHORT)
+                                                .show());
+                            }
+
+                        })
+                .setNegativeButton(
+                        getResources().getString(R.string.dialog_btn_no),
+                        (dialog, which) -> {
+                            dialog.dismiss();
+                        }).show();
+    }
+
     private void checkout() {
+        new AlertDialog.Builder(this)
+                .setTitle(getResources().getString(R.string.dialog_title_place_order))
+                .setMessage(
+                        getResources().getString(R.string.dialog_message_place_order))
+                .setIcon(
+                        getResources().getDrawable(
+                                android.R.drawable.ic_dialog_alert))
+                .setPositiveButton(
+                        getResources().getString(R.string.dialog_btn_yes),
+                        (dialog, which) -> {
+                            double orderTotalAmt = 0.0;
+                            for (CartItem cartItem : cartItemsArrayList) {
+                                orderTotalAmt += cartItem.getTotalAmount();
+                            }
+                            final OrderDetails orderDetails = new OrderDetails();
+                            orderDetails.setVendorId(vendorDetails.getUserID());
+                            orderDetails.setCatererID(FirebaseAuth.getInstance().getUid());
+                            orderDetails.setOrderStatus(0);
+                            orderDetails.setVendorName(vendorDetails.getUserName());
+                            orderDetails.setVendorPhone(vendorDetails.getUserPhone());
+                            orderDetails.setOrderTotalAmount(orderTotalAmt);
+                            orderDetails.setCatererName(AppUtils.getCurrentUserName(this));
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                            Date date = new Date();
+                            orderDetails.setOrderTime(formatter.format(date));
 
-        double orderTotalAmt = 0.0;
-        for (CartItem cartItem : cartItemsArrayList) {
-            orderTotalAmt += cartItem.getTotalAmount();
-        }
-        final OrderDetails orderDetails = new OrderDetails();
-        orderDetails.setVendorId(vendorDetails.getUserID());
-        orderDetails.setCatererID(FirebaseAuth.getInstance().getUid());
-        orderDetails.setOrderStatus(0);
-        orderDetails.setVendorName(vendorDetails.getUserName());
-        orderDetails.setVendorPhone(vendorDetails.getUserPhone());
-        orderDetails.setOrderTotalAmount(orderTotalAmt);
-        orderDetails.setCatererName(AppUtils.getCurrentUserName(this));
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        Date date = new Date();
-        orderDetails.setOrderTime(formatter.format(date));
+                            String userOrdersItemsDatabasePath = FirebaseUtils.getDatabaseMainBranchName() +
+                                    FirebaseUtils.ORDERS_CATERER_BRANCH +
+                                    FirebaseAuth.getInstance().getUid();
+                            final DatabaseReference checkoutReferecne = FirebaseDatabase.getInstance().getReference(userOrdersItemsDatabasePath);
+                            Order order = new Order();
+                            order.setOrderItems(cartItemsArrayList);
+                            order.setOrderInfo(orderDetails);
+                            checkoutReferecne.push().setValue(order)
+                                    .addOnSuccessListener(aVoid -> Objects.requireNonNull(cartItemsReference.getParent()).setValue(null)
+                                            .addOnSuccessListener(aVoid1 -> Toasty.success(CartActivity.this,
+                                                    getString(R.string.toast_checkout_success),
+                                                    Toast.LENGTH_SHORT).show())
+                                            .addOnFailureListener(e -> {
+                                                Toasty.success(CartActivity.this,
+                                                        getString(R.string.toast_checkout_failed),
+                                                        Toast.LENGTH_SHORT).show();
+                                                checkoutReferecne.child(FirebaseUtils.ORDER_INFO_BRANCH).setValue(null);
+                                            }))
+                                    .addOnFailureListener(e -> Toasty.success(CartActivity.this,
+                                            getString(R.string.toast_checkout_failed),
+                                            Toast.LENGTH_SHORT).show());
 
-        String userOrdersItemsDatabasePath = FirebaseUtils.getDatabaseMainBranchName() +
-                FirebaseUtils.ORDERS_CATERER_BRANCH +
-                FirebaseAuth.getInstance().getUid();
-        final DatabaseReference checkoutReferecne = FirebaseDatabase.getInstance().getReference(userOrdersItemsDatabasePath);
-        Order order = new Order();
-        order.setOrderItems(cartItemsArrayList);
-        order.setOrderInfo(orderDetails);
-        checkoutReferecne.push().setValue(order)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Objects.requireNonNull(cartItemsReference.getParent()).setValue(null)
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        Toasty.success(CartActivity.this, "Checkout successful", Toast.LENGTH_SHORT).show();
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Toasty.success(CartActivity.this, "Checkout failed", Toast.LENGTH_SHORT).show();
-                                        checkoutReferecne.child(FirebaseUtils.ORDER_INFO_BRANCH).setValue(null);
-                                    }
-                                });
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toasty.success(CartActivity.this, "Checkout failed", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                        })
+                .setNegativeButton(
+                        getResources().getString(R.string.dialog_btn_no),
+                        (dialog, which) -> dialog.dismiss()).show();
+
     }
 }

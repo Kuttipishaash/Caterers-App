@@ -8,12 +8,15 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.caterassist.app.R;
-import com.caterassist.app.models.GenericItem;
+import com.caterassist.app.models.Item;
 import com.caterassist.app.models.VendorItem;
 import com.caterassist.app.utils.FirebaseUtils;
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,6 +25,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
@@ -33,13 +38,14 @@ public class AddEditItemActivity extends Activity implements View.OnClickListene
     private static final String TAG = "AddEditItemAct";
     ArrayList<String> categoriesArrayList;
     ArrayList<String> itemNamesArrayList;
-    ArrayList<GenericItem> itemsArrayList;
+    ArrayList<Item> itemsArrayList;
     Spinner itemCategorySpinner;
     TextView itemCategoryTxtView;
     Spinner itemNameSpinner;
     TextView itemNameTxtView;
     EditText itemRateEdtTxt;
     EditText itemStockEdtTxt;
+    ImageView itemImageView;
     TextView unitTextView;
     Button saveButton;
     VendorItem vendorItem;
@@ -99,6 +105,19 @@ public class AddEditItemActivity extends Activity implements View.OnClickListene
                 unitTextView.setText(vendorItem.getUnit());
                 itemRateEdtTxt.setText(String.valueOf(vendorItem.getRatePerUnit()));
                 itemStockEdtTxt.setText(String.valueOf(vendorItem.getStock()));
+                if (vendorItem.getImageUrl() != null) {
+                    StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+                    storageReference.child(vendorItem.getImageUrl()).getDownloadUrl().addOnSuccessListener(uri -> {
+                        RequestOptions requestOptions = new RequestOptions();
+                        requestOptions.placeholder(R.drawable.placeholder);
+                        requestOptions.error(R.drawable.ic_error_placeholder);
+                        Glide.with(AddEditItemActivity.this)
+                                .setDefaultRequestOptions(requestOptions)
+                                .load(uri)
+                                .into(itemImageView);
+                    }).addOnFailureListener(exception -> itemImageView.setImageResource(R.drawable.ic_error_placeholder));
+                }
+
                 itemRateEdtTxt.setEnabled(true);
                 itemStockEdtTxt.setEnabled(true);
                 saveButton.setEnabled(true);
@@ -117,6 +136,7 @@ public class AddEditItemActivity extends Activity implements View.OnClickListene
         itemStockEdtTxt = findViewById(R.id.act_addedt_units_available);
         saveButton = findViewById(R.id.act_addedt_submit_btn);
         unitTextView = findViewById(R.id.act_addedt_item_unit);
+        itemImageView = findViewById(R.id.act_addedt_item_img);
         saveButton.setOnClickListener(this);
     }
 
@@ -165,7 +185,7 @@ public class AddEditItemActivity extends Activity implements View.OnClickListene
                     itemNamesArrayList.clear();
                     itemsArrayList.clear();
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        GenericItem item = snapshot.getValue(GenericItem.class);
+                        Item item = snapshot.getValue(Item.class);
                         itemNamesArrayList.add(item.getItemName());
                         itemsArrayList.add(item);
                     }
@@ -185,7 +205,20 @@ public class AddEditItemActivity extends Activity implements View.OnClickListene
         } else if (parent.getId() == R.id.act_addedt_item_name) {
             vendorItem.setName(itemNamesArrayList.get(position));
             vendorItem.setUnit(itemsArrayList.get(position).getUnit());
-            vendorItem.setImageUrl(itemsArrayList.get(position).getItemImageURL());
+            String imageUrl = itemsArrayList.get(position).getItemImageURL();
+            if (imageUrl != null) {
+                StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+                storageReference.child(imageUrl).getDownloadUrl().addOnSuccessListener(uri -> {
+                    RequestOptions requestOptions = new RequestOptions();
+                    requestOptions.placeholder(R.drawable.placeholder);
+                    requestOptions.error(R.drawable.ic_error_placeholder);
+                    Glide.with(AddEditItemActivity.this)
+                            .setDefaultRequestOptions(requestOptions)
+                            .load(uri)
+                            .into(itemImageView);
+                }).addOnFailureListener(exception -> itemImageView.setImageResource(R.drawable.ic_error_placeholder));
+            }
+            vendorItem.setImageUrl(imageUrl);
             unitTextView.setText(itemsArrayList.get(position).getUnit());
         }
     }

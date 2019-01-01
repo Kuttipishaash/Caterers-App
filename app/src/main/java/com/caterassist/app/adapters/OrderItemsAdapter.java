@@ -6,8 +6,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.caterassist.app.R;
 import com.caterassist.app.models.CartItem;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
@@ -24,14 +28,26 @@ public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.Or
     @NonNull
     @Override
     public OrderDetailsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_order_details, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_order_item, parent, false);
         return new OrderDetailsViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull OrderDetailsViewHolder holder, int position) {
         CartItem cartItem = cartItemArrayList.get(position);
-        //ToDO: set image view image
+        String imageUrl = cartItem.getImageURL();
+        if (imageUrl != null) {
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+            storageReference.child(imageUrl).getDownloadUrl().addOnSuccessListener(uri -> {
+                RequestOptions requestOptions = new RequestOptions();
+                requestOptions.placeholder(R.drawable.placeholder);
+                requestOptions.error(R.drawable.ic_error_placeholder);
+                Glide.with(holder.itemView.getContext())
+                        .setDefaultRequestOptions(requestOptions)
+                        .load(uri)
+                        .into(holder.itemImageView);
+            }).addOnFailureListener(exception -> holder.itemImageView.setImageResource(R.drawable.ic_error_placeholder));
+        }
         holder.itemNameTxtView.setText(cartItem.getName());
         holder.itemRateTxtView.setText(String.valueOf(cartItem.getRate()));
         holder.itemQtyTxtView.setText(String.valueOf(cartItem.getQuantity()));

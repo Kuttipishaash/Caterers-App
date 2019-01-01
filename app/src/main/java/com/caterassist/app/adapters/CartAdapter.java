@@ -9,12 +9,16 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.caterassist.app.R;
 import com.caterassist.app.models.CartItem;
 import com.caterassist.app.utils.FirebaseUtils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
@@ -39,7 +43,19 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartItemViewHo
     @Override
     public void onBindViewHolder(@NonNull CartItemViewHolder holder, int position) {
         CartItem cartItem = cartItemsArrayList.get(position);
-        //TODO:Set image
+        String imageUrl = cartItem.getImageURL();
+        if (imageUrl != null) {
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+            storageReference.child(imageUrl).getDownloadUrl().addOnSuccessListener(uri -> {
+                RequestOptions requestOptions = new RequestOptions();
+                requestOptions.placeholder(R.drawable.placeholder);
+                requestOptions.error(R.drawable.ic_error_placeholder);
+                Glide.with(holder.itemView.getContext())
+                        .setDefaultRequestOptions(requestOptions)
+                        .load(uri)
+                        .into(holder.itemImageView);
+            }).addOnFailureListener(exception -> holder.itemImageView.setImageResource(R.drawable.ic_error_placeholder));
+        }
         holder.itemNameTextView.setText(cartItem.getName());
         holder.itemRateTextView.setText(String.valueOf(cartItem.getRate()));
         holder.itemTotalTextView.setText(String.valueOf(cartItem.getTotalAmount()));
@@ -73,7 +89,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartItemViewHo
             tempQuantity = 1;
 
             removeButton.setOnClickListener(this);
-//            itemQtyEdtTxt.setOnFocusChangeListener(this);
         }
 
         @Override

@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.caterassist.app.R;
 import com.caterassist.app.activities.ViewVendorItemsActivity;
 import com.caterassist.app.models.UserDetails;
@@ -21,6 +23,8 @@ import com.caterassist.app.utils.FirebaseUtils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
@@ -53,7 +57,19 @@ public class VendorListAdapter extends RecyclerView.Adapter<VendorListAdapter.Vi
         UserDetails vendorDetails = filteredVendorsList.get(position);
         holder.vendorNameTextView.setText(vendorDetails.getUserName());
         holder.vendorLocationTextView.setText(vendorDetails.getUserLocationName());
-        //TODO: Set image
+        String imageUrl = vendorDetails.getUserImageUrl();
+        if (imageUrl != null) {
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+            storageReference.child(imageUrl).getDownloadUrl().addOnSuccessListener(uri -> {
+                RequestOptions requestOptions = new RequestOptions();
+                requestOptions.placeholder(R.drawable.placeholder);
+                requestOptions.error(R.drawable.ic_error_placeholder);
+                Glide.with(holder.itemView.getContext())
+                        .setDefaultRequestOptions(requestOptions)
+                        .load(uri)
+                        .into(holder.vendorImageView);
+            }).addOnFailureListener(exception -> holder.vendorImageView.setImageResource(R.drawable.ic_error_placeholder));
+        }
     }
 
     @Override

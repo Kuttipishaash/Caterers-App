@@ -86,16 +86,14 @@ public class AddToCartDialog extends Dialog implements View.OnClickListener {
     }
 
     private void addToCart(Double inputQuantity) {
-        //TODO: Add to firebase.
         double totalAmount = vendorItem.getRatePerUnit() * inputQuantity;
         CartItem cartItem = new CartItem(vendorItem.getId(),
                 vendorItem.getName(),
                 vendorItem.getRatePerUnit(),
                 inputQuantity,
                 vendorItem.getUnit(),
-                "",
+                vendorItem.getImageUrl(),
                 totalAmount);
-        //TODO: Set image url from vendorItem.
         String databasePath = FirebaseUtils.getDatabaseMainBranchName() + FirebaseUtils.CART_BRANCH_NAME + FirebaseAuth.getInstance().getUid() + "/";
         String cartItemsPath = databasePath + FirebaseUtils.CART_ITEMS_BRANCH;
         DatabaseReference itemsReference = FirebaseDatabase.getInstance().getReference(cartItemsPath);

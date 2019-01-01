@@ -1,14 +1,14 @@
 package com.caterassist.app.models;
 
-public class GenericItem {
+public class Item {
     String itemName;
     String unit;
     String itemImageURL;
 
-    public GenericItem() {
+    public Item() {
     }
 
-    public GenericItem(String itemName, String unit, String itemImageURL) {
+    public Item(String itemName, String unit, String itemImageURL) {
         this.itemName = itemName;
         this.unit = unit;
         this.itemImageURL = itemImageURL;

@@ -294,6 +294,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:tint="#fff"
+        android:src="@drawable/ic_add_black"
         app:layout_anchor="@id/bottom_app_bar_vendor" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
