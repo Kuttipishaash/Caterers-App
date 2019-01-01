@@ -45,7 +45,7 @@ import es.dmoral.toasty.Toasty;
 public class CatererHomeActivity extends FragmentActivity implements View.OnClickListener {
     private static final String TAG = "CatererDashboardFrag";
     private static final int CALL_PERMISSION_REQ_CODE = 100;
-    ArrayList<UserDetails> allVendorsArrayList;
+    private ArrayList<UserDetails> allVendorsArrayList;
     //TODO: toolbar
     private DatabaseReference favouriteVendorsReference;
     private ChildEventListener favouriteVendorsEventListener;

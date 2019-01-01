@@ -54,12 +54,38 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/spacing_mxlarge" />
 
-                    <ImageView
-                        android:id="@+id/act_prof_user_img"
-                        android:layout_width="150dp"
-                        android:layout_height="150dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/user_placeholder" />
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/act_prof_user_img"
+                            android:layout_width="150dp"
+                            android:layout_height="150dp"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
+                            android:src="@drawable/user_placeholder"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageButton
+                            android:id="@+id/act_prof_user_img_change"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
+                            android:src="@drawable/ic_edit_black"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/act_prof_user_img"
+                            app:layout_constraintStart_toEndOf="@+id/act_prof_user_img" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <View
                         android:layout_width="match_parent"

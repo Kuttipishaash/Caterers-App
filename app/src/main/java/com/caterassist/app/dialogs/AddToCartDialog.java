@@ -26,7 +26,7 @@ import es.dmoral.toasty.Toasty;
 
 public class AddToCartDialog extends Dialog implements View.OnClickListener {
     private Context context;
-    private TextView itemNameTextView, itemUnitsTxtView, itemQtuAvailableTxtView;
+    private TextView itemNameTextView, itemUnitsTxtView, itemQtuAvailableTxtView, itemRateTxtView;
     private Button cancelButton, confirmButton;
     private EditText itemQuantitiyEdtTxt;
     private VendorItem vendorItem;
@@ -51,9 +51,9 @@ public class AddToCartDialog extends Dialog implements View.OnClickListener {
     private void setViewContent() {
         itemNameTextView.setText(vendorItem.getName());
         itemUnitsTxtView.setText(vendorItem.getUnit());
+        itemRateTxtView.setText(String.valueOf(vendorItem.getRatePerUnit()));
         String unitsAvailable = String.valueOf(vendorItem.getStock()) + vendorItem.getUnit();
         itemQtuAvailableTxtView.setText(unitsAvailable);
-        //TODO: Show rate.
     }
 
     private void initViews() {
@@ -63,6 +63,7 @@ public class AddToCartDialog extends Dialog implements View.OnClickListener {
         confirmButton = findViewById(R.id.diag_add_to_cart_confirm_button);
         itemQuantitiyEdtTxt = findViewById(R.id.diag_add_to_cart_quantity_input);
         itemQtuAvailableTxtView = findViewById(R.id.diag_add_to_cart_item_stock);
+        itemRateTxtView = findViewById(R.id.diag_add_to_cart_item_rate);
 
         cancelButton.setOnClickListener(this);
         confirmButton.setOnClickListener(this);

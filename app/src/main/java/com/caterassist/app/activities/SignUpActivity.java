@@ -172,7 +172,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         StorageReference storageRef = FirebaseStorage.getInstance().getReference("images/" + userDetails.getUserEmail());
         UploadTask uploadTask = storageRef.putFile(imageFileUri);
         uploadTask.addOnFailureListener(exception
-                -> Toasty.error(SignUpActivity.this, "Registration request failed", Toast.LENGTH_LONG).show())
+                -> Toasty.error(SignUpActivity.this, "Registration request failed!", Toast.LENGTH_LONG).show())
                 .addOnSuccessListener(taskSnapshot
                         -> {
                     Log.i(TAG, "signUp: Image uploaded.");
@@ -191,7 +191,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                                                 finish();
                                             })
                                             .addOnFailureListener(e ->
-                                                    Toasty.error(SignUpActivity.this, "Registration request 2 failed!", Toast.LENGTH_LONG).show());
+                                                    Toasty.error(SignUpActivity.this, "Registration request failed!", Toast.LENGTH_LONG).show());
 
                                     Log.d(TAG, "createUserWithEmail:success");
                                     firebaseAuth.signOut();
