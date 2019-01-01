@@ -46,4 +46,5 @@
     <string name="toast_cart_cleared">Cart cleared</string>
     <string name="toast_checkout_success">Checkout successful</string>
     <string name="toast_checkout_failed">Checkout failed</string>
+    <string name="toast_added_item_qty_less_than_zero">The quantity should be greater than zero.</string>
 </resources>

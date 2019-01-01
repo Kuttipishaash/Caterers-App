@@ -34,16 +34,12 @@ import androidx.recyclerview.widget.RecyclerView;
 public class VendorListAdapter extends RecyclerView.Adapter<VendorListAdapter.ViewHolder> implements Filterable {
     private ArrayList<UserDetails> vendorsList;
     private ArrayList<UserDetails> filteredVendorsList;
-    private VendorListAdapterListener vendorListAdapterListener;
 
     public void setVendorsList(ArrayList<UserDetails> vendorsList) {
         this.vendorsList = vendorsList;
         this.filteredVendorsList = vendorsList;
     }
 
-    public void setVendorListAdapterListener(VendorListAdapterListener vendorListAdapterListener) {
-        this.vendorListAdapterListener = vendorListAdapterListener;
-    }
 
     @NonNull
     @Override
@@ -150,7 +146,5 @@ public class VendorListAdapter extends RecyclerView.Adapter<VendorListAdapter.Vi
         }
     }
 
-    public interface VendorListAdapterListener {
-        void onVendorListItemSelected(UserDetails userDetails);
-    }
+
 }

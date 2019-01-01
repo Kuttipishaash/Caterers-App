@@ -86,19 +86,23 @@ public class AddToCartDialog extends Dialog implements View.OnClickListener {
     }
 
     private void addToCart(Double inputQuantity) {
-        double totalAmount = vendorItem.getRatePerUnit() * inputQuantity;
-        CartItem cartItem = new CartItem(vendorItem.getId(),
-                vendorItem.getName(),
-                vendorItem.getRatePerUnit(),
-                inputQuantity,
-                vendorItem.getUnit(),
-                vendorItem.getImageUrl(),
-                totalAmount);
-        String databasePath = FirebaseUtils.getDatabaseMainBranchName() + FirebaseUtils.CART_BRANCH_NAME + FirebaseAuth.getInstance().getUid() + "/";
-        String cartItemsPath = databasePath + FirebaseUtils.CART_ITEMS_BRANCH;
-        DatabaseReference itemsReference = FirebaseDatabase.getInstance().getReference(cartItemsPath);
-        itemsReference.child(cartItem.getId()).setValue(cartItem);
-        Objects.requireNonNull(itemsReference.getParent()).child(FirebaseUtils.CART_VENDOR_BRANCH).setValue(vendorDetails);
-        dismiss();
+        if (inputQuantity > 0.0) {
+            double totalAmount = vendorItem.getRatePerUnit() * inputQuantity;
+            CartItem cartItem = new CartItem(vendorItem.getId(),
+                    vendorItem.getName(),
+                    vendorItem.getRatePerUnit(),
+                    inputQuantity,
+                    vendorItem.getUnit(),
+                    vendorItem.getImageUrl(),
+                    totalAmount);
+            String databasePath = FirebaseUtils.getDatabaseMainBranchName() + FirebaseUtils.CART_BRANCH_NAME + FirebaseAuth.getInstance().getUid() + "/";
+            String cartItemsPath = databasePath + FirebaseUtils.CART_ITEMS_BRANCH;
+            DatabaseReference itemsReference = FirebaseDatabase.getInstance().getReference(cartItemsPath);
+            itemsReference.child(cartItem.getId()).setValue(cartItem);
+            Objects.requireNonNull(itemsReference.getParent()).child(FirebaseUtils.CART_VENDOR_BRANCH).setValue(vendorDetails);
+            dismiss();
+        } else {
+            Toasty.warning(context, context.getString(R.string.toast_added_item_qty_less_than_zero), Toast.LENGTH_SHORT).show();
+        }
     }
 }
