@@ -14,6 +14,7 @@ public class Constants {
         public static final String USER_DISTRICT = "perf_district";
         public static final String USER_IMG_URL = "pref_user_image";
         public static final String USER_PHONE = "pref_phone";
+        public static final String USER_NOTIFICATION_TOKEN = "pref_notif_token";
     }
 
     public static class IntentExtrasKeys {

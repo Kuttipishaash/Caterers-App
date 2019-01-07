@@ -10,11 +10,14 @@ public class UserDetails {
     private String userLocationName;
     private String userDistrictName;
     private String userImageUrl;
+    private String userNotificationToken;
 
     public UserDetails() {
     }
 
-    public UserDetails(String userID, String userName, String userPhone, String userEmail, boolean isVendor, String userStreetName, String userLocationName, String userDistrictName, String userImageUrl) {
+    public UserDetails(String userID, String userName, String userPhone, String userEmail,
+                       boolean isVendor, String userStreetName, String userLocationName,
+                       String userDistrictName, String userImageUrl, String userNotificationToken) {
         this.userID = userID;
         this.userName = userName;
         this.userPhone = userPhone;
@@ -24,6 +27,7 @@ public class UserDetails {
         this.userLocationName = userLocationName;
         this.userDistrictName = userDistrictName;
         this.userImageUrl = userImageUrl;
+        this.userNotificationToken = userNotificationToken;
     }
 
     public String getUserID() {
@@ -96,5 +100,13 @@ public class UserDetails {
 
     public void setUserImageUrl(String userImageUrl) {
         this.userImageUrl = userImageUrl;
+    }
+
+    public String getUserNotificationToken() {
+        return userNotificationToken;
+    }
+
+    public void setUserNotificationToken(String userNotificationToken) {
+        this.userNotificationToken = userNotificationToken;
     }
 }

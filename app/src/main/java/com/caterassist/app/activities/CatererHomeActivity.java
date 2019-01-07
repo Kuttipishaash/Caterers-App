@@ -71,7 +71,7 @@ public class CatererHomeActivity extends FragmentActivity implements View.OnClic
 
     private void getPermissions() {
         int MyVersion = Build.VERSION.SDK_INT;
-        if (MyVersion > Build.VERSION_CODES.LOLLIPOP_MR1) {
+        if (MyVersion > Build.VERSION_CODES.M) {
             if (!checkIfAlreadyhavePermission()) {
                 requestForSpecificPermission();
             } else {

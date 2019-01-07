@@ -14,11 +14,8 @@ import com.caterassist.app.models.UserDetails;
 import com.caterassist.app.utils.AppUtils;
 import com.caterassist.app.utils.Constants;
 import com.caterassist.app.utils.FirebaseUtils;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -60,6 +57,15 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         super.onResume();
     }
 
+    private void launchHomeActivity() {
+        if (userDetails.getIsVendor()) {
+            startActivity(new Intent(LoginActivity.this, VendorHomeActivity.class));
+        } else {
+            startActivity(new Intent(LoginActivity.this, CatererHomeActivity.class));
+        }
+        finish();
+    }
+
     @Override
     protected void onPause() {
         if (userDetailsListener != null) {
@@ -67,27 +73,34 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         }
         super.onPause();
     }
-    private void launchHomeActivity() {
+
+    private void generateNotificationToken() {
         FirebaseInstanceId.getInstance().getInstanceId()
                 .addOnCompleteListener(task -> {
                     if (!task.isSuccessful()) {
                         Log.w(TAG, "getInstanceId failed", task.getException());
                         return;
+                    } else {
+                        // Get new Instance ID token
+                        String token = task.getResult().getToken();
+                        Log.e(TAG, token);
+                        Toasty.info(LoginActivity.this, token, Toast.LENGTH_SHORT).show();
+                        saveToken(token);
                     }
-                    // Get new Instance ID token
-                    String token = task.getResult().getToken();
-                    Log.e(TAG, token);
-                    Toasty.info(LoginActivity.this, token, Toast.LENGTH_SHORT).show();
-
                 });
+    }
 
+    private void saveToken(String token) {
+        String databasePath = FirebaseUtils.getDatabaseMainBranchName() + FirebaseUtils.USER_INFO_BRANCH_NAME + currentUserID;
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(databasePath);
+        databaseReference.child(FirebaseUtils.USER_TOKEN_BRANCH).setValue(token).addOnSuccessListener(aVoid -> {
+            Toasty.success(LoginActivity.this, "Token saved").show();
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString(Constants.SharedPref.USER_NOTIFICATION_TOKEN, token);
+            editor.apply();
+            launchHomeActivity();
+        }).addOnFailureListener(e -> AppUtils.cleanUpAndLogout(LoginActivity.this));
 
-        if (userDetails.getIsVendor()) {
-            startActivity(new Intent(LoginActivity.this, VendorHomeActivity.class));
-        } else {
-            startActivity(new Intent(LoginActivity.this, CatererHomeActivity.class));
-        }
-        finish();
     }
 
     @Override
@@ -125,21 +138,18 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         String email = usernameEdtTxt.getText().toString();
         String password = passwordEdtTxt.getText().toString();
         firebaseAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.i(TAG, "signInWithEmail:success");
-                            currentUserID = firebaseAuth.getUid();
-                            getUserInfo();
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        // Sign in success, update UI with the signed-in user's information
+                        Log.i(TAG, "signInWithEmail:success");
+                        currentUserID = firebaseAuth.getUid();
+                        getUserInfo();
 
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            Toasty.error(LoginActivity.this, "Login failed! Please try again.",
-                                    Toast.LENGTH_SHORT).show();
-                        }
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Log.w(TAG, "signInWithEmail:failure", task.getException());
+                        Toasty.error(LoginActivity.this, "Login failed! Please try again.",
+                                Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -166,7 +176,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                     editor.putString(Constants.SharedPref.USER_DISTRICT, userDetails.getUserDistrictName());
                     editor.putString(Constants.SharedPref.USER_IMG_URL, userDetails.getUserImageUrl());
                     editor.apply();
-                    launchHomeActivity();
+                    generateNotificationToken();
                 } else {
                     Log.e(TAG, "onDataChange: Failed to fetch");
                     Toasty.error(LoginActivity.this, "Login failed! Please try again.", Toast.LENGTH_SHORT).show();

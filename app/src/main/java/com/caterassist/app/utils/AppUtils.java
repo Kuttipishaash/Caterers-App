@@ -10,6 +10,8 @@ import com.caterassist.app.activities.LoginActivity;
 import com.caterassist.app.models.UserDetails;
 import com.caterassist.app.utils.Constants.SharedPref;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import es.dmoral.toasty.Toasty;
 
@@ -28,6 +30,7 @@ public class AppUtils {
         editor.putString(SharedPref.USER_DISTRICT, userDetails.getUserDistrictName());
         editor.putString(SharedPref.USER_PHONE, userDetails.getUserPhone());
         editor.putString(SharedPref.USER_IMG_URL, userDetails.getUserImageUrl());
+        editor.putString(SharedPref.USER_NOTIFICATION_TOKEN, userDetails.getUserNotificationToken());
         editor.apply();
     }
 
@@ -53,6 +56,7 @@ public class AppUtils {
         userDetails.setUserDistrictName(sharedPreferences.getString(SharedPref.USER_DISTRICT, ""));
         userDetails.setUserImageUrl(sharedPreferences.getString(SharedPref.USER_IMG_URL, ""));
         userDetails.setUserPhone(sharedPreferences.getString(SharedPref.USER_PHONE, ""));
+        userDetails.setUserNotificationToken(sharedPreferences.getString(SharedPref.USER_NOTIFICATION_TOKEN, ""));
         return userDetails;
     }
 
@@ -68,14 +72,20 @@ public class AppUtils {
         editor.remove(SharedPref.USER_DISTRICT);
         editor.remove(SharedPref.USER_PHONE);
         editor.remove(SharedPref.USER_IMG_URL);
+        editor.remove(SharedPref.USER_NOTIFICATION_TOKEN);
         editor.apply();
     }
 
     public static void cleanUpAndLogout(Activity activity) {
-        AppUtils.clearUserInfoSharedPreferences(activity);
-        activity.startActivity(new Intent(activity, LoginActivity.class));
-        Toasty.success(activity, "Logged out successfully!", Toast.LENGTH_SHORT).show();
-        FirebaseAuth.getInstance().signOut();
-        activity.finish();
+        String databasePath = FirebaseUtils.getDatabaseMainBranchName() + FirebaseUtils.USER_INFO_BRANCH_NAME + FirebaseUtils.USER_TOKEN_BRANCH;
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(databasePath);
+        databaseReference.setValue(null).addOnSuccessListener(aVoid -> {
+            AppUtils.clearUserInfoSharedPreferences(activity);
+            activity.startActivity(new Intent(activity, LoginActivity.class));
+            Toasty.success(activity, "Logged out successfully!", Toast.LENGTH_SHORT).show();
+            FirebaseAuth.getInstance().signOut();
+            activity.finish();
+        }).addOnFailureListener(e -> Toasty.error(activity, "Logout failed. Please try again!").show());
+
     }
 }
