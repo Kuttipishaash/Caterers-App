@@ -3,7 +3,6 @@ package com.caterassist.app.utils;
 import com.caterassist.app.BuildConfig;
 
 public class FirebaseUtils {
-    //TODO:Change to userInfo
     public static final String USER_INFO_BRANCH_NAME = "userInfo/";
     public static final String FAVOURITE_VENDORS_BRANCH_NAME = "favouriteVendors/";
     public static final String VENDOR_LIST_BRANCH_NAME = "vendingList/";
@@ -21,7 +20,7 @@ public class FirebaseUtils {
     public static final String ORDERS_AWAITING_APPROVAL = "ordersPending/";
     public static final String ORDER_STATUS = "/orderStatus/";
     public static final String USER_PENDING_REGISTRATION_BRANCH = "/pendingRegistration";
-    public static final String USER_TOKEN_BRANCH = "userNotificationToken";
+    public static final String USER_TOKEN_BRANCH = "/userNotificationToken";
 
 
     public static String getDatabaseMainBranchName() {

@@ -56,6 +56,7 @@ public class FavouriteVendorsAdapter extends RecyclerView.Adapter<FavouriteVendo
                 RequestOptions requestOptions = new RequestOptions();
                 requestOptions.placeholder(R.drawable.placeholder);
                 requestOptions.error(R.drawable.ic_error_placeholder);
+
                 Glide.with(holder.itemView.getContext())
                         .setDefaultRequestOptions(requestOptions)
                         .load(uri)

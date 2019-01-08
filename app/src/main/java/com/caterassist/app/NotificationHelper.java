@@ -1,5 +1,6 @@
 package com.caterassist.app;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -18,8 +19,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-
-import androidx.core.app.NotificationCompat;
 
 public class NotificationHelper {
     public static final String TAG = "NotificationHelper";
@@ -45,11 +44,12 @@ public class NotificationHelper {
 //                .setSound(defaultSoundUri)
 //                .setContentIntent(pendingIntent);
 
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, Constants.NotificationChannelConstants.GENERAL_CHANNEL_ID)
+        Notification.Builder notificationBuilder = new Notification.Builder(context)
                 .setSmallIcon(R.drawable.ic_cart)
                 .setContentTitle(title)
                 .setContentText(body)
                 .setSound(defaultSoundUri)
+                .setAutoCancel(true)
                 .setContentIntent(pendingIntent);
         NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);

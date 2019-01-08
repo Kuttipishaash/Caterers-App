@@ -2,6 +2,7 @@ package com.caterassist.app.adapters;
 
 import android.content.Intent;
 import android.os.Build;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +16,16 @@ import com.caterassist.app.activities.OrderDetailsActivity;
 import com.caterassist.app.models.OrderDetails;
 import com.caterassist.app.utils.Constants;
 import com.caterassist.app.utils.FirebaseUtils;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.functions.FirebaseFunctions;
+import com.google.firebase.functions.FirebaseFunctionsException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -28,6 +34,7 @@ import es.dmoral.toasty.Toasty;
 
 public class VendorPendingOrdersAdapter extends RecyclerView.Adapter<VendorPendingOrdersAdapter.ViewHolder> {
     ArrayList<OrderDetails> orderDetailsArrayList;
+    private static final String TAG = "VendPendingOrdersAdpt";
 
     public void setOrderDetailsArrayList(ArrayList<OrderDetails> orderDetailsArrayList) {
         this.orderDetailsArrayList = orderDetailsArrayList;
@@ -51,13 +58,13 @@ public class VendorPendingOrdersAdapter extends RecyclerView.Adapter<VendorPendi
         String statusText;
         switch (orderDetails.getOrderStatus()) {
             case 0:
-                buttonText = "Approve Order";
+                buttonText = "Approve";
                 holder.rejectOrderBtn.setVisibility(View.VISIBLE);
                 holder.updateStatusBtn.setVisibility(View.VISIBLE);
                 statusText = "Awaiting approval!";
                 break;
             case 1:
-                buttonText = "Mark as Completed";
+                buttonText = "Complete";
                 holder.rejectOrderBtn.setVisibility(View.GONE);
                 holder.updateStatusBtn.setVisibility(View.VISIBLE);
                 statusText = "Approved";
@@ -139,29 +146,89 @@ public class VendorPendingOrdersAdapter extends RecyclerView.Adapter<VendorPendi
                             + "\nOrdered by: " + orderDetails.getCatererName()
                             + "\nOn: " + orderDetails.getOrderTime())
                     .setPositiveButton(android.R.string.yes, (dialog, which) -> {
-                        String orderID = orderDetails.getOrderId();
-                        String vendorOrderDatabasePath = FirebaseUtils.getDatabaseMainBranchName() +
-                                FirebaseUtils.VENDOR_PENDING_ORDERS +
-                                orderDetails.getVendorId()
-                                + "/" + orderID;
-                        String catererOrderDatabasePath = FirebaseUtils.getDatabaseMainBranchName() +
-                                FirebaseUtils.ORDERS_CATERER_BRANCH +
-                                orderDetails.getCatererID()
-                                + "/" + orderID;
-                        DatabaseReference vendorDatabaseReference = FirebaseDatabase.getInstance().getReference(vendorOrderDatabasePath);
-                        vendorDatabaseReference.setValue(null)
-                                .addOnSuccessListener(aVoid -> {
-                                    DatabaseReference catererDatabaseReference = FirebaseDatabase.getInstance().getReference(catererOrderDatabasePath);
-                                    catererDatabaseReference.setValue(null)
-                                            .addOnSuccessListener(aVoid1 -> Toasty.info(itemView.getContext(), "Order rejected", Toast.LENGTH_SHORT).show())
-                                            .addOnFailureListener(e -> Toasty.error(itemView.getContext(), "Order rejection failed!", Toast.LENGTH_SHORT).show());
-                                })
-                                .addOnFailureListener(e -> Toasty.error(itemView.getContext(), "Order rejection failed!", Toast.LENGTH_SHORT).show());
+//                        String orderID = orderDetails.getOrderId();
+//                        String vendorOrderDatabasePath = FirebaseUtils.getDatabaseMainBranchName() +
+//                                FirebaseUtils.VENDOR_PENDING_ORDERS +
+//                                orderDetails.getVendorId()
+//                                + "/" + orderID;
+//                        String catererOrderDatabasePath = FirebaseUtils.getDatabaseMainBranchName() +
+//                                FirebaseUtils.ORDERS_CATERER_BRANCH +
+//                                orderDetails.getCatererID()
+//                                + "/" + orderID ;
+//                        String pendingOrdersCountDatabasePath = FirebaseUtils.getDatabaseMainBranchName() + FirebaseUtils.ORDERS_AWAITING_APPROVAL
+//                                + orderDetails.getVendorId();
+//                        DatabaseReference vendorDatabaseReference = FirebaseDatabase.getInstance().getReference(vendorOrderDatabasePath);
+//                        vendorDatabaseReference.setValue(null)
+//                                .addOnSuccessListener(aVoid -> {
+//                                    DatabaseReference catererDatabaseReference = FirebaseDatabase.getInstance().getReference(catererOrderDatabasePath);
+//                                    catererDatabaseReference.setValue(null)
+//                                            .addOnSuccessListener(aVoid1 -> {
+//                                                DatabaseReference pendingOrdersCountReference = FirebaseDatabase.getInstance().getReference(pendingOrdersCountDatabasePath);
+//                                                pendingOrdersCountReference.addListenerForSingleValueEvent(new ValueEventListener() {
+//                                                    @Override
+//                                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                                                        Integer x = dataSnapshot.getValue(Integer.class);
+//                                                        if(x != null){
+//                                                            int y = x.intValue();
+//                                                            if(y > 0)
+//                                                                y--;
+//                                                            pendingOrdersCountReference.setValue(y)
+//                                                                    .addOnSuccessListener(aVoid2 -> Toasty.info(itemView.getContext(), "Order rejected", Toast.LENGTH_SHORT).show())
+//                                                                    .addOnFailureListener(e -> Toasty.error(itemView.getContext(), "Order rejection failed!", Toast.LENGTH_SHORT).show());
+//                                                        }
+//                                                    }
+//
+//                                                    @Override
+//                                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+//                                                        Toasty.error(itemView.getContext(), "Order rejection failed!", Toast.LENGTH_SHORT).show();
+//                                                    }
+//                                                });
+//                                                Toasty.info(itemView.getContext(), "Order rejected", Toast.LENGTH_SHORT).show();
+
+                        rejectOrder(orderDetails.getCatererID(), orderDetails.getVendorName(), orderDetails.getOrderId(), orderDetails.getVendorId())
+                                .addOnCompleteListener(task -> {
+                                    if (!task.isSuccessful()) {
+                                        Exception e = task.getException();
+                                        if (e instanceof FirebaseFunctionsException) {
+                                            FirebaseFunctionsException ffe = (FirebaseFunctionsException) e;
+                                            FirebaseFunctionsException.Code code = ffe.getCode();
+                                            Object details = ffe.getDetails();
+                                            Log.e(TAG, "onComplete: " + ffe);
+                                            if (details != null)
+                                                Log.e(TAG, "onComplete: " + details.toString());
+                                            Toasty.error(itemView.getContext(), "Order rejection failed!", Toast.LENGTH_SHORT).show();
+                                        }
+                                    } else {
+                                        Toasty.info(itemView.getContext(), "Order will be rejected", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+//                                            })
+//                                            .addOnFailureListener(e -> Toasty.error(itemView.getContext(), "Order rejection failed!", Toast.LENGTH_SHORT).show());
+//                                })
+//                                .addOnFailureListener(e -> Toasty.error(itemView.getContext(), "Order rejection failed!", Toast.LENGTH_SHORT).show());
                     })
                     .setNegativeButton(android.R.string.no, (dialog, which) -> dialog.dismiss())
                     .show();
 
 
+        }
+
+        private Task<String> rejectOrder(String catererID, String vendorName, String orderID, String vendorID) {
+            // Create the arguments to the callable function.
+
+            Map<String, Object> data = new HashMap<>();
+            data.put("catererID", catererID);
+            data.put("orderID", orderID);
+            data.put("vendorName", vendorName);
+            data.put("vendorID", vendorID);
+
+            return FirebaseFunctions.getInstance()
+                    .getHttpsCallable("sendRejectionNotification")
+                    .call(data)
+                    .continueWith(task -> {
+                        String result = (String) task.getResult().getData();
+                        return result;
+                    });
         }
 
         private void updateOrderStatus() {

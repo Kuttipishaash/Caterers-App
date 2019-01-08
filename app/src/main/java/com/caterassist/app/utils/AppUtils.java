@@ -77,7 +77,7 @@ public class AppUtils {
     }
 
     public static void cleanUpAndLogout(Activity activity) {
-        String databasePath = FirebaseUtils.getDatabaseMainBranchName() + FirebaseUtils.USER_INFO_BRANCH_NAME + FirebaseUtils.USER_TOKEN_BRANCH;
+        String databasePath = FirebaseUtils.getDatabaseMainBranchName() + FirebaseUtils.USER_INFO_BRANCH_NAME + FirebaseAuth.getInstance().getUid() + FirebaseUtils.USER_TOKEN_BRANCH;
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(databasePath);
         databaseReference.setValue(null).addOnSuccessListener(aVoid -> {
             AppUtils.clearUserInfoSharedPreferences(activity);

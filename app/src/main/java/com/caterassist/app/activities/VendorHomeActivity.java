@@ -270,7 +270,6 @@ public class VendorHomeActivity extends FragmentActivity implements View.OnClick
     }
 
 
-//TODO: GET PHONE PERMISSION
 
     private void setupBottomAppBar() {
         bottomAppBar.replaceMenu(R.menu.bottom_bar_overflow_menu_vendor);

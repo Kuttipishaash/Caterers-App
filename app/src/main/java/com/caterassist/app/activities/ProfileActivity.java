@@ -2,8 +2,10 @@ package com.caterassist.app.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +14,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.basgeekball.awesomevalidation.AwesomeValidation;
+import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.caterassist.app.R;
@@ -26,7 +30,12 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.myhexaville.smartimagepicker.ImagePicker;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+
 import es.dmoral.toasty.Toasty;
+import id.zelory.compressor.Compressor;
 
 public class ProfileActivity extends Activity implements View.OnClickListener {
     private UserDetails userDetails;
@@ -44,12 +53,14 @@ public class ProfileActivity extends Activity implements View.OnClickListener {
     private Uri profileImageUri;
     private boolean imageChanged;
     private ImagePicker imagePicker;
+    private AwesomeValidation awesomeValidation;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
         initViews();
         userDetails = AppUtils.getUserInfoSharedPreferences(this);
         setInitialValues();
@@ -89,7 +100,7 @@ public class ProfileActivity extends Activity implements View.OnClickListener {
         profileImage = findViewById(R.id.act_prof_user_img);
         saveBtn = findViewById(R.id.act_prof_save_btn);
         editImageBtn = findViewById(R.id.act_prof_user_img_change);
-
+        setValidation();
         saveBtn.setOnClickListener(this);
         editImageBtn.setOnClickListener(this);
     }
@@ -97,11 +108,11 @@ public class ProfileActivity extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.act_prof_save_btn) {
-            if (imageChanged && validateInputFields()) {
+            if (imageChanged && awesomeValidation.validate()) {
                 uploadNewImage();
 
             } else {
-                if (validateInputFields()) {
+                if (awesomeValidation.validate()) {
                     changeData();
                 }
             }
@@ -111,18 +122,25 @@ public class ProfileActivity extends Activity implements View.OnClickListener {
     }
 
     private void changeData() {
+        if (nameEdtTxt.getText() != null)
+            userDetails.setUserName(nameEdtTxt.getText().toString());
+        if (streetEdtTxt.getText() != null)
+            userDetails.setUserStreetName(streetEdtTxt.getText().toString());
+        if (localityEdtTxt.getText() != null)
+            userDetails.setUserLocationName(localityEdtTxt.getText().toString());
+        if (districtEdtTxt.getText() != null)
+            userDetails.setUserDistrictName(districtEdtTxt.getText().toString());
+        userDetails.setUserID(FirebaseAuth.getInstance().getUid());
         String databasePath = FirebaseUtils.getDatabaseMainBranchName() + FirebaseUtils.USER_INFO_BRANCH_NAME + FirebaseAuth.getInstance().getUid();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(databasePath);
         databaseReference.setValue(userDetails).addOnSuccessListener(aVoid -> {
-            Toasty.error(this, "Changing profile failed!").show();
+            Toasty.error(this, "Profile changed successfully!").show();
             AppUtils.setUserInfoSharedPreferences(userDetails, ProfileActivity.this);
             finish();
         }).addOnFailureListener(e -> Toasty.error(ProfileActivity.this, "User profile update failed!").show());
     }
 
     private void uploadNewImage() {
-
-
         if (profileImageUri != null) {
             StorageReference storageRef = FirebaseStorage.getInstance().getReference("images/" + userDetails.getUserEmail());
             UploadTask uploadTask = storageRef.putFile(profileImageUri);
@@ -134,14 +152,14 @@ public class ProfileActivity extends Activity implements View.OnClickListener {
                         if (taskSnapshot.getMetadata() != null) {
                             String imagePath = taskSnapshot.getMetadata().getPath();
                             userDetails.setUserImageUrl(imagePath);
-                            changeData();
+                            if (awesomeValidation.validate())
+                                changeData();
                         }
                     })
                     .addOnFailureListener(e -> {
                         Log.i(TAG, "editProfile: Image upload failed.");
                         Toasty.error(this, "User profile update failed!").show();
                     });
-
         }
     }
 
@@ -150,7 +168,18 @@ public class ProfileActivity extends Activity implements View.OnClickListener {
                 null,
                 imageUri -> {/*on image picked */
                     profileImage.setImageURI(imageUri);
-                    profileImageUri = imageUri;
+                    try {
+                        File file = new File(imageUri.getPath());
+                        Bitmap compressedImageBitmap = new Compressor(this).compressToBitmap(file);
+                        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                        compressedImageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+                        String path = MediaStore.Images.Media.insertImage(ProfileActivity.this.getContentResolver(), compressedImageBitmap, "catering_app_profile_picture", null);
+                        profileImageUri = Uri.parse(path);
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
                 })
                 .setWithImageCrop(
                         1, 1);
@@ -163,14 +192,10 @@ public class ProfileActivity extends Activity implements View.OnClickListener {
         imagePicker.handleActivityResult(resultCode, requestCode, data);
     }
 
-    private boolean validateInputFields() {
-        //TODO: validate all edit text fields
-        userDetails.setUserName(nameEdtTxt.getText().toString());
-        userDetails.setUserStreetName(streetEdtTxt.getText().toString());
-        userDetails.setUserDistrictName(districtEdtTxt.getText().toString());
-        userDetails.setUserLocationName(localityEdtTxt.getText().toString());
-        userDetails.setUserID(FirebaseAuth.getInstance().getUid());
-        //TODO: user image update
-        return true;
+    private void setValidation() {
+        awesomeValidation.addValidation(this, nameEdtTxt.getId(), "^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$", R.string.addr_error);
+        awesomeValidation.addValidation(this, streetEdtTxt.getId(), "^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$", R.string.addr_error);
+        awesomeValidation.addValidation(this, localityEdtTxt.getId(), "^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$", R.string.addr_error);
+        awesomeValidation.addValidation(this, districtEdtTxt.getId(), "^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$", R.string.addr_error);
     }
 }
