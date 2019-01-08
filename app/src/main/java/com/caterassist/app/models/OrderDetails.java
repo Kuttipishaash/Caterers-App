@@ -12,6 +12,8 @@ public class OrderDetails implements Serializable {
     String catererPhone;
     String vendorName;
     String catererName;
+    String vendorEmail;
+    String catererEmail;
     int orderStatus;
     String orderTime;
     double orderTotalAmount;
@@ -96,5 +98,21 @@ public class OrderDetails implements Serializable {
 
     public void setOrderTotalAmount(double orderTotalAmount) {
         this.orderTotalAmount = orderTotalAmount;
+    }
+
+    public String getVendorEmail() {
+        return vendorEmail;
+    }
+
+    public void setVendorEmail(String vendorEmail) {
+        this.vendorEmail = vendorEmail;
+    }
+
+    public String getCatererEmail() {
+        return catererEmail;
+    }
+
+    public void setCatererEmail(String catererEmail) {
+        this.catererEmail = catererEmail;
     }
 }

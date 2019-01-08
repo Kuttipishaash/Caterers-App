@@ -23,6 +23,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -227,13 +232,16 @@ public class CartActivity extends Activity implements View.OnClickListener {
                                 orderTotalAmt += cartItem.getTotalAmount();
                             }
                             final OrderDetails orderDetails = new OrderDetails();
+                            UserDetails catererDetails = AppUtils.getUserInfoSharedPreferences(this);
                             orderDetails.setVendorId(vendorDetails.getUserID());
                             orderDetails.setCatererID(FirebaseAuth.getInstance().getUid());
                             orderDetails.setOrderStatus(0);
                             orderDetails.setVendorName(vendorDetails.getUserName());
                             orderDetails.setVendorPhone(vendorDetails.getUserPhone());
+                            orderDetails.setVendorEmail(vendorDetails.getUserEmail());
                             orderDetails.setOrderTotalAmount(orderTotalAmt);
-                            orderDetails.setCatererName(AppUtils.getCurrentUserName(this));
+                            orderDetails.setCatererName(catererDetails.getUserName());
+                            orderDetails.setCatererEmail(catererDetails.getUserEmail());
                             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
                             Date date = new Date();
                             orderDetails.setOrderTime(formatter.format(date));
@@ -259,11 +267,94 @@ public class CartActivity extends Activity implements View.OnClickListener {
                                     .addOnFailureListener(e -> Toasty.success(CartActivity.this,
                                             getString(R.string.toast_checkout_failed),
                                             Toast.LENGTH_SHORT).show());
-
+                            sendEmail(order);
                         })
                 .setNegativeButton(
                         getResources().getString(R.string.dialog_btn_no),
                         (dialog, which) -> dialog.dismiss()).show();
 
+    }
+
+    private void sendEmail(Order order) {
+
+
+        Thread thread = new Thread(() -> {
+            try {
+                OrderDetails orderDetails = order.getOrderInfo();
+                OkHttpClient client = new OkHttpClient();
+                String content = "{\"tags\":[\"Test\"]," +
+                        "\"sender\":" +
+                        "{\"name\":\"Cater Assistant\",\"email\":\"caterassistant@gmail.com\"}," +
+                        "\"replyTo\":" +
+                        "{\"email\":\"" + orderDetails.getCatererEmail() + "\",\"name\":\"" + orderDetails.getCatererName() + "\"}," +
+                        "\"subject\":\"New Order from " + orderDetails.getCatererName() + "\"," +
+                        "\"to\":[{\"email\":\"" + orderDetails.getVendorEmail() + "\",\"name\":\"" + orderDetails.getVendorName() + "\"}]," +
+                        "\"htmlContent\":\"" + createHTML(order.getOrderItems(), orderDetails.getOrderTotalAmount()) + "\"}";
+                Log.e(TAG, content);
+                MediaType mediaType = MediaType.parse("application/json");
+                RequestBody body = RequestBody.create(mediaType, content);
+                Request request = new Request.Builder()
+                        .url("https://api.sendinblue.com/v3/smtp/email")
+                        .addHeader("api-key", "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")
+                        .post(body)
+                        .build();
+                Log.e(TAG, "sendEmail: Sending");
+                Log.e(TAG, "email To: " + orderDetails.getVendorEmail());
+                Log.e(TAG, "email Reply To: " + orderDetails.getCatererEmail());
+                Response response = client.newCall(request).execute();
+                Log.e(TAG, "responseMessage:" + response.message());
+                Log.e(TAG, "response:" + response.code());
+                response.body().close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        thread.start();
+    }
+
+    private String createHTML(ArrayList<CartItem> orderItems, double totalAmount) {
+        StringBuilder body = new StringBuilder();
+        for (CartItem item : orderItems) {
+            body.append("<tr>");
+
+            body.append("<td>");
+            body.append(item.getName());
+            body.append("</td>");
+
+            body.append("<td>");
+            body.append(item.getQuantity());
+            body.append("</td>");
+
+            body.append("<td>");
+            body.append(item.getRate());
+            body.append("</td>");
+
+            body.append("<td>");
+            body.append(item.getTotalAmount());
+            body.append("</td>");
+
+            body.append("</tr>");
+        }
+        String header =
+                "<h1 style=\'color:red\'>Order Summary</h1>" +
+                        "<table border=\'1\'>" +
+                        "<tr>" +
+                        "<th>Item Name</th>" +
+                        "<th>Quantity</th>" +
+                        "<th>Rate</th>" +
+                        "<th>Amount</th>" +
+                        "</tr>" +
+                        body.toString() +
+                        "<tr>" +
+                        "<td colspan=\'2\'>" +
+                        "Total Amount" +
+                        "</td>" +
+                        "<td colspan=\'2\'>" +
+                        String.valueOf(totalAmount) +
+                        "</td>" +
+                        "</tr>" +
+
+                        "</table>";
+        return header;
     }
 }
