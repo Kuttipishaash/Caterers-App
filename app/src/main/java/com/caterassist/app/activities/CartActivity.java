@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.caterassist.app.BuildConfig;
 import com.caterassist.app.R;
 import com.caterassist.app.adapters.CartAdapter;
 import com.caterassist.app.models.CartItem;
@@ -295,7 +296,7 @@ public class CartActivity extends Activity implements View.OnClickListener {
                 RequestBody body = RequestBody.create(mediaType, content);
                 Request request = new Request.Builder()
                         .url("https://api.sendinblue.com/v3/smtp/email")
-                        .addHeader("api-key", "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")
+                        .addHeader("api-key", BuildConfig.SendInBlueAPIKEY)
                         .post(body)
                         .build();
                 Log.e(TAG, "sendEmail: Sending");
