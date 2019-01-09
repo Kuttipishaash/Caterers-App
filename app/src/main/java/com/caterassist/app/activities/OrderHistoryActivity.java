@@ -27,9 +27,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class OrderHistoryActivity extends Activity {
     private static final String TAG = "CatererOrderInfo";
-    HistoryOrderInfoAdapter historyOrderInfoAdapter;
-    boolean isVendor;
-    Query query;
+    private HistoryOrderInfoAdapter historyOrderInfoAdapter;
+    private boolean isVendor;
+    private Query query;
     private RecyclerView orderHistoryRecycView;
     private ArrayList<OrderDetails> orderDetailsArrayList;
     private ChildEventListener childEventListener;

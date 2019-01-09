@@ -1,9 +1,12 @@
 package com.caterassist.app.adapters;
 
+import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -12,11 +15,15 @@ import com.caterassist.app.activities.OrderDetailsActivity;
 import com.caterassist.app.models.OrderDetails;
 import com.caterassist.app.utils.Constants;
 import com.caterassist.app.utils.FirebaseUtils;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import es.dmoral.toasty.Toasty;
 
 public class HistoryOrderInfoAdapter extends RecyclerView.Adapter<HistoryOrderInfoAdapter.ViewHolder> {
     ArrayList<OrderDetails> orderDetailsArrayList;
@@ -87,6 +94,7 @@ public class HistoryOrderInfoAdapter extends RecyclerView.Adapter<HistoryOrderIn
         TextView orderTimeStampTxtView;
         TextView nameTxtView;
         TextView orderTotalAmtTxtView;
+        ImageView deleteOrderImageView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -97,8 +105,10 @@ public class HistoryOrderInfoAdapter extends RecyclerView.Adapter<HistoryOrderIn
             orderNameLabel = itemView.findViewById(R.id.li_history_order_info_name_label);
             orderTimeStampTxtView = itemView.findViewById(R.id.li_history_order_info_timestamp);
             orderTotalAmtTxtView = itemView.findViewById(R.id.li_history_order_info_order_total);
+            deleteOrderImageView = itemView.findViewById(R.id.li_history_order_info_delete_btn);
 
             parentLayout.setOnClickListener(this);
+            deleteOrderImageView.setOnClickListener(this);
         }
 
         @Override
@@ -112,7 +122,33 @@ public class HistoryOrderInfoAdapter extends RecyclerView.Adapter<HistoryOrderIn
                 }
                 intent.putExtra(Constants.IntentExtrasKeys.ORDER_ID, orderDetailsArrayList.get(getAdapterPosition()).getOrderId());
                 itemView.getContext().startActivity(intent);
+            } else if (v.getId() == R.id.li_history_order_info_delete_btn) {
+                Context context = itemView.getContext();
+                if (orderDetailsArrayList.get(getAdapterPosition()).getOrderStatus() > 1) {
+                    new AlertDialog.Builder(itemView.getContext())
+                            .setTitle(context.getResources().getString(R.string.dialog_title_place_order))
+                            .setMessage(
+                                    context.getResources().getString(R.string.dialog_message_place_order))
+                            .setPositiveButton(
+                                    context.getResources().getString(R.string.dialog_btn_yes),
+                                    (dialog, which) -> deleteItem())
+                            .setNegativeButton((context.getResources().getString(R.string.dialog_btn_no))
+                                    , (dialog, which) -> dialog.dismiss()).show();
+                } else {
+                    Toasty.error(context, "You cannot delete an unfulfilled order!").show();
+                }
             }
+        }
+
+        private void deleteItem() {
+            String orderID = orderDetailsArrayList.get(getAdapterPosition()).getOrderId();
+            String branch = isVendor ? FirebaseUtils.ORDERS_VENDOR_BRANCH : FirebaseUtils.ORDERS_CATERER_BRANCH;
+            String databasePath = FirebaseUtils.getDatabaseMainBranchName() + branch +
+                    FirebaseAuth.getInstance().getUid() + "/" + orderID;
+            DatabaseReference orderReference = FirebaseDatabase.getInstance().getReference(databasePath);
+            orderReference.setValue(null)
+                    .addOnSuccessListener(aVoid -> Toasty.success(itemView.getContext(), "Order deleted from history.").show())
+                    .addOnFailureListener(e -> Toasty.error(itemView.getContext(), "Failed to delete order from history!").show());
         }
     }
 }
