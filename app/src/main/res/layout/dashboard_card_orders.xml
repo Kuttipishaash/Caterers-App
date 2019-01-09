@@ -22,7 +22,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
-                android:src="@drawable/ic_assignment_turned_in_black_24dp"
+                android:src="@drawable/ic_assignment_turned_in"
                 android:tint="@color/blue_900"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

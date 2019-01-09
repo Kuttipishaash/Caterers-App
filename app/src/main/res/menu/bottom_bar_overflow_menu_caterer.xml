@@ -4,17 +4,20 @@
 
     <item
         android:id="@+id/btm_sheet_option_cart"
-        android:icon="@drawable/ic_cart_white"
+        android:icon="@drawable/ic_cart"
+        android:iconTint="@color/white"
         android:title="@string/action_cart"
         app:showAsAction="always" />
     <item
         android:id="@+id/btm_sheet_caterer_order_history"
         android:icon="@drawable/ic_orders"
+        android:iconTint="@color/white"
         android:title="Order History"
         app:showAsAction="always" />
     <item
         android:id="@+id/action_search"
         android:icon="@drawable/ic_search"
+        android:iconTint="@color/white"
         android:title="@string/action_search"
         app:actionViewClass="android.widget.SearchView"
         app:showAsAction="always" />

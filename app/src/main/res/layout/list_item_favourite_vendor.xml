@@ -76,7 +76,7 @@
                     android:paddingTop="8dp"
                     android:paddingEnd="24dp"
                     android:paddingBottom="8dp"
-                    android:src="@drawable/ic_mail_yellow"
+                    android:src="@drawable/ic_mail"
                     android:tint="@color/white" />
 
                 <ImageButton
@@ -88,7 +88,7 @@
                     android:paddingTop="8dp"
                     android:paddingEnd="24dp"
                     android:paddingBottom="8dp"
-                    android:src="@drawable/ic_phone_black"
+                    android:src="@drawable/ic_phone"
                     android:tint="@color/white" />
             </LinearLayout>
 
@@ -101,7 +101,7 @@
                 android:paddingTop="6dp"
                 android:paddingEnd="6dp"
                 android:paddingBottom="6dp"
-                android:src="@drawable/ic_close_black"
+                android:src="@drawable/ic_close"
                 android:tint="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

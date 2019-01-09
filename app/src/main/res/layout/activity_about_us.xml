@@ -29,8 +29,12 @@
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:layout_centerHorizontal="true"
+                    android:src="@drawable/ic_main_logo"
+                    android:tint="@color/white" />
 
-                    android:src="@drawable/ic_cart_white" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/spacing_middle" />
 
                 <TextView
                     android:id="@+id/about_app_name"

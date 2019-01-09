@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/btm_sheet_vendor_order_history"
-        android:icon="@drawable/ic_history_white"
+        android:icon="@drawable/ic_history"
         android:title="Orders"
         app:showAsAction="ifRoom" />
 

@@ -104,7 +104,7 @@
                                     app:elevation="0dp"
                                     app:fabSize="mini"
                                     app:rippleColor="@android:color/white"
-                                    app:srcCompat="@drawable/ic_person_black_24dp" />
+                                    app:srcCompat="@drawable/ic_person" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -132,7 +132,7 @@
                                     app:elevation="0dp"
                                     app:fabSize="mini"
                                     app:rippleColor="@android:color/white"
-                                    app:srcCompat="@drawable/ic_card_giftcard_black_24dp" />
+                                    app:srcCompat="@drawable/ic_cater_menu" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -160,7 +160,7 @@
                                     app:elevation="0dp"
                                     app:fabSize="mini"
                                     app:rippleColor="@android:color/white"
-                                    app:srcCompat="@drawable/ic_call_received_black_24dp" />
+                                    app:srcCompat="@drawable/ic_call_received" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -235,7 +235,7 @@
                                     android:layout_height="?attr/actionBarSize"
                                     android:background="?attr/selectableItemBackgroundBorderless"
                                     android:tint="@color/colorPrimary"
-                                    app:srcCompat="@drawable/ic_add_black" />
+                                    app:srcCompat="@drawable/ic_add" />
 
                             </LinearLayout>
 
@@ -293,8 +293,8 @@
         android:id="@+id/act_home_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:src="@drawable/ic_add"
         android:tint="#fff"
-        android:src="@drawable/ic_add_black"
         app:layout_anchor="@id/bottom_app_bar_vendor" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

@@ -16,20 +16,33 @@
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:background="@drawable/gradient"
+            android:foreground="@drawable/world_map"
+            android:gravity="center"
             android:orientation="vertical">
 
             <View
                 android:layout_width="0dp"
-                android:layout_height="50dp" />
+                android:layout_height="20dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/spacing_medium"
-                android:text="Welcome!"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Display2"
-                android:textColor="@android:color/white" />
+
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center_horizontal"-->
+            <!--android:layout_marginTop="@dimen/spacing_medium"-->
+            <!--android:text="Welcome!"-->
+            <!--android:textAppearance="@style/Base.TextAppearance.AppCompat.Display2"-->
+            <!--android:textColor="@android:color/white" />-->
+
+            <ImageView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@drawable/ic_main_logo"
+                android:tint="@color/white" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="10dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -37,9 +50,10 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:fontFamily="sans-serif-light"
-                android:text="Caterer Manager"
+                android:text="@string/app_name"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
 
             <View
                 android:layout_width="0dp"
@@ -74,6 +88,7 @@
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
             android:layout_gravity="center_horizontal"
+            android:backgroundTint="@color/grey_10"
             android:orientation="vertical"
             android:padding="@dimen/spacing_large">
 
@@ -151,11 +166,10 @@
                     android:clickable="true"
                     android:elevation="0dp"
                     android:tint="@color/white"
-                    app:backgroundTint="@color/colorPrimaryDark"
                     app:borderWidth="0dp"
                     app:elevation="0dp"
                     app:fabSize="normal"
-                    app:rippleColor="@color/colorAccent"
+                    app:rippleColor="@color/colorPrimaryDark"
                     app:srcCompat="@drawable/ic_chevron_right" />
 
 

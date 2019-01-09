@@ -49,6 +49,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:padding="10dp">
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/spacing_mxlarge" />
@@ -79,7 +80,8 @@
                             android:layout_marginStart="8dp"
                             android:layout_marginEnd="8dp"
                             android:layout_marginBottom="8dp"
-                            android:src="@drawable/ic_edit_black"
+                            android:background="@drawable/round_white"
+                            android:src="@drawable/ic_edit"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="@+id/act_prof_user_img"
                             app:layout_constraintStart_toEndOf="@+id/act_prof_user_img" />

@@ -91,7 +91,7 @@
         android:layout_height="wrap_content"
         android:background="@color/transparent"
         android:clickable="true"
-        android:src="@drawable/ic_close_black"
+        android:src="@drawable/ic_close"
         android:tint="@color/grey_700"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -103,7 +103,7 @@
         android:background="@color/transparent"
         android:clickable="true"
         android:paddingBottom="10dp"
-        android:src="@drawable/ic_edit_black"
+        android:src="@drawable/ic_edit"
         android:tint="@color/grey_700"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

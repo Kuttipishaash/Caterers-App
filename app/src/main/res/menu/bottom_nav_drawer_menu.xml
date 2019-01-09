@@ -7,7 +7,7 @@
             android:title="FAQ" />
         <item
             android:id="@+id/main_nav_contact_us"
-            android:icon="@drawable/ic_mail"
+            android:icon="@drawable/ic_contact_support"
             android:title="Contact Us" />
         <item
             android:id="@+id/main_nav_about_us"
@@ -20,10 +20,11 @@
         <item
             android:id="@+id/main_nav_settings"
             android:icon="@drawable/ic_settings"
-            android:title="Settings" />
+            android:title="Settings"
+            android:visible="false" />
         <item
             android:id="@+id/main_nav_logout"
-            android:icon="@drawable/ic_logout"
+            android:icon="@drawable/ic_exit"
             android:title="Logout" />
     </group>
 </menu>

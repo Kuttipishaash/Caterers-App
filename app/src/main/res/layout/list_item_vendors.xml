@@ -19,10 +19,11 @@
             android:id="@+id/li_vendors_image"
             android:layout_width="80dp"
             android:layout_height="80dp"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:src="@drawable/user_placeholder" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical">
@@ -60,7 +61,7 @@
                 android:layout_weight="1"
                 android:background="@color/transparent"
                 android:padding="16dp"
-                android:src="@drawable/ic_phone_black" />
+                android:src="@drawable/ic_phone" />
 
             <ImageButton
                 android:id="@+id/li_vendor_add_favourite"
@@ -69,7 +70,7 @@
                 android:layout_weight="1"
                 android:background="@color/transparent"
                 android:padding="16dp"
-                android:src="@drawable/ic_favorite_black_24dp"
+                android:src="@drawable/ic_favorite"
                 android:tint="@color/red_700" />
         </LinearLayout>
     </LinearLayout>
