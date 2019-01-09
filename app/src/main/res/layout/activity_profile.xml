@@ -82,6 +82,7 @@
                             android:layout_marginBottom="8dp"
                             android:background="@drawable/round_white"
                             android:src="@drawable/ic_edit"
+                            android:tint="@color/black"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="@+id/act_prof_user_img"
                             app:layout_constraintStart_toEndOf="@+id/act_prof_user_img" />

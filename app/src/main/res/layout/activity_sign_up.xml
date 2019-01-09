@@ -21,7 +21,7 @@
             android:layout_gravity="center"
             android:layout_marginBottom="@dimen/spacing_mlarge"
             android:gravity="center"
-            android:text="My Profile"
+            android:text="Sign Up for an Account"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             android:textColor="@android:color/white"
             android:textStyle="bold" />
