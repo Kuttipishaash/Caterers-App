@@ -181,7 +181,7 @@ public class CartActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.act_cart_btn_checkout:
-                if (vendorDetails != null) {
+                if (vendorDetails != null && cartItemsArrayList.size() > 0) {
                     checkout();
                 }
                 break;
@@ -250,25 +250,31 @@ public class CartActivity extends Activity implements View.OnClickListener {
                             String userOrdersItemsDatabasePath = FirebaseUtils.getDatabaseMainBranchName() +
                                     FirebaseUtils.ORDERS_CATERER_BRANCH +
                                     FirebaseAuth.getInstance().getUid();
-                            final DatabaseReference checkoutReference = FirebaseDatabase.getInstance().getReference(userOrdersItemsDatabasePath);
+                            DatabaseReference checkoutReference = FirebaseDatabase.getInstance().getReference(userOrdersItemsDatabasePath);
                             Order order = new Order();
                             order.setOrderItems(cartItemsArrayList);
                             order.setOrderInfo(orderDetails);
-                            checkoutReference.push().setValue(order)
-                                    .addOnSuccessListener(aVoid -> Objects.requireNonNull(cartItemsReference.getParent()).setValue(null)
-                                            .addOnSuccessListener(aVoid1 -> {
-                                                Toasty.success(CartActivity.this,
-                                                        getString(R.string.toast_checkout_success),
-                                                        Toast.LENGTH_SHORT).show();
-                                                order.getOrderInfo().setOrderId(checkoutReference.getKey());
+                            checkoutReference = checkoutReference.push();
+
+                            order.getOrderInfo().setOrderId(checkoutReference.getKey());
+                            DatabaseReference finalCheckoutReference = checkoutReference;
+                            finalCheckoutReference.setValue(order)
+                                    .addOnSuccessListener(aVoid -> {
                                                 sendEmail(order);
-                                            })
-                                            .addOnFailureListener(e -> {
-                                                Toasty.success(CartActivity.this,
-                                                        getString(R.string.toast_checkout_failed),
-                                                        Toast.LENGTH_SHORT).show();
-                                                checkoutReference.child(FirebaseUtils.ORDER_INFO_BRANCH).setValue(null);
-                                            }))
+                                                Objects.requireNonNull(cartItemsReference.getParent()).setValue(null)
+                                                        .addOnSuccessListener(aVoid1 -> {
+                                                            Toasty.success(CartActivity.this,
+                                                                    getString(R.string.toast_checkout_success),
+                                                                    Toast.LENGTH_SHORT).show();
+                                                        })
+                                                        .addOnFailureListener(e -> {
+                                                            Toasty.success(CartActivity.this,
+                                                                    getString(R.string.toast_checkout_failed),
+                                                                    Toast.LENGTH_SHORT).show();
+                                                            finalCheckoutReference.child(FirebaseUtils.ORDER_INFO_BRANCH).setValue(null);
+                                                        });
+                                            }
+                                    )
                                     .addOnFailureListener(e -> Toasty.success(CartActivity.this,
                                             getString(R.string.toast_checkout_failed),
                                             Toast.LENGTH_SHORT).show());
@@ -294,7 +300,6 @@ public class CartActivity extends Activity implements View.OnClickListener {
                         "\"subject\":\"New Order from " + orderDetails.getCatererName() + "\"," +
                         "\"to\":[{\"email\":\"" + orderDetails.getVendorEmail() + "\",\"name\":\"" + orderDetails.getVendorName() + "\"}]," +
                         "\"htmlContent\":\"" + createHTML(order.getOrderItems(), orderDetails) + "\"}";
-                Log.e(TAG, content);
                 MediaType mediaType = MediaType.parse("application/json");
                 RequestBody body = RequestBody.create(mediaType, content);
                 Request request = new Request.Builder()
@@ -360,6 +365,7 @@ public class CartActivity extends Activity implements View.OnClickListener {
             body.append("</td>");
 
             body.append("</tr>");
+            Log.e(TAG, "items: body");
         }
         String header =
                 "<h1 style=\'color:red\'>Order Summary</h1>" +
