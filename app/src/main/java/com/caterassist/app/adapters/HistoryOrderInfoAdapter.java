@@ -126,9 +126,9 @@ public class HistoryOrderInfoAdapter extends RecyclerView.Adapter<HistoryOrderIn
                 Context context = itemView.getContext();
                 if (orderDetailsArrayList.get(getAdapterPosition()).getOrderStatus() > 1) {
                     new AlertDialog.Builder(itemView.getContext())
-                            .setTitle(context.getResources().getString(R.string.dialog_title_place_order))
+                            .setTitle(context.getResources().getString(R.string.dialog_title_delete_order_history))
                             .setMessage(
-                                    context.getResources().getString(R.string.dialog_message_place_order))
+                                    context.getResources().getString(R.string.dialog_message_delete_order_history))
                             .setPositiveButton(
                                     context.getResources().getString(R.string.dialog_btn_yes),
                                     (dialog, which) -> deleteItem())

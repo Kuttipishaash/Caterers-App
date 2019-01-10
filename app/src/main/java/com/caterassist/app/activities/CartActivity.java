@@ -250,25 +250,28 @@ public class CartActivity extends Activity implements View.OnClickListener {
                             String userOrdersItemsDatabasePath = FirebaseUtils.getDatabaseMainBranchName() +
                                     FirebaseUtils.ORDERS_CATERER_BRANCH +
                                     FirebaseAuth.getInstance().getUid();
-                            final DatabaseReference checkoutReferecne = FirebaseDatabase.getInstance().getReference(userOrdersItemsDatabasePath);
+                            final DatabaseReference checkoutReference = FirebaseDatabase.getInstance().getReference(userOrdersItemsDatabasePath);
                             Order order = new Order();
                             order.setOrderItems(cartItemsArrayList);
                             order.setOrderInfo(orderDetails);
-                            checkoutReferecne.push().setValue(order)
+                            checkoutReference.push().setValue(order)
                                     .addOnSuccessListener(aVoid -> Objects.requireNonNull(cartItemsReference.getParent()).setValue(null)
-                                            .addOnSuccessListener(aVoid1 -> Toasty.success(CartActivity.this,
-                                                    getString(R.string.toast_checkout_success),
-                                                    Toast.LENGTH_SHORT).show())
+                                            .addOnSuccessListener(aVoid1 -> {
+                                                Toasty.success(CartActivity.this,
+                                                        getString(R.string.toast_checkout_success),
+                                                        Toast.LENGTH_SHORT).show();
+                                                order.getOrderInfo().setOrderId(checkoutReference.getKey());
+                                                sendEmail(order);
+                                            })
                                             .addOnFailureListener(e -> {
                                                 Toasty.success(CartActivity.this,
                                                         getString(R.string.toast_checkout_failed),
                                                         Toast.LENGTH_SHORT).show();
-                                                checkoutReferecne.child(FirebaseUtils.ORDER_INFO_BRANCH).setValue(null);
+                                                checkoutReference.child(FirebaseUtils.ORDER_INFO_BRANCH).setValue(null);
                                             }))
                                     .addOnFailureListener(e -> Toasty.success(CartActivity.this,
                                             getString(R.string.toast_checkout_failed),
                                             Toast.LENGTH_SHORT).show());
-                            sendEmail(order);
                         })
                 .setNegativeButton(
                         getResources().getString(R.string.dialog_btn_no),
@@ -290,7 +293,7 @@ public class CartActivity extends Activity implements View.OnClickListener {
                         "{\"email\":\"" + orderDetails.getCatererEmail() + "\",\"name\":\"" + orderDetails.getCatererName() + "\"}," +
                         "\"subject\":\"New Order from " + orderDetails.getCatererName() + "\"," +
                         "\"to\":[{\"email\":\"" + orderDetails.getVendorEmail() + "\",\"name\":\"" + orderDetails.getVendorName() + "\"}]," +
-                        "\"htmlContent\":\"" + createHTML(order.getOrderItems(), orderDetails.getOrderTotalAmount()) + "\"}";
+                        "\"htmlContent\":\"" + createHTML(order.getOrderItems(), orderDetails) + "\"}";
                 Log.e(TAG, content);
                 MediaType mediaType = MediaType.parse("application/json");
                 RequestBody body = RequestBody.create(mediaType, content);
@@ -313,25 +316,47 @@ public class CartActivity extends Activity implements View.OnClickListener {
         thread.start();
     }
 
-    private String createHTML(ArrayList<CartItem> orderItems, double totalAmount) {
+    private String createHTML(ArrayList<CartItem> orderItems, OrderDetails orderDetails) {
+        UserDetails catererDetails = AppUtils.getUserInfoSharedPreferences(this);
         StringBuilder body = new StringBuilder();
         for (CartItem item : orderItems) {
+
             body.append("<tr>");
 
             body.append("<td>");
+            body.append("<span>");
+            body.append(item.getId());
+            body.append("</span>");
+            body.append("</td>");
+
+            body.append("<td>");
+            body.append("<span>");
             body.append(item.getName());
+            body.append("</span>");
             body.append("</td>");
 
             body.append("<td>");
-            body.append(item.getQuantity());
-            body.append("</td>");
-
-            body.append("<td>");
+            body.append("<span data-prefix>");
+            body.append("₹");
+            body.append("</span>");
+            body.append("<span>");
             body.append(item.getRate());
+            body.append("</span>");
             body.append("</td>");
 
             body.append("<td>");
+            body.append("<span>");
+            body.append(item.getQuantity());
+            body.append("</span>");
+            body.append("</td>");
+
+            body.append("<td>");
+            body.append("<span data-prefix>");
+            body.append("₹");
+            body.append("</span>");
+            body.append("<span>");
             body.append(item.getTotalAmount());
+            body.append("</span>");
             body.append("</td>");
 
             body.append("</tr>");
@@ -351,11 +376,307 @@ public class CartActivity extends Activity implements View.OnClickListener {
                         "Total Amount" +
                         "</td>" +
                         "<td colspan=\'2\'>" +
-                        String.valueOf(totalAmount) +
+                        String.valueOf(orderDetails.getOrderTotalAmount()) +
                         "</td>" +
                         "</tr>" +
 
                         "</table>";
-        return header;
+
+        String html = "<body>" +
+                "<style>" +
+                "    * {" +
+                "        border: 0;" +
+                "        box-sizing: content-box;" +
+                "        color: inherit;" +
+                "        font-family: inherit;" +
+                "        font-size: inherit;" +
+                "        font-style: inherit;" +
+                "        font-weight: inherit;" +
+                "        line-height: inherit;" +
+                "        list-style: none;" +
+                "        margin: 0;" +
+                "        padding: 0;" +
+                "        text-decoration: none;" +
+                "        vertical-align: top;" +
+                "    }" +
+
+
+                "    h1 {" +
+                "        font: bold 100% sans-serif;" +
+                "        letter-spacing: 0.5em;" +
+                "        text-align: center;" +
+                "        text-transform: uppercase;" +
+                "    }" +
+
+                "    /* table */" +
+
+                "    table {" +
+                "        font-size: 75%;" +
+                "        table-layout: fixed;" +
+                "        width: 100%;" +
+                "    }" +
+
+                "    table {" +
+                "        border-collapse: separate;" +
+                "        border-spacing: 2px;" +
+                "    }" +
+
+                "    th," +
+                "    td {" +
+                "        border-width: 1px;" +
+                "        padding: 0.5em;" +
+                "        position: relative;" +
+                "        text-align: left;" +
+                "    }" +
+
+                "    th," +
+                "    td {" +
+                "        border-radius: 0.25em;" +
+                "        border-style: solid;" +
+                "    }" +
+
+                "    th {" +
+                "        background: #EEE;" +
+                "        border-color: #BBB;" +
+                "    }" +
+
+                "    td {" +
+                "        border-color: #DDD;" +
+                "    }" +
+
+                "    /* page */" +
+
+                "    html {" +
+                "        font: 16px/1 'Open Sans', sans-serif;" +
+                "        overflow: auto;" +
+                "        padding: 0.5in;" +
+                "    }" +
+
+
+                "    body {" +
+                "        margin: 0 auto;" +
+                "        overflow: hidden;" +
+                "        padding: 0.5in;" +
+                "    }" +
+
+
+                "    /* header */" +
+
+                "    header {" +
+                "        margin: 0 0 3em;" +
+                "    }" +
+
+                "    header:after {" +
+                "        clear: both;" +
+                "        content: \'\';" +
+                "        display: table;" +
+                "    }" +
+
+                "    header h1 {" +
+                "        background: #000;" +
+                "        border-radius: 0.25em;" +
+                "        color: #FFF;" +
+                "        margin: 0 0 1em;" +
+                "        padding: 0.5em 0;" +
+                "    }" +
+
+                "    header address {" +
+                "        float: left;" +
+                "        font-size: 75%;" +
+                "        font-style: normal;" +
+                "        line-height: 1.25;" +
+                "        margin: 0 1em 1em 0;" +
+                "    }" +
+
+                "    header address p {" +
+                "        margin: 0 0 0.25em;" +
+                "    }" +
+
+                "    header span," +
+                "    header img {" +
+                "        display: block;" +
+                "        float: right;" +
+                "    }" +
+
+                "    header span {" +
+                "        margin: 0 0 1em 1em;" +
+                "        max-height: 25%;" +
+                "        max-width: 60%;" +
+                "        position: relative;" +
+                "    }" +
+
+                "    header img {" +
+                "        max-height: 100%;" +
+                "        max-width: 100%;" +
+                "    }" +
+
+                "    /* article */" +
+
+                "    article," +
+                "    article address," +
+                "    table.meta," +
+                "    table.inventory {" +
+                "        margin: 0 0 3em;" +
+                "    }" +
+
+                "    article:after {" +
+                "        clear: both;" +
+                "        content: \'\';" +
+                "        display: table;" +
+                "    }" +
+
+                "    article h1 {" +
+                "        clip: rect(0 0 0 0);" +
+                "        position: absolute;" +
+                "    }" +
+
+                "    article address {" +
+                "        float: left;" +
+                "        font-size: 125%;" +
+                "        font-weight: bold;" +
+                "    }" +
+
+                "    /* table meta & balance */" +
+
+                "    table.meta," +
+                "    table.balance {" +
+                "        float: right;" +
+                "        width: 36%;" +
+                "    }" +
+
+                "    table.meta:after," +
+                "    table.balance:after {" +
+                "        clear: both;" +
+                "        content: \'\';" +
+                "        display: table;" +
+                "    }" +
+
+                "    /* table meta */" +
+
+                "    table.meta th {" +
+                "        width: 40%;" +
+                "    }" +
+
+                "    table.meta td {" +
+                "        width: 60%;" +
+                "    }" +
+
+                "    /* table items */" +
+
+                "    table.inventory {" +
+                "        clear: both;" +
+                "        width: 100%;" +
+                "    }" +
+
+                "    table.inventory th {" +
+                "        font-weight: bold;" +
+                "        text-align: center;" +
+                "    }" +
+
+                "    table.inventory td:nth-child(1) {" +
+                "        width: 26%;" +
+                "    }" +
+
+                "    table.inventory td:nth-child(2) {" +
+                "        width: 38%;" +
+                "    }" +
+
+                "    table.inventory td:nth-child(3) {" +
+                "        text-align: right;" +
+                "        width: 12%;" +
+                "    }" +
+
+                "    table.inventory td:nth-child(4) {" +
+                "        text-align: right;" +
+                "        width: 12%;" +
+                "    }" +
+
+                "    table.inventory td:nth-child(5) {" +
+                "        text-align: right;" +
+                "        width: 12%;" +
+                "    }" +
+
+                "    /* table balance */" +
+
+                "    table.balance th," +
+                "    table.balance td {" +
+                "        width: 50%;" +
+                "    }" +
+
+                "    table.balance td {" +
+                "        text-align: right;" +
+                "    }" +
+
+                "    /* aside */" +
+
+                "    aside h1 {" +
+                "        border: none;" +
+                "        border-width: 0 0 1px;" +
+                "        margin: 0 0 1em;" +
+                "    }" +
+                "    aside h1 {" +
+                "        border-color: #999;" +
+                "        border-bottom-style: solid;" +
+                "    }" +
+                "</style>" +
+                "    <header>" +
+                "        <h1>Order Invoice</h1>" +
+                "        <address >" +
+                "            <p>" + catererDetails.getUserName() + "</p>" +
+                "            <p>" + catererDetails.getUserLocationName() + "<br>Kerala, India</p>" +
+                "            <p>" + catererDetails.getUserPhone() + "</p>" +
+                "        </address>" +
+                "        <span>" +
+                "            <h1>Cater Bazar</h1>" +
+                "        </span>" +
+                "    </header>" +
+                "    <article>" +
+                "        <h1>Recipient</h1>" +
+                "        <address >" +
+                "            <p>" + orderDetails.getCatererName() + "</p>" +
+                "        </address>" +
+                "        <table class=\'meta\'>" +
+                "            <tr>" +
+                "                <th><span >Invoice #</span></th>" +
+                "                <td><span >" + orderDetails.getOrderId() + "</span></td>" +
+                "            </tr>" +
+                "            <tr>" +
+                "                <th><span >Date</span></th>" +
+                "                <td><span >" + orderDetails.getOrderTime() + "</span></td>" +
+                "            </tr>" +
+                "        </table>" +
+                "        <table class=\'inventory\'>" +
+                "            <thead>" +
+                "                <tr>" +
+                "                    <th><span >Item ID</span></th>" +
+                "                    <th><span >Item Name</span></th>" +
+                "                    <th><span >Rate</span></th>" +
+                "                    <th><span >Quantity</span></th>" +
+                "                    <th><span >Price</span></th>" +
+                "                </tr>" +
+                "            </thead>" +
+                "            <tbody>" +
+                body +
+                "            </tbody>" +
+                "        </table>" +
+                "        <table class=\'balance\'>" +
+                "                <tr>" +
+                "                        <th><span >No. of Items</span></th>" +
+                "                        <td><span>" + orderItems.size() + "</span></td>" +
+                "                    </tr>" +
+                "                <tr>" +
+                "                    <th><span >Total</span></th>" +
+                "                    <td><span data-prefix>₹</span><span>" + orderDetails.getOrderTotalAmount() + "</span></td>" +
+                "                </tr>" +
+                "            </table>" +
+                "    </article>" +
+                "    <aside>" +
+                "        <h1><span >Additional Notes</span></h1>" +
+                "        <div >" +
+                "            <p>This is a automated mail generated by Cater Bazar. Please do not reply to this mail.</p>" +
+                "        </div>" +
+                "    </aside>" +
+                "</body>";
+        return html;
     }
 }
