@@ -150,18 +150,46 @@ public class AddEditItemActivity extends Activity implements View.OnClickListene
                 setValues();
                 itemManagereference.child(vendorItem.getId()).setValue(vendorItem)
                         .addOnSuccessListener(aVoid -> {
-                            Toasty.success(AddEditItemActivity.this, "Item edited successfully", Toast.LENGTH_SHORT).show();
+                            Toasty.success(AddEditItemActivity.this, "Item edited successfully").show();
                             finish();
                         })
-                        .addOnFailureListener(e -> Toasty.error(AddEditItemActivity.this, "Item edit failed", Toast.LENGTH_SHORT).show());
+                        .addOnFailureListener(e -> Toasty.error(AddEditItemActivity.this, "Item edit failed").show());
             } else {
                 setValues();
-                itemManagereference.push().setValue(vendorItem)
-                        .addOnSuccessListener(aVoid -> {
-                            Toasty.success(AddEditItemActivity.this, "Item added successfully", Toast.LENGTH_SHORT).show();
-                            finish();
-                        })
-                        .addOnFailureListener(e -> Toasty.error(AddEditItemActivity.this, "Item could not be added. Please try again!", Toast.LENGTH_SHORT).show());
+                String currentVendingListPath = FirebaseUtils.getDatabaseMainBranchName() + FirebaseUtils.VENDOR_LIST_BRANCH_NAME
+                        + FirebaseAuth.getInstance().getUid();
+                DatabaseReference vendingListReference = FirebaseDatabase.getInstance().getReference(currentVendingListPath);
+                vendingListReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        ArrayList<VendorItem> currentVendingList = new ArrayList<>();
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            currentVendingList.add(snapshot.getValue(VendorItem.class));
+                        }
+                        boolean flag = true;
+                        for (VendorItem item : currentVendingList) {
+                            if (item.getName().equalsIgnoreCase(vendorItem.getName())) {
+                                flag = false;
+                                break;
+                            }
+                        }
+                        if (flag) {
+                            itemManagereference.push().setValue(vendorItem)
+                                    .addOnSuccessListener(aVoid -> {
+                                        Toasty.success(AddEditItemActivity.this, "Item added successfully", Toast.LENGTH_SHORT).show();
+                                        finish();
+                                    })
+                                    .addOnFailureListener(e -> Toasty.error(AddEditItemActivity.this, "Item could not be added. Please try again!", Toast.LENGTH_SHORT).show());
+                        } else {
+                            Toasty.warning(AddEditItemActivity.this, "Item already in the list please select the edit option.").show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        Toasty.error(AddEditItemActivity.this, "Adding item failed").show();
+                    }
+                });
             }
         }
     }
