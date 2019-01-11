@@ -1,8 +1,10 @@
 package com.caterassist.app.activities;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.MenuItem;
@@ -28,9 +30,14 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.myhexaville.smartimagepicker.ImagePicker;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import es.dmoral.toasty.Toasty;
+import id.zelory.compressor.Compressor;
 
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
@@ -117,6 +124,17 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                     imageUri -> {/*on image picked */
                         userProfileImageView.setImageURI(imageUri);
                         imageFileUri = imageUri;
+                        try {
+                            File file = new File(imageUri.getPath());
+                            Bitmap compressedImageBitmap = new Compressor(this).compressToBitmap(file);
+                            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                            compressedImageBitmap.compress(Bitmap.CompressFormat.JPEG, 50, bytes);
+                            String path = MediaStore.Images.Media.insertImage(SignUpActivity.this.getContentResolver(), compressedImageBitmap, "catering_app_profile_picture", null);
+                            imageFileUri = Uri.parse(path);
+                            userProfileImageView.setImageURI(imageFileUri);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     })
                     .setWithImageCrop(
                             1, 1);

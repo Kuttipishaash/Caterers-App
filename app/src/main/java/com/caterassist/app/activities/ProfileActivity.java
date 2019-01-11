@@ -134,8 +134,9 @@ public class ProfileActivity extends Activity implements View.OnClickListener {
         String databasePath = FirebaseUtils.getDatabaseMainBranchName() + FirebaseUtils.USER_INFO_BRANCH_NAME + FirebaseAuth.getInstance().getUid();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(databasePath);
         databaseReference.setValue(userDetails).addOnSuccessListener(aVoid -> {
-            Toasty.error(this, "Profile changed successfully!").show();
+            Toasty.success(this, "Profile changed successfully!").show();
             AppUtils.setUserInfoSharedPreferences(userDetails, ProfileActivity.this);
+            imageChanged = false;
             finish();
         }).addOnFailureListener(e -> Toasty.error(ProfileActivity.this, "User profile update failed!").show());
     }
@@ -172,9 +173,10 @@ public class ProfileActivity extends Activity implements View.OnClickListener {
                         File file = new File(imageUri.getPath());
                         Bitmap compressedImageBitmap = new Compressor(this).compressToBitmap(file);
                         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                        compressedImageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+                        compressedImageBitmap.compress(Bitmap.CompressFormat.JPEG, 50, bytes);
                         String path = MediaStore.Images.Media.insertImage(ProfileActivity.this.getContentResolver(), compressedImageBitmap, "catering_app_profile_picture", null);
                         profileImageUri = Uri.parse(path);
+                        imageChanged = true;
 
                     } catch (IOException e) {
                         e.printStackTrace();

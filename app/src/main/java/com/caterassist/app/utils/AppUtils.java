@@ -34,9 +34,11 @@ public class AppUtils {
         editor.apply();
     }
 
-    public static String getCurrentUserName(Context context) {
+    public static void setCurrentUserImage(Context context, String userImageURL) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(SharedPref.PREF_FILE, Context.MODE_PRIVATE);
-        return sharedPreferences.getString(SharedPref.USER_NAME, "");
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(SharedPref.USER_IMG_URL, userImageURL);
+        editor.apply();
     }
 
     public static boolean isCurrentUserVendor(Context context) {
