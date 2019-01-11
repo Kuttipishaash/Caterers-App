@@ -133,6 +133,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -141,35 +142,6 @@
                     android:layout_height="150dp"
                     android:src="@drawable/placeholder" />
 
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:orientation="vertical"
-                    android:paddingLeft="20dp">
-
-                    <Button
-                        android:id="@+id/act_addedt_default_img"
-                        style="@style/Rounded_Button_Accent"
-                        android:layout_width="match_parent"
-                        android:layout_height="10dp"
-                        android:layout_weight="1"
-                        android:text="Default Image" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1" />
-
-                    <Button
-                        android:id="@+id/act_addedt_upload_img"
-                        style="@style/Rounded_Button_Accent"
-                        android:layout_width="match_parent"
-                        android:layout_height="10dp"
-                        android:layout_weight="1"
-                        android:text="Upload Image" />
-
-                </LinearLayout>
 
             </LinearLayout>
 

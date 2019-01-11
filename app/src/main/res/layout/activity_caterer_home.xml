@@ -47,10 +47,10 @@
                     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                     app:contentInsetStartWithNavigation="0dp"
                     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                    app:subtitle="Angamaly, Ernakulam"
+                    app:subtitle="Area, District"
                     app:subtitleTextAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                     app:subtitleTextColor="@color/grey_10"
-                    app:title="Hi, ABC Caterer" />
+                    app:title="ABC Caterer" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -166,7 +166,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="@dimen/spacing_medium"
-                                    android:text="ORDERS"
+                                    android:text="CURRENT ORDERS"
                                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                                     android:textColor="@color/grey_40" />
 
@@ -308,6 +308,15 @@
                                     <!--android:background="?attr/selectableItemBackgroundBorderless"-->
                                     <!--android:tint="@color/colorPrimary"-->
                                     <!--app:srcCompat="@drawable/ic_add" />-->
+                                    <ImageButton
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:background="@color/transparent"
+                                        android:src="@drawable/ic_sort" />
+
+                                    <View
+                                        android:layout_width="@dimen/spacing_large"
+                                        android:layout_height="0dp" />
 
                                 </LinearLayout>
 
@@ -342,8 +351,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        app:backgroundTint="@color/colorPrimary"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:backgroundTint="@color/colorPrimary"
         app:navigationIcon="@drawable/ic_menu" />
 
 

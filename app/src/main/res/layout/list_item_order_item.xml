@@ -7,7 +7,8 @@
     <ImageView
         android:id="@+id/li_ord_det_item_image"
         android:layout_width="80dp"
-        android:layout_height="80dp" />
+        android:layout_height="80dp"
+        android:src="@drawable/placeholder" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -17,22 +18,26 @@
         <TextView
             android:id="@+id/li_ord_det_item_name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="@string/lorem_title" />
 
         <TextView
             android:id="@+id/li_ord_det_item_qty"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="@string/lorem_title" />
 
         <TextView
             android:id="@+id/li_ord_det_item_rate"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="@string/lorem_title" />
 
         <TextView
             android:id="@+id/li_ord_det_item_total"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="@string/lorem_title" />
     </LinearLayout>
 
 </LinearLayout>
