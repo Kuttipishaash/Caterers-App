@@ -28,7 +28,7 @@
         android:clipToPadding="false"
         android:padding="10dp"
         app:cardBackgroundColor="@android:color/white"
-        app:cardCornerRadius="10dp"
+        app:cardCornerRadius="8dp"
         app:cardElevation="2dp">
 
         <LinearLayout

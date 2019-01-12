@@ -15,6 +15,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="250dp"
+            android:foreground="@drawable/backdrop_trans"
             android:background="@drawable/gradient">
 
             <LinearLayout

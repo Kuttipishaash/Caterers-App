@@ -22,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@drawable/world_map" />
+                android:src="@drawable/backdrop_trans" />
 
 
         </RelativeLayout>
@@ -58,7 +58,8 @@
                     android:layout_marginBottom="@dimen/spacing_mlarge"
                     android:text="Caterer Dashboard"
                     android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                    android:textColor="@android:color/white" />
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold" />
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
@@ -68,7 +69,7 @@
                     android:layout_marginBottom="@dimen/spacing_medium"
                     android:clipToPadding="false"
                     app:cardBackgroundColor="@android:color/white"
-                    app:cardCornerRadius="1dp"
+                    app:cardCornerRadius="5dp"
                     app:cardElevation="2dp">
 
                     <LinearLayout
@@ -169,15 +170,6 @@
                                     android:text="CURRENT ORDERS"
                                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                                     android:textColor="@color/grey_40" />
-
-                                <!--<TextView-->
-                                <!--android:id="@+id/frag_vend_dash_awaiting_orders"-->
-                                <!--android:layout_width="wrap_content"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:text="No Pending Orders"-->
-                                <!--android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"-->
-                                <!--android:textColor="@color/colorAccent"-->
-                                <!--android:textSize="10sp" />-->
                             </LinearLayout>
                         </LinearLayout>
 
@@ -203,7 +195,7 @@
                         android:layout_marginBottom="@dimen/spacing_medium"
                         android:clipToPadding="false"
                         android:visibility="visible"
-                        app:cardCornerRadius="2dp"
+                        app:cardCornerRadius="5dp"
                         app:cardElevation="2dp">
 
                         <LinearLayout
@@ -269,7 +261,7 @@
                         android:layout_marginBottom="@dimen/spacing_medium"
                         android:clipToPadding="false"
                         android:visibility="visible"
-                        app:cardCornerRadius="2dp"
+                        app:cardCornerRadius="5dp"
                         app:cardElevation="2dp">
 
                         <LinearLayout
