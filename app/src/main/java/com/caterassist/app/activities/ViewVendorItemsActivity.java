@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.caterassist.app.R;
 import com.caterassist.app.adapters.VendorItemsAdapter;
@@ -12,16 +13,20 @@ import com.caterassist.app.models.UserDetails;
 import com.caterassist.app.models.VendorItem;
 import com.caterassist.app.utils.Constants;
 import com.caterassist.app.utils.FirebaseUtils;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
+import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import es.dmoral.toasty.Toasty;
@@ -54,6 +59,22 @@ public class ViewVendorItemsActivity extends Activity {
             startActivity(new Intent(ViewVendorItemsActivity.this, VendorHomeActivity.class));
             finish();
         }
+        initComponent();
+    }
+
+
+    private void initComponent() {
+        final CircularImageView image = findViewById(R.id.image);
+        final CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
+        ((AppBarLayout) findViewById(R.id.app_bar_layout)).addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                int min_height = ViewCompat.getMinimumHeight(collapsing_toolbar) * 2;
+                float scale = (float) (min_height + verticalOffset) / min_height;
+                image.setScaleX(scale >= 0 ? scale : 0);
+                image.setScaleY(scale >= 0 ? scale : 0);
+            }
+        });
     }
 
     private void fetchVendorDetails() {
