@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.caterassist.app.R;
 import com.caterassist.app.adapters.VendorItemsAdapter;
@@ -44,6 +43,7 @@ public class ViewVendorItemsActivity extends Activity {
     private ArrayList<VendorItem> vendorItemsArrayList;
     private LinearLayoutManager vendorItemsLayoutManager;
     private VendorItemsAdapter vendorItemsAdapter;
+    private androidx.appcompat.widget.Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +61,6 @@ public class ViewVendorItemsActivity extends Activity {
         }
         initComponent();
     }
-
 
     private void initComponent() {
         final CircularImageView image = findViewById(R.id.image);
@@ -189,5 +188,8 @@ public class ViewVendorItemsActivity extends Activity {
     private void initViews() {
         vendorItemsRecyclerView = findViewById(R.id.act_vendor_items_recyc_items);
         vendorItemsArrayList = new ArrayList<>();
+
+        toolbar = findViewById(R.id.vendor_items_toolbar);
+        toolbar.setTitle("Vendor Name");
     }
 }
