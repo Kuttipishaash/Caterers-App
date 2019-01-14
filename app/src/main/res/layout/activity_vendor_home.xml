@@ -22,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@drawable/backdrop_trans" />
+                android:src="@drawable/vector_back" />
 
 
         </RelativeLayout>
@@ -276,7 +276,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         app:backgroundTint="@color/colorPrimary"
-        app:navigationIcon="@drawable/ic_menu"></com.google.android.material.bottomappbar.BottomAppBar>
+        app:hideOnScroll="true"
+        app:navigationIcon="@drawable/ic_menu"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/act_home_fab"

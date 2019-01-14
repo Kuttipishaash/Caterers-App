@@ -77,7 +77,7 @@
                     android:paddingEnd="24dp"
                     android:paddingBottom="8dp"
                     android:src="@drawable/ic_mail"
-                    android:tint="@color/white" />
+                    android:tint="@color/colorAccent" />
 
                 <ImageButton
                     android:id="@+id/li_item_fav_vendor_call"
