@@ -246,7 +246,7 @@
                                     android:id="@+id/frag_cate_dash_fav_vendors"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:nestedScrollingEnabled="true"
+                                    android:nestedScrollingEnabled="false"
                                     android:orientation="horizontal"
                                     android:scrollbars="horizontal" />
                             </LinearLayout>

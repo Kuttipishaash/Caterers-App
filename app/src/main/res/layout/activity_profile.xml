@@ -4,45 +4,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient"
     tools:context=".activities.ProfileActivity">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:layout_height="wrap_content">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="@dimen/spacing_mlarge"
-                android:gravity="center"
-                android:text="My Profile"
-                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                android:textColor="@android:color/white"
-                android:textStyle="bold" />
 
-            <androidx.cardview.widget.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/spacing_middle"
-                android:layout_marginRight="@dimen/spacing_middle"
-                android:layout_marginBottom="@dimen/spacing_medium"
-                android:clipToPadding="false"
+                android:orientation="vertical"
+                android:padding="16dp">
 
-                app:cardBackgroundColor="@android:color/white"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="2dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="My Profile"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -50,9 +39,6 @@
                     android:orientation="vertical"
                     android:padding="10dp">
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/spacing_mxlarge" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
@@ -64,7 +50,7 @@
                             android:layout_height="150dp"
                             android:layout_gravity="center"
                             android:layout_marginStart="8dp"
-                            android:layout_marginTop="8dp"
+                            android:layout_marginTop="15dp"
                             android:layout_marginEnd="8dp"
                             android:layout_marginBottom="8dp"
                             android:src="@drawable/user_placeholder"
@@ -80,9 +66,6 @@
                             android:id="@+id/act_prof_user_img_change"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginEnd="8dp"
-                            android:layout_marginBottom="8dp"
                             android:background="@drawable/round_white"
                             android:src="@drawable/ic_edit"
                             android:tint="@color/black"
@@ -96,20 +79,36 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/spacing_mxlarge" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Name"
-                        android:textStyle="bold" />
+                    <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="Name"-->
+                    <!--android:textStyle="bold" />-->
 
-                    <EditText
-                        android:id="@+id/act_prof_user_name"
+                    <!--<EditText-->
+                    <!--android:id="@+id/act_prof_user_name"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--style="@style/SignUpTextInput"-->
+                    <!--android:drawableStart="@drawable/ic_person"-->
+                    <!--android:layout_height="wrap_content" />-->
+
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/act_prof_user_name"
+                            style="@style/SignUpTextInput"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/ic_person"
+                            android:hint="Edit Name" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/spacing_mxlarge" />
+
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -117,10 +116,14 @@
                         android:text="Email"
                         android:textStyle="bold" />
 
+
                     <TextView
                         android:id="@+id/act_prof_user_email"
+                        style="@style/SignUpTextInput"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_mail"
+                        android:enabled="false"
                         android:text="placeholder@caterassist.com" />
 
                     <View
@@ -133,78 +136,139 @@
                         android:text="Phone"
                         android:textStyle="bold" />
 
+
                     <TextView
                         android:id="@+id/act_prof_user_phone"
+                        style="@style/SignUpTextInput"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-
+                        android:drawableStart="@drawable/ic_phone"
+                        android:enabled="false"
                         android:text="+910000000000" />
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/spacing_mxlarge" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Street"
-                        android:textStyle="bold" />
+                    <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
 
-                    <EditText
-                        android:id="@+id/act_prof_street_addr"
+                    <!--android:text="Street"-->
+                    <!--android:textStyle="bold" />-->
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="40dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="14dp"
+                            android:src="@drawable/ic_store"
+                            android:tint="@color/colorAccent" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="8dp"
+                            android:text="Address"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/act_prof_street_addr"
+                            style="@style/SignUpTextInput"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Street" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!--<EditText-->
+                    <!--android:id="@+id/act_prof_street_addr"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content" />-->
+
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/spacing_mxlarge" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Locality"
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:id="@+id/act_prof_locality_addr"
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/act_prof_locality_addr"
+                            style="@style/SignUpTextInput"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Locality" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="Locality"-->
+                    <!--android:textStyle="bold" />-->
+
+                    <!--<EditText-->
+                    <!--android:id="@+id/act_prof_locality_addr"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content" />-->
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/spacing_mxlarge" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="District"
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:id="@+id/act_prof_district_addr"
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/act_prof_district_addr"
+                            style="@style/SignUpTextInput"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="District" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="District"-->
+                    <!--android:textStyle="bold" />-->
+
+                    <!--<EditText-->
+                    <!--android:id="@+id/act_prof_district_addr"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content" />-->
                 </LinearLayout>
 
 
-            </androidx.cardview.widget.CardView>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/spacing_mxlarge" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/spacing_mxlarge" />
+                <Button
+                    android:id="@+id/act_prof_save_btn"
+                    style="@style/Rounded_Button_Accent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Save Changes" />
 
-            <Button
-                android:id="@+id/act_prof_save_btn"
-                style="@style/Rounded_Button_Accent"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Save Changes" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/spacing_mxlarge" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/spacing_mxlarge" />
-
-        </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
 
     </ScrollView>
 
