@@ -11,6 +11,7 @@ import com.caterassist.app.R;
 public class SettingsActivity extends Activity implements View.OnClickListener {
     private static final String TAG = "SettignsActivity";
     private LinearLayout profileSettings;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

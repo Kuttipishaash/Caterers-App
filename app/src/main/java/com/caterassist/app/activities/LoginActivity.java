@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -14,6 +16,7 @@ import com.caterassist.app.models.UserDetails;
 import com.caterassist.app.utils.AppUtils;
 import com.caterassist.app.utils.Constants;
 import com.caterassist.app.utils.FirebaseUtils;
+import com.github.jorgecastilloprz.FABProgressCircle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,6 +38,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     private TextInputEditText passwordEdtTxt;
     private LinearLayout signUpLinearLayout;
     private FloatingActionButton loginFAB;
+    private FABProgressCircle fabProgressCircle;
 
     private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     ValueEventListener userDetailsListener;
@@ -106,7 +110,11 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login);
+        this.getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         initViews();
 
         //Setting listeners
@@ -118,8 +126,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         usernameEdtTxt = findViewById(R.id.act_login_txt_inp_username);
         passwordEdtTxt = findViewById(R.id.act_login_txt_inp_passowrd);
         loginFAB = findViewById(R.id.act_login_fab_login);
+        fabProgressCircle = findViewById(R.id.fabProgressCircle);
         signUpLinearLayout = findViewById(R.id.sign_up_for_account);
-
         sharedPreferences = getSharedPreferences(Constants.SharedPref.PREF_FILE, MODE_PRIVATE);
 
     }
@@ -128,6 +136,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         if (v.getId() == loginFAB.getId()) {
             login();
+            fabProgressCircle.show();
         } else if (v.getId() == signUpLinearLayout.getId()) {
             startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
         }

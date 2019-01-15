@@ -2,7 +2,7 @@
     <string name="app_name">Cater Bazar</string>
     <string name="app_desc">Plan, organise and develop the food and beverage services of organisations and businesses, while meeting customer expectations, food and hygiene standards, and financial targets.</string>
     <string name="app_link">Sample Link</string>\
-    <string name="link_signup">Don\'t have an account? Sign up.</string>
+    <string name="link_signup">Don\'t have an account? <u>Sign up.</u></string>
 
 
     <string name="lorem_title">Lorem ipsum.</string>
@@ -45,4 +45,6 @@
     <string name="toast_checkout_success">Checkout successful</string>
     <string name="toast_checkout_failed">Checkout failed</string>
     <string name="toast_added_item_qty_less_than_zero">The quantity should be greater than zero.</string>
+
+    <string name="privacy_signup_2">"<u>Terms &amp; Conditions agreement, End-User License Agreement (EULA) and Privacy Policy.</u>"</string>
 </resources>

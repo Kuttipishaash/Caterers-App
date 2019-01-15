@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:orientation="vertical">
 
     <LinearLayout
@@ -18,11 +20,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Sign Up"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            android:textColor="@color/colorAccent"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="55dp"
+            android:layout_height="3dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/spacing_xmedium"
+            android:layout_marginBottom="@dimen/spacing_mlarge"
+            android:background="@color/colorAccent" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/spacing_mlarge"
             android:gravity="center"
-            android:text="Sign Up for an Account"
-            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-            android:textStyle="bold" />
+            android:text="Create an account to log in &amp; use our services." />
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -30,18 +47,19 @@
             android:layout_height="wrap_content"
             android:padding="10dp">
 
-            <ImageView
+            <com.mikhaellopez.circularimageview.CircularImageView
                 android:id="@+id/act_sign_user_img"
                 android:layout_width="155dp"
                 android:layout_height="150dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
+                android:src="@drawable/user_placeholder"
+                app:civ_border="true"
+                app:civ_border_color="@color/colorAccent"
+                app:civ_border_width="1dp"
                 app:layout_constraintBottom_toTopOf="@+id/linearLayout5"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/user_placeholder" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <LinearLayout
                 android:id="@+id/linearLayout5"
@@ -186,6 +204,7 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="14dp"
                             android:src="@drawable/ic_store"
                             android:tint="@color/colorAccent" />
 
@@ -235,6 +254,37 @@
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/spacing_large" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="By signing up you are also agreeing to comply with our" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/privacy_signup_2"
+                        android:textColor="@color/colorAccent" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="NOTE: You can only login, once the verification is done." />
+
+
+                </LinearLayout>
+
 
             </LinearLayout>
 
@@ -258,9 +308,9 @@
 
         <Button
             android:id="@+id/act_sign_submit"
-            style="@style/Rounded_Button_White"
+            style="@style/Rounded_Button_Accent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Submit" />
+            android:text="Sign Up" />
     </LinearLayout>
 </ScrollView>
