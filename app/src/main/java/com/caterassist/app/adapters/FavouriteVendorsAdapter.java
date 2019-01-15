@@ -28,7 +28,7 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class FavouriteVendorsAdapter extends RecyclerView.Adapter<FavouriteVendorsAdapter.ViewHolder> {
@@ -71,7 +71,7 @@ public class FavouriteVendorsAdapter extends RecyclerView.Adapter<FavouriteVendo
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private ConstraintLayout parentView;
+        private CardView parentView;
         private TextView vendorName;
         private ImageButton emailVendorButton;
         private ImageButton callVendorButton;

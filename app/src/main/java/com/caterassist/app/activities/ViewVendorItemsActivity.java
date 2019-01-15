@@ -2,10 +2,17 @@ package com.caterassist.app.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.caterassist.app.R;
 import com.caterassist.app.adapters.VendorItemsAdapter;
 import com.caterassist.app.models.UserDetails;
@@ -20,6 +27,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.util.ArrayList;
@@ -30,7 +39,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import es.dmoral.toasty.Toasty;
 
-public class ViewVendorItemsActivity extends Activity {
+public class ViewVendorItemsActivity extends Activity implements View.OnClickListener {
 
     private static final String TAG = "VendorItemsViewAct";
     private String vendorUID;
@@ -44,6 +53,13 @@ public class ViewVendorItemsActivity extends Activity {
     private LinearLayoutManager vendorItemsLayoutManager;
     private VendorItemsAdapter vendorItemsAdapter;
     private androidx.appcompat.widget.Toolbar toolbar;
+    private ImageButton emailVendorImageBtn;
+    private ImageButton callVendorImageBtn;
+    private ImageButton addToFavoutitesImageBtn;
+    private ImageView vendorImageView;
+    private TextView vendorNameTextView;
+    private TextView vendorAddressTextView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +108,24 @@ public class ViewVendorItemsActivity extends Activity {
                 vendorItemsLayoutManager = new LinearLayoutManager(ViewVendorItemsActivity.this, RecyclerView.VERTICAL, false);
                 vendorItemsRecyclerView.setLayoutManager(vendorItemsLayoutManager);
                 vendorItemsRecyclerView.setAdapter(vendorItemsAdapter);
+                //Set vendor image
+                String imageUrl = vendorDetails.getUserImageUrl();
+                if (imageUrl != null) {
+                    StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+                    storageReference.child(imageUrl).getDownloadUrl().addOnSuccessListener(uri -> {
+                        RequestOptions requestOptions = new RequestOptions();
+                        requestOptions.placeholder(R.drawable.placeholder);
+                        requestOptions.error(R.drawable.ic_error_placeholder);
+
+                        Glide.with(ViewVendorItemsActivity.this)
+                                .setDefaultRequestOptions(requestOptions)
+                                .load(uri)
+                                .into(vendorImageView);
+                    }).addOnFailureListener(exception -> vendorImageView.setImageResource(R.drawable.ic_error_placeholder));
+                }
+                vendorNameTextView.setText(vendorDetails.getUserName());
+                String location = vendorDetails.getUserLocationName() + ", " + vendorDetails.getUserDistrictName();
+                vendorNameTextView.setText(location);
                 fetchVendorItems();
             }
 
@@ -191,5 +225,47 @@ public class ViewVendorItemsActivity extends Activity {
 
         toolbar = findViewById(R.id.vendor_items_toolbar);
         toolbar.setTitle("Vendor Name");
+
+        addToFavoutitesImageBtn = findViewById(R.id.act_vendor_add_to_fav);
+        callVendorImageBtn = findViewById(R.id.act_vendor_call_vendor);
+        emailVendorImageBtn = findViewById(R.id.act_vendor_mail_vendor);
+        vendorImageView = findViewById(R.id.act_vendor_image);
+        vendorNameTextView = findViewById(R.id.act_vendor_name);
+        vendorAddressTextView = findViewById(R.id.act_vendor_address);
+
+        addToFavoutitesImageBtn.setOnClickListener(this);
+        emailVendorImageBtn.setOnClickListener(this);
+        callVendorImageBtn.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.act_vendor_add_to_fav:
+                addVendorToFavourites();
+                break;
+            case R.id.act_vendor_call_vendor:
+                if (vendorDetails.getUserPhone() != null) {
+                    String phoneNumber = vendorDetails.getUserPhone();
+                    Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phoneNumber));
+                    startActivity(callIntent);
+                }
+                break;
+            case R.id.act_vendor_mail_vendor:
+                if (vendorDetails.getUserEmail() != null) {
+                    String emailAddress = vendorDetails.getUserEmail();
+                    Intent sendIntent = new Intent(Intent.ACTION_SENDTO);
+                    sendIntent.setData(Uri.parse("mailto:"));
+                    sendIntent.putExtra(Intent.EXTRA_SUBJECT, "Enquiry about vending services.");
+                    sendIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{emailAddress});
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, "");
+                    startActivity(sendIntent);
+                }
+                break;
+        }
+    }
+
+    private void addVendorToFavourites() {
+        //TODO: Add to favourites
     }
 }

@@ -30,6 +30,7 @@ import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import es.dmoral.toasty.Toasty;
 
 public class VendorListAdapter extends RecyclerView.Adapter<VendorListAdapter.ViewHolder> implements Filterable {
     private ArrayList<UserDetails> vendorsList;
@@ -141,7 +142,9 @@ public class VendorListAdapter extends RecyclerView.Adapter<VendorListAdapter.Vi
             } else if (v.getId() == R.id.li_vendor_add_favourite) {
                 String databasePath = FirebaseUtils.getDatabaseMainBranchName() + FirebaseUtils.FAVOURITE_VENDORS_BRANCH_NAME + FirebaseAuth.getInstance().getUid();
                 DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(databasePath);
-                databaseReference.child(filteredVendorsList.get(getAdapterPosition()).getUserID()).setValue(filteredVendorsList.get(getAdapterPosition()));
+                databaseReference.child(filteredVendorsList.get(getAdapterPosition()).getUserID()).setValue(filteredVendorsList.get(getAdapterPosition()))
+                        .addOnSuccessListener(aVoid -> Toasty.success(itemView.getContext(), "Added to favourites.").show())
+                        .addOnFailureListener(e -> Toasty.success(itemView.getContext(), "Couldn't add vendor to favourites").show());
             }
         }
     }

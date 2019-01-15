@@ -26,8 +26,9 @@
             app:titleEnabled="false">
 
             <ImageView
+                android:id="@+id/act_vendor_image"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="180dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/vector_back"
                 app:layout_collapseMode="parallax" />
@@ -60,6 +61,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/act_vendor_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="65dp"
@@ -69,6 +71,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/act_vendor_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/spacing_large"
@@ -106,6 +109,7 @@
                             android:orientation="vertical">
 
                             <ImageButton
+                                android:id="@+id/act_vendor_mail_vendor"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@color/transparent"
@@ -132,6 +136,7 @@
                             android:orientation="vertical">
 
                             <ImageButton
+                                android:id="@+id/act_vendor_add_to_fav"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@color/transparent"
@@ -160,6 +165,7 @@
                             android:orientation="vertical">
 
                             <ImageButton
+                                android:id="@+id/act_vendor_call_vendor"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@color/transparent"
