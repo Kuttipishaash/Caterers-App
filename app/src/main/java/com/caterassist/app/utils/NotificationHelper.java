@@ -1,4 +1,4 @@
-package com.caterassist.app;
+package com.caterassist.app.utils;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -10,10 +10,9 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 
+import com.caterassist.app.R;
 import com.caterassist.app.activities.CatererHomeActivity;
 import com.caterassist.app.activities.VendorHomeActivity;
-import com.caterassist.app.utils.AppUtils;
-import com.caterassist.app.utils.Constants;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.text.SimpleDateFormat;

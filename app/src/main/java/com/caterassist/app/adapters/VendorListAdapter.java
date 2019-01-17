@@ -123,8 +123,6 @@ public class VendorListAdapter extends RecyclerView.Adapter<VendorListAdapter.Vi
             callVendorBtn.setOnClickListener(this);
             parentLayout.setOnClickListener(this);
             addFavouriteButton.setOnClickListener(this);
-
-
         }
 
         @SuppressLint("MissingPermission")
@@ -148,6 +146,4 @@ public class VendorListAdapter extends RecyclerView.Adapter<VendorListAdapter.Vi
             }
         }
     }
-
-
 }

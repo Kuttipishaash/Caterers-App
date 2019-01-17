@@ -43,7 +43,7 @@ import es.dmoral.toasty.Toasty;
 
 public class VendorHomeActivity extends FragmentActivity implements View.OnClickListener {
 
-    private static final String TAG = "VendorHomeActivity";
+    private static final String TAG = "VendorDash";
     private static final int CALL_PERMISSION_REQ_CODE = 100;
     TextView awaitingOrderNumberTxtView;
     private BottomAppBar bottomAppBar;
@@ -97,23 +97,26 @@ public class VendorHomeActivity extends FragmentActivity implements View.OnClick
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 try {
                     approvalAwaitingOrders = dataSnapshot.getValue(Integer.class);
-                    if (approvalAwaitingOrders.intValue() == 0) {
-                        awaitingOrderNumberTxtView.setText("No Pending Orders");
+                    if (approvalAwaitingOrders != null) {
+                        if (approvalAwaitingOrders == 0) {
+                            awaitingOrderNumberTxtView.setText("No Pending Orders");
+                        } else {
+                            String pendingText = approvalAwaitingOrders + " pending orders";
+                            awaitingOrderNumberTxtView.setText(pendingText);
+                        }
                     } else {
-                        String pendingText = approvalAwaitingOrders + " pending orders";
-                        awaitingOrderNumberTxtView.setText(pendingText);
+                        awaitingOrderNumberTxtView.setText("No Pending Orders");
                     }
+
                 } catch (NullPointerException e) {
                     approvalAwaitingOrders = 0;
                     awaitingOrderNumberTxtView.setText("No Pending Orders");
                     Log.e(TAG, "onDataChange: Approval awaiting order variable null in firebase");
                 }
-
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                Log.e(TAG, "onCancelled: Failed to fetch pending orders");
             }
         });
     }
@@ -185,7 +188,8 @@ public class VendorHomeActivity extends FragmentActivity implements View.OnClick
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.w(TAG, "postComments:onCancelled", databaseError.toException());
+                Log.e(TAG, "onCancelled: Fetching cancelled");
+                Log.w(TAG, "onCancelled", databaseError.toException());
                 Toast.makeText(VendorHomeActivity.this, "Failed to load cart items.",
                         Toast.LENGTH_SHORT).show();
             }
@@ -256,7 +260,6 @@ public class VendorHomeActivity extends FragmentActivity implements View.OnClick
     private void doIfPermissionGranted() {
         initViews();
         setupBottomAppBar();
-        Toast.makeText(this, "This is VendorFragment", Toast.LENGTH_SHORT).show();
         vendingItemsArrayList = new ArrayList<>();
 
         UserDetails userDetails = AppUtils.getUserInfoSharedPreferences(this);
@@ -268,7 +271,6 @@ public class VendorHomeActivity extends FragmentActivity implements View.OnClick
         fetchPendingOrders();
         addEditItemFAB.setOnClickListener(this);
     }
-
 
 
     private void setupBottomAppBar() {

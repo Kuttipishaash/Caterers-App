@@ -378,26 +378,6 @@ public class CartActivity extends Activity implements View.OnClickListener {
             body.append("</tr>");
             Log.e(TAG, "items: body");
         }
-        String header =
-                "<h1 style=\'color:red\'>Order Summary</h1>" +
-                        "<table border=\'1\'>" +
-                        "<tr>" +
-                        "<th>Item Name</th>" +
-                        "<th>Quantity</th>" +
-                        "<th>Rate</th>" +
-                        "<th>Amount</th>" +
-                        "</tr>" +
-                        body.toString() +
-                        "<tr>" +
-                        "<td colspan=\'2\'>" +
-                        "Total Amount" +
-                        "</td>" +
-                        "<td colspan=\'2\'>" +
-                        String.valueOf(orderDetails.getOrderTotalAmount()) +
-                        "</td>" +
-                        "</tr>" +
-
-                        "</table>";
 
         String html = "<body>" +
                 "<style>" +
