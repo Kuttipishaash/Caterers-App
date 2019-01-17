@@ -121,6 +121,7 @@ public class HistoryOrderInfoAdapter extends RecyclerView.Adapter<HistoryOrderIn
                     intent.putExtra(Constants.IntentExtrasKeys.ORDER_DETAILS_BRANCH, FirebaseUtils.ORDERS_CATERER_BRANCH);
                 }
                 intent.putExtra(Constants.IntentExtrasKeys.ORDER_ID, orderDetailsArrayList.get(getAdapterPosition()).getOrderId());
+                intent.putExtra(Constants.IntentExtrasKeys.ORDER_INFO, orderDetailsArrayList.get(getAdapterPosition()));
                 itemView.getContext().startActivity(intent);
             } else if (v.getId() == R.id.li_history_order_info_delete_btn) {
                 Context context = itemView.getContext();

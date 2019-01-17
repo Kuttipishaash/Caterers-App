@@ -21,6 +21,7 @@ public class Constants {
         public static final String VIEW_VENDOR_ITEMS_INTENT_VENDOR_UID = "vendor_uid";
         public static final String ORDER_DETAILS_BRANCH = "order_details_branch";
         public static final String ORDER_ID = "order_id";
+        public static final String ORDER_INFO = "order_info";
     }
 
     public static class PermissionRequestCodes {
