@@ -2,7 +2,7 @@ package com.caterassist.app.models;
 
 import com.google.firebase.database.Exclude;
 
-public class CartItem {
+public class CartItem implements Cloneable {
     @Exclude
     private String id;
 
@@ -89,5 +89,16 @@ public class CartItem {
 
     public void setTotalAmount(double totalAmount) {
         this.totalAmount = totalAmount;
+    }
+
+    @Override
+    public Object clone() {
+        CartItem clone;
+        try {
+            clone = (CartItem) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
+        return clone;
     }
 }

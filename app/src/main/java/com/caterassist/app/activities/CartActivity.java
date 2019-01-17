@@ -33,6 +33,7 @@ import com.squareup.okhttp.Response;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
@@ -48,6 +49,7 @@ public class CartActivity extends Activity implements View.OnClickListener {
     private DatabaseReference cartItemsReference;
     private ChildEventListener cartItemsEventListener;
     private ArrayList<CartItem> cartItemsArrayList;
+    private ArrayList<CartItem> cartItemsListToMail;
     private LinearLayoutManager cartItemsLayoutManager;
     private CartAdapter cartItemsAdapter;
     private UserDetails vendorDetails;
@@ -251,8 +253,16 @@ public class CartActivity extends Activity implements View.OnClickListener {
                                     FirebaseUtils.ORDERS_CATERER_BRANCH +
                                     FirebaseAuth.getInstance().getUid();
                             DatabaseReference checkoutReference = FirebaseDatabase.getInstance().getReference(userOrdersItemsDatabasePath);
+                            cartItemsListToMail = new ArrayList<>();
+
+                            Iterator<CartItem> iterator = cartItemsArrayList.iterator();
+
+                            while (iterator.hasNext()) {
+                                //Add the object clones
+                                cartItemsListToMail.add((CartItem) iterator.next().clone());
+                            }
                             Order order = new Order();
-                            order.setOrderItems(cartItemsArrayList);
+                            order.setOrderItems(cartItemsListToMail);
                             order.setOrderInfo(orderDetails);
                             checkoutReference = checkoutReference.push();
 
@@ -260,7 +270,8 @@ public class CartActivity extends Activity implements View.OnClickListener {
                             DatabaseReference finalCheckoutReference = checkoutReference;
                             finalCheckoutReference.setValue(order)
                                     .addOnSuccessListener(aVoid -> {
-                                                sendEmail(order);
+
+                                        sendEmail(order);
                                                 Objects.requireNonNull(cartItemsReference.getParent()).setValue(null)
                                                         .addOnSuccessListener(aVoid1 -> {
                                                             Toasty.success(CartActivity.this,
