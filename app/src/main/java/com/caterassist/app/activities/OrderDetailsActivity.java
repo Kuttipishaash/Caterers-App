@@ -1,8 +1,11 @@
 package com.caterassist.app.activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,7 +30,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import es.dmoral.toasty.Toasty;
 
-public class OrderDetailsActivity extends Activity {
+public class OrderDetailsActivity extends Activity implements View.OnClickListener {
 
     private RecyclerView orderItemsRecyclerView;
     private TextView userTypeTxtView;
@@ -35,6 +38,9 @@ public class OrderDetailsActivity extends Activity {
     private TextView orderTimestampTxtView;
     private TextView orderIDTxtView;
     private TextView orderTotalAmtTxtView;
+    private TextView orderStatusTxtView;
+    private Button deleteOrderBtn;
+    private Button viewVendorBtn;
 
 
     private ArrayList<CartItem> cartItemArrayList;
@@ -68,12 +74,33 @@ public class OrderDetailsActivity extends Activity {
             userTypeTxtView.setText("Caterer Name: ");
             userNameTxtView.setText(orderDetails.getCatererName());
         } else {
+            viewVendorBtn.setVisibility(View.VISIBLE);
             userTypeTxtView.setText("Vendor Name: ");
             userNameTxtView.setText(orderDetails.getVendorName());
         }
         orderIDTxtView.setText(orderId);
         orderTotalAmtTxtView.setText(String.valueOf(orderDetails.getOrderTotalAmount()));
         orderTimestampTxtView.setText(String.valueOf(orderDetails.getOrderTime()));
+        String status;
+        //TODO Set color in this switch case
+        switch (orderDetails.getOrderStatus()) {
+            case 0:
+                status = "Awaiting approval";
+                break;
+            case 1:
+                status = "Approved and Processing";
+                break;
+            case 2:
+                status = "Completed";
+                break;
+            case 3:
+                status = "Rejected";
+                break;
+            default:
+                status = "Status Unavailable";
+                break;
+        }
+        orderStatusTxtView.setText(status);
     }
 
     private void fetchItems() {
@@ -103,12 +130,57 @@ public class OrderDetailsActivity extends Activity {
         orderIDTxtView = findViewById(R.id.act_ord_det_order_id);
         orderTimestampTxtView = findViewById(R.id.act_ord_det_order_timestamp);
         orderTotalAmtTxtView = findViewById(R.id.act_ord_det_order_total_amt);
+        orderStatusTxtView = findViewById(R.id.act_ord_det_order_status);
+        deleteOrderBtn = findViewById(R.id.act_ord_det_order_delete_btn);
         orderItemsRecyclerView = findViewById(R.id.act_ord_det_order_items_recyc_view);
+        viewVendorBtn = findViewById(R.id.act_order_det_view_vend);
+
+        deleteOrderBtn.setOnClickListener(this);
+        viewVendorBtn.setOnClickListener(this);
+
         cartItemArrayList = new ArrayList<>();
         orderItemsAdapter = new OrderItemsAdapter();
         orderItemsAdapter.setCartItemArrayList(cartItemArrayList);
         orderItemsLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         orderItemsRecyclerView.setLayoutManager(orderItemsLayoutManager);
         orderItemsRecyclerView.setAdapter(orderItemsAdapter);
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == deleteOrderBtn.getId()) {
+            if (orderDetails.getOrderStatus() > 1) {
+                new AlertDialog.Builder(this)
+                        .setTitle(getResources().getString(R.string.dialog_title_delete_order_history))
+                        .setMessage(
+                                getResources().getString(R.string.dialog_message_delete_order_history))
+                        .setPositiveButton(
+                                getResources().getString(R.string.dialog_btn_yes),
+                                (dialog, which) -> deleteItem())
+                        .setNegativeButton((getResources().getString(R.string.dialog_btn_no))
+                                , (dialog, which) -> dialog.dismiss()).show();
+            } else {
+                Toasty.warning(this, "You cannot delete an unfulfilled order!").show();
+            }
+        } else if (v.getId() == viewVendorBtn.getId()) {
+            Intent viewVendorIntent = new Intent(OrderDetailsActivity.this, ViewVendorItemsActivity.class);
+            viewVendorIntent.putExtra(Constants.IntentExtrasKeys.VIEW_VENDOR_ITEMS_INTENT_VENDOR_UID, orderDetails.getVendorId());
+            startActivity(viewVendorIntent);
+            finish();
+        }
+    }
+
+    private void deleteItem() {
+        String orderID = orderDetails.getOrderId();
+        String branch = AppUtils.isCurrentUserVendor(this) ? FirebaseUtils.ORDERS_VENDOR_BRANCH : FirebaseUtils.ORDERS_CATERER_BRANCH;
+        String databasePath = FirebaseUtils.getDatabaseMainBranchName() + branch +
+                FirebaseAuth.getInstance().getUid() + "/" + orderID;
+        DatabaseReference orderReference = FirebaseDatabase.getInstance().getReference(databasePath);
+        orderReference.setValue(null)
+                .addOnSuccessListener(aVoid -> {
+                    Toasty.success(this, "Order deleted from history.").show();
+                    finish();
+                })
+                .addOnFailureListener(e -> Toasty.error(this, "Failed to delete order from history!").show());
     }
 }

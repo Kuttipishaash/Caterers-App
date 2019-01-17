@@ -58,7 +58,7 @@
                     android:padding="@dimen/fab_margin">
 
                     <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/li_order_det_delete_btn"
+                        android:id="@+id/act_ord_det_order_delete_btn"
                         style="@style/Base.TextAppearance.AppCompat.Button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -68,11 +68,12 @@
                         android:text="Delete" />
 
                     <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/li_order_det_view_vend"
+                        android:id="@+id/act_order_det_view_vend"
                         style="@style/Rounded_Button_White"
+                        android:layout_below="@id/act_ord_det_order_delete_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/li_order_det_delete_btn"
+                        android:visibility="gone"
                         android:layout_alignRight="@+id/item_history_order_vend"
                         android:layout_alignParentEnd="true"
                         android:background="@color/transparent"
@@ -221,7 +222,7 @@
                             android:text="status" />
 
                         <TextView
-                            android:id="@+id/li_history_order_info_status"
+                            android:id="@+id/act_ord_det_order_status"
                             style="@style/OrderHistoryItem"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

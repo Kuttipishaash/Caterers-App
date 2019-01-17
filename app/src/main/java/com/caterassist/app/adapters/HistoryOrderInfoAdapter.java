@@ -141,7 +141,7 @@ public class HistoryOrderInfoAdapter extends RecyclerView.Adapter<HistoryOrderIn
                             .setNegativeButton((context.getResources().getString(R.string.dialog_btn_no))
                                     , (dialog, which) -> dialog.dismiss()).show();
                 } else {
-                    Toasty.error(context, "You cannot delete an unfulfilled order!").show();
+                    Toasty.warning(context, "You cannot delete an unfulfilled order!").show();
                 }
             }
         }
