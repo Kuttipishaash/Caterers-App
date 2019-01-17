@@ -167,6 +167,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w(TAG, "signInWithEmail:failure", task.getException());
+                        fabProgressCircle.hide();
                         Toasty.error(LoginActivity.this, "Login failed! Please try again.",
                                 Toast.LENGTH_SHORT).show();
                     }
@@ -213,6 +214,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                     generateNotificationToken();
                 } else {
                     Log.e(TAG, "onDataChange: Failed to fetch");
+                    fabProgressCircle.hide();
                     Toasty.error(LoginActivity.this, "Login failed! Please try again.", Toast.LENGTH_SHORT).show();
                 }
             }

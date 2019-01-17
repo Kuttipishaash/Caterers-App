@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradient_light"
     android:fillViewport="true"
-
     tools:context=".activities.AboutUsActivity">
 
     <LinearLayout
@@ -15,8 +15,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="250dp"
-            android:foreground="@drawable/vector_back"
-            android:background="@drawable/gradient">
+            android:background="@drawable/gradient"
+            android:foreground="@drawable/vector_back">
 
             <LinearLayout
                 android:layout_width="wrap_content"

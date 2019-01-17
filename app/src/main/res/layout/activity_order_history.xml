@@ -6,6 +6,7 @@
     android:clickable="false"
     android:focusable="false"
     android:orientation="vertical"
+    android:background="@drawable/gradient_light"
     tools:context=".activities.OrderHistoryActivity">
 
     <androidx.core.widget.NestedScrollView
