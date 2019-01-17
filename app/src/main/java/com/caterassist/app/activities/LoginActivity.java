@@ -46,7 +46,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     private SharedPreferences sharedPreferences;
     private UserDetails userDetails;
     private String currentUserID;
-    //TODO: Show progress dialog.
 
     @Override
     protected void onResume() {

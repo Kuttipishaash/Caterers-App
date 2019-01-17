@@ -21,6 +21,7 @@ import com.caterassist.app.utils.Constants;
 import com.caterassist.app.utils.FirebaseUtils;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -266,7 +267,24 @@ public class ViewVendorItemsActivity extends Activity implements View.OnClickLis
     }
 
     private void addVendorToFavourites() {
-        //TODO: Add to favourites
-        Toasty.warning(this, "WORK IN PROGRESS").show();
+        String userInfoDatabasePath = FirebaseUtils.getDatabaseMainBranchName() + FirebaseUtils.USER_INFO_BRANCH_NAME + vendorUID;
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(userInfoDatabasePath);
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                UserDetails vendorDetails = dataSnapshot.getValue(UserDetails.class);
+                String favouriteUserPath = FirebaseUtils.getDatabaseMainBranchName() + FirebaseUtils.FAVOURITE_VENDORS_BRANCH_NAME
+                        + FirebaseAuth.getInstance().getUid();
+                DatabaseReference favouriteUsersDbRef = FirebaseDatabase.getInstance().getReference(favouriteUserPath);
+                favouriteUsersDbRef.child(vendorUID).setValue(vendorDetails)
+                        .addOnSuccessListener(aVoid -> Toasty.success(ViewVendorItemsActivity.this, "Vendor added to favourites").show())
+                        .addOnFailureListener(e -> Toasty.error(ViewVendorItemsActivity.this, "Vendor couldn't be added to favourites. Try Again!").show());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toasty.error(ViewVendorItemsActivity.this, "Vendor couldn't be added to favourites. Try Again!").show();
+            }
+        });
     }
 }
