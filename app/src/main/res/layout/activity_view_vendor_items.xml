@@ -65,7 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="65dp"
-                android:text="Vendor Name"
+                android:text=""
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
                 android:textColor="@color/grey_90"
                 android:textStyle="bold" />
@@ -140,7 +140,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@color/transparent"
-                                android:src="@drawable/ic_favorite"
+                                android:src="@drawable/ic_favorite_border"
                                 android:tint="@color/red_800" />
 
                             <TextView

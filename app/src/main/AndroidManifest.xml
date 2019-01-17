@@ -18,6 +18,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -45,17 +46,20 @@
         <activity android:name=".activities.ProfileActivity" />
         <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity" />
         <activity android:name=".activities.CatererHomeActivity" />
-        <!-- Set custom default icon. This is used when no icon is set for incoming notification messages.
-             See README(https://goo.gl/l4GJaQ) for more. -->
+        <!--
+             Set custom default icon. This is used when no icon is set for incoming notification messages.
+             See README(https://goo.gl/l4GJaQ) for more.
+        -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_cart" />
-        <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
-             notification message. See README(https://goo.gl/6BKBk7) for more. -->
+        <!--
+             Set color used with incoming notification messages. This is used when no color is set for the incoming
+             notification message. See README(https://goo.gl/6BKBk7) for more.
+        -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorAccent" />
-
 
         <service android:name=".FirebaseNotificationService">
             <intent-filter>
@@ -63,6 +67,7 @@
             </intent-filter>
         </service>
 
+        <activity android:name=".activities.ForgotPassword"></activity>
     </application>
 
 </manifest>

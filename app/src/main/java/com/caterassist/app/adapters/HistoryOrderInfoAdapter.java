@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.caterassist.app.R;
@@ -67,18 +67,21 @@ public class HistoryOrderInfoAdapter extends RecyclerView.Adapter<HistoryOrderIn
                 break;
         }
         holder.orderStatusTxtView.setText(status);
-        holder.orderTimeStampTxtView.setText(orderDetails.getOrderTime());
+
+        String[] timeStampStr = orderDetails.getOrderTime().split(" ", 2);
+        holder.orderTimeStampTxtView.setText(timeStampStr[0]);
+        holder.orderTimeStampTimeTxtView.setText(timeStampStr[1]);
 
         if (isVendor) {
             holder.orderStatusTxtView.setVisibility(View.GONE);
-            holder.orderNameLabel.setText("Caterer : ");
+            holder.orderNameLabel.setText("Caterer");
             holder.nameTxtView.setText(orderDetails.getCatererName());
         } else {
-            holder.orderNameLabel.setText("Vendor : ");
+            holder.orderNameLabel.setText("Vendor");
             holder.nameTxtView.setText(orderDetails.getVendorName());
         }
 
-        holder.orderTotalAmtTxtView.setText(String.valueOf(orderDetails.getOrderTotalAmount()));
+        holder.orderTotalAmtTxtView.setText("₹"+String.valueOf(orderDetails.getOrderTotalAmount()));
     }
 
     @Override
@@ -87,11 +90,12 @@ public class HistoryOrderInfoAdapter extends RecyclerView.Adapter<HistoryOrderIn
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        LinearLayout parentLayout;
+        RelativeLayout parentLayout;
         TextView orderIDTxtView;
         TextView orderNameLabel;
         TextView orderStatusTxtView;
         TextView orderTimeStampTxtView;
+        TextView orderTimeStampTimeTxtView;
         TextView nameTxtView;
         TextView orderTotalAmtTxtView;
         ImageView deleteOrderImageView;
@@ -104,6 +108,7 @@ public class HistoryOrderInfoAdapter extends RecyclerView.Adapter<HistoryOrderIn
             nameTxtView = itemView.findViewById(R.id.li_history_order_info_name);
             orderNameLabel = itemView.findViewById(R.id.li_history_order_info_name_label);
             orderTimeStampTxtView = itemView.findViewById(R.id.li_history_order_info_timestamp);
+            orderTimeStampTimeTxtView = itemView.findViewById(R.id.li_history_order_info_timestamp_time);
             orderTotalAmtTxtView = itemView.findViewById(R.id.li_history_order_info_order_total);
             deleteOrderImageView = itemView.findViewById(R.id.li_history_order_info_delete_btn);
 

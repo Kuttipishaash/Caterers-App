@@ -151,6 +151,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
+                    android:id="@+id/act_login_forgot_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="end"
@@ -218,7 +219,7 @@
                     android:background="@color/grey_10" />
 
                 <LinearLayout
-                    android:id="@+id/sign_up_for_account"
+
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_medium"
@@ -226,15 +227,17 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/sign_up_for_account"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/spacing_large"
                         android:text="@string/link_signup"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
-                        android:textColor="@color/grey_600"
+                        android:textColor="@color/colorAccent"
                         android:textSize="@dimen/text_medium" />
 
                     <TextView
+                        android:id="@+id/act_login_terms_conditions"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Terms and Conditions &amp; Privacy Policy"

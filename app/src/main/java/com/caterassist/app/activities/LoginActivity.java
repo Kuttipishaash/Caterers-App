@@ -8,7 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.caterassist.app.R;
@@ -36,7 +36,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     private static final String TAG = "LoginActivity";
     private TextInputEditText usernameEdtTxt;
     private TextInputEditText passwordEdtTxt;
-    private LinearLayout signUpLinearLayout;
+    private TextView signUpLinearLayout, termsCondTextView, forgotPasswordTextView;
     private FloatingActionButton loginFAB;
     private FABProgressCircle fabProgressCircle;
 
@@ -119,6 +119,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         //Setting listeners
         loginFAB.setOnClickListener(this);
         signUpLinearLayout.setOnClickListener(this);
+        termsCondTextView.setOnClickListener(this);
+        forgotPasswordTextView.setOnClickListener(this);
     }
 
     private void initViews() {
@@ -127,6 +129,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         loginFAB = findViewById(R.id.act_login_fab_login);
         fabProgressCircle = findViewById(R.id.fabProgressCircle);
         signUpLinearLayout = findViewById(R.id.sign_up_for_account);
+        termsCondTextView = findViewById(R.id.act_login_terms_conditions);
+        forgotPasswordTextView = findViewById(R.id.act_login_forgot_password);
         sharedPreferences = getSharedPreferences(Constants.SharedPref.PREF_FILE, MODE_PRIVATE);
 
     }
@@ -134,10 +138,17 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if (v.getId() == loginFAB.getId()) {
-            login();
-            fabProgressCircle.show();
+            if (emptyCheck()) {
+                login();
+                fabProgressCircle.show();
+            }
+
         } else if (v.getId() == signUpLinearLayout.getId()) {
             startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
+        } else if (v.getId() == termsCondTextView.getId()) {
+            startActivity(new Intent(LoginActivity.this, FAQActivity.class));
+        } else if (v.getId() == forgotPasswordTextView.getId()) {
+            startActivity(new Intent(LoginActivity.this, ForgotPassword.class));
         }
     }
 
@@ -160,6 +171,21 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                                 Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    private boolean emptyCheck() {
+        String email = usernameEdtTxt.getText().toString();
+        String password = passwordEdtTxt.getText().toString();
+
+        if (email.trim().equalsIgnoreCase("")) {
+            usernameEdtTxt.setError("This field can not be blank");
+            return false;
+        } else if (password.trim().equalsIgnoreCase("")) {
+            passwordEdtTxt.setError("This field can not be blank");
+            return false;
+        } else {
+            return true;
+        }
     }
 
     private void getUserInfo() {

@@ -263,7 +263,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/spacing_mxlarge" />
 
-                <Button
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/act_prof_save_btn"
                     style="@style/Rounded_Button_Accent"
                     android:layout_width="match_parent"

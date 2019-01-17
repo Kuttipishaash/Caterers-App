@@ -1,61 +1,194 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_marginHorizontal="3dp"
+    android:layout_marginVertical="10dp"
+    android:elevation="10dp"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="10dp">
 
-    <androidx.cardview.widget.CardView
+    <RelativeLayout
+        android:id="@+id/history_order_info_parent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="?android:selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/history_order_info_parent"
+        <ImageView
+            android:id="@+id/li_history_order_info_delete_btn"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/btn_rounded_corners_bottom_right"
+            android:contentDescription="delete"
+            android:paddingStart="10dp"
+            android:paddingTop="6dp"
+            android:paddingEnd="6dp"
+            android:paddingBottom="6dp"
+            android:src="@drawable/ic_close_black"
+            android:tint="@color/white" />
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="@dimen/fab_margin">
 
-            <ImageView
-                android:id="@+id/li_history_order_info_delete_btn"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/ic_close_black" />
-
-            <TextView
-                android:id="@+id/li_history_order_info_id"
+            <LinearLayout
+                android:id="@+id/item_history_order_id"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/OrderHistoryLabel"
+                    android:layout_height="wrap_content"
+                    android:text="Order ID" />
+
+                <TextView
+                    android:id="@+id/li_history_order_info_id"
+                    style="@style/OrderHistoryItem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="abcd"
+                    android:textSize="15sp" />
+            </LinearLayout>
 
 
             <LinearLayout
+                android:id="@+id/item_history_order_vend"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_below="@id/item_history_order_id"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/li_history_order_info_name_label"
+                    style="@style/OrderHistoryLabel"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:text="Vendor" />
 
                 <TextView
                     android:id="@+id/li_history_order_info_name"
+                    style="@style/OrderHistoryItem"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:text="Vendor XXX"
+                    android:textSize="18sp" />
 
             </LinearLayout>
-            <TextView
-                android:id="@+id/li_history_order_info_order_total"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
 
-            <TextView
-                android:id="@+id/li_history_order_info_timestamp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
 
-            <TextView
-                android:id="@+id/li_history_order_info_status"
+            <LinearLayout
+                android:id="@+id/item_history_date"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/item_history_order_vend"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/OrderHistoryLabel"
+                    android:layout_height="wrap_content"
+                    android:text="Date" />
+
+                <TextView
+                    android:id="@+id/li_history_order_info_timestamp"
+                    style="@style/OrderHistoryItem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="XX-XX-XXXX" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/item_history_time"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
-</LinearLayout>
+                android:layout_height="wrap_content"
+                android:layout_below="@id/item_history_order_vend"
+                android:layout_alignParentEnd="true"
+                android:layout_marginLeft="@dimen/spacing_xxxlarge"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:layout_toRightOf="@id/item_history_date"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/OrderHistoryLabel"
+                    android:layout_height="wrap_content"
+                    android:text="Time" />
+
+                <TextView
+                    android:id="@+id/li_history_order_info_timestamp_time"
+                    style="@style/OrderHistoryItem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="XX:XX" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="250dp"
+                android:layout_height="1dp"
+                android:layout_below="@id/item_history_time"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/spacing_xmedium"
+                android:background="@drawable/line_dash_grey_20" />
+
+            <LinearLayout
+                android:id="@+id/item_history_amount"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/item_history_date"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/OrderHistoryLabel"
+                    android:layout_height="wrap_content"
+                    android:text="amount" />
+
+                <TextView
+                    android:id="@+id/li_history_order_info_order_total"
+                    style="@style/OrderHistoryItem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="**** Rs"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="22sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/item_history_order_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/item_history_date"
+                android:layout_alignEnd="@id/item_history_amount"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="55dp"
+                android:layout_marginLeft="55dp"
+                android:layout_marginTop="19dp"
+                android:layout_toRightOf="@id/item_history_amount"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/OrderHistoryLabel"
+                    android:layout_height="wrap_content"
+                    android:text="status" />
+
+                <TextView
+                    android:id="@+id/li_history_order_info_status"
+                    style="@style/OrderHistoryItem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Not Applicable"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+        </RelativeLayout>
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

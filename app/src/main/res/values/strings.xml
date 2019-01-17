@@ -8,14 +8,8 @@
     <string name="lorem_title">Lorem ipsum.</string>
 
     <!-- Placeholders -->
-    <string name="placeholder_name">Name</string>
     <string name="placeholder_email">Email address</string>
     <string name="placeholder_password">Password</string>
-    <string name="placeholder_text">Lorem ipsum</string>
-    <string name="placeholder_long_text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-        Ab commodi consectetur deleniti deserunt dolorem doloremque earum fugiat iusto laborum
-        laudantium libero maxime molestiae pariatur quae qui,repellat suscipit, totam ullam!</string>
-    <string name="placeholder_unit">UNITS</string>
 
 
     <!-- Validation Error Strings -->

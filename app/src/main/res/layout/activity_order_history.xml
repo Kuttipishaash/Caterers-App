@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clickable="false"
+    android:focusable="false"
     android:orientation="vertical"
     tools:context=".activities.OrderHistoryActivity">
 
@@ -13,22 +15,40 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="16dp">
+
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginBottom="@dimen/spacing_mlarge"
                 android:gravity="center"
                 android:text="Order History"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                android:textColor="@color/colorAccent"
                 android:textStyle="bold" />
+
+            <View
+                android:layout_width="55dp"
+                android:layout_height="3dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/spacing_xmedium"
+                android:layout_marginBottom="@dimen/spacing_mlarge"
+                android:background="@color/colorAccent" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_mlarge"
+                android:gravity="center"
+                android:text="View and manage all orders here" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/act_order_hist_recyc_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:focusable="true"
                 android:nestedScrollingEnabled="false" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
