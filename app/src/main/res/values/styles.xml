@@ -48,6 +48,10 @@
         <item name="android:drawablePadding">8dp</item>
     </style>
 
+    <style name="ItemSpinner" parent="Base.Widget.AppCompat.Spinner">
+        <item name="android:drawablePadding">8dp</item>
+    </style>
+
     <style name="OrderHistoryLabel">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:textSize">12sp</item>
