@@ -285,9 +285,6 @@ public class VendorHomeActivity extends FragmentActivity implements View.OnClick
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.btm_sheet_option_cart:
-                        startActivity(new Intent(VendorHomeActivity.this, CartActivity.class));
-                        break;
                     case R.id.btm_sheet_vendor_order_history:
                         startActivity(new Intent(VendorHomeActivity.this, OrderHistoryActivity.class));
                         break;

@@ -56,7 +56,7 @@
                     android:id="@+id/order_det"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Item XXX"
+                    android:text="Sample Vendor"
                     android:textColor="@color/colorAccent" />
 
             </LinearLayout>
@@ -80,7 +80,7 @@
                     android:id="@+id/diag_add_to_cart_item_name_txt_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Item XXX"
+                    android:text="22 Feb 2019 08:25AM"
                     android:textColor="@color/colorAccent" />
 
             </LinearLayout>
@@ -103,7 +103,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Item XXX"
+                    android:text="sfjalDShdsn34ss"
                     android:textColor="@color/colorAccent" />
 
             </LinearLayout>
@@ -126,7 +126,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Item XXX"
+                    android:text="1200 (work in progress)"
                     android:textColor="@color/colorAccent" />
 
             </LinearLayout>

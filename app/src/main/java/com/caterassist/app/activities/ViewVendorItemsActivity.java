@@ -79,7 +79,7 @@ public class ViewVendorItemsActivity extends Activity implements View.OnClickLis
     }
 
     private void initComponent() {
-        final CircularImageView image = findViewById(R.id.image);
+        final CircularImageView image = findViewById(R.id.act_vendor_list_vendor_image);
         final CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
         ((AppBarLayout) findViewById(R.id.app_bar_layout)).addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
@@ -125,7 +125,8 @@ public class ViewVendorItemsActivity extends Activity implements View.OnClickLis
                 }
                 vendorNameTextView.setText(vendorDetails.getUserName());
                 String location = vendorDetails.getUserLocationName() + ", " + vendorDetails.getUserDistrictName();
-                vendorNameTextView.setText(location);
+                vendorAddressTextView.setText(location);
+                toolbar.setTitle(vendorDetails.getUserName());
                 fetchVendorItems();
             }
 
@@ -224,14 +225,13 @@ public class ViewVendorItemsActivity extends Activity implements View.OnClickLis
         vendorItemsArrayList = new ArrayList<>();
 
         toolbar = findViewById(R.id.vendor_items_toolbar);
-        toolbar.setTitle("Vendor Name");
 
         addToFavoutitesImageBtn = findViewById(R.id.act_vendor_add_to_fav);
         callVendorImageBtn = findViewById(R.id.act_vendor_call_vendor);
         emailVendorImageBtn = findViewById(R.id.act_vendor_mail_vendor);
-        vendorImageView = findViewById(R.id.act_vendor_image);
-        vendorNameTextView = findViewById(R.id.act_vendor_name);
-        vendorAddressTextView = findViewById(R.id.act_vendor_address);
+        vendorImageView = findViewById(R.id.act_vendor_list_vendor_image);
+        vendorNameTextView = findViewById(R.id.act_vending_list_vend_name);
+        vendorAddressTextView = findViewById(R.id.act_vending_list_vend_address);
 
         addToFavoutitesImageBtn.setOnClickListener(this);
         emailVendorImageBtn.setOnClickListener(this);
@@ -267,5 +267,6 @@ public class ViewVendorItemsActivity extends Activity implements View.OnClickLis
 
     private void addVendorToFavourites() {
         //TODO: Add to favourites
+        Toasty.warning(this, "WORK IN PROGRESS").show();
     }
 }

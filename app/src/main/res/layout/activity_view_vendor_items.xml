@@ -61,7 +61,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/act_vendor_name"
+                android:id="@+id/act_vending_list_vend_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="65dp"
@@ -71,7 +71,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/act_vendor_address"
+                android:id="@+id/act_vending_list_vend_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/spacing_large"
@@ -245,7 +245,7 @@
 
 
     <com.mikhaellopez.circularimageview.CircularImageView
-        android:id="@+id/image"
+        android:id="@+id/act_vendor_list_vendor_image"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:src="@drawable/user_placeholder"

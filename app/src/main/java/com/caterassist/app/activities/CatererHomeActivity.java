@@ -57,7 +57,7 @@ public class CatererHomeActivity extends FragmentActivity implements View.OnClic
     private LinearLayoutManager allVendorsLayoutManager;
     private VendorListAdapter allVendorsAdapter;
     private RecyclerView allVendorsRecyclerView;
-    private FloatingActionButton viewProfileFAB;
+    private FloatingActionButton viewProfileFAB, viewOrderHistoryFAB, viewCartFAB;
     private BottomAppBar bottomAppBar;
     private SearchView searchView;
 
@@ -159,7 +159,7 @@ public class CatererHomeActivity extends FragmentActivity implements View.OnClic
             BottomSheetDialogFragment bottomSheetDialogFragment = new BottomNavigationDrawerFragment();
             bottomSheetDialogFragment.show(getSupportFragmentManager(), bottomSheetDialogFragment.getTag());
         });
-        bottomAppBar.setOnMenuItemClickListener(item -> {
+       /* bottomAppBar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.btm_sheet_option_cart:
                     startActivity(new Intent(CatererHomeActivity.this, CartActivity.class));
@@ -169,8 +169,10 @@ public class CatererHomeActivity extends FragmentActivity implements View.OnClic
                     break;
             }
             return true;
-        });
+        });*/
+        //TODO: Implement pending orders
     }
+
     private void fetchAllVendors() {
         allVendorsArrayList = new ArrayList<>();
         String databasePath = FirebaseUtils.getDatabaseMainBranchName() + FirebaseUtils.USER_INFO_BRANCH_NAME;
@@ -285,16 +287,24 @@ public class CatererHomeActivity extends FragmentActivity implements View.OnClic
         favouriteVendorsRecyclerView = findViewById(R.id.frag_cate_dash_fav_vendors);
         allVendorsRecyclerView = findViewById(R.id.frag_cate_all_vendors);
         viewProfileFAB = findViewById(R.id.caterer_view_profile);
+        viewOrderHistoryFAB = findViewById(R.id.caterer_order_history);
+        viewCartFAB = findViewById(R.id.act_caterer_cart);
         favouriteVendorArrayList = new ArrayList<>();
         bottomAppBar = findViewById(R.id.bottom_app_bar_caterer);
 
         viewProfileFAB.setOnClickListener(this);
+        viewCartFAB.setOnClickListener(this);
+        viewOrderHistoryFAB.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         if (v.getId() == viewProfileFAB.getId()) {
             startActivity(new Intent(this, ProfileActivity.class));
+        } else if (v.getId() == viewCartFAB.getId()) {
+            startActivity(new Intent(CatererHomeActivity.this, CartActivity.class));
+        } else if (v.getId() == viewOrderHistoryFAB.getId()) {
+            startActivity(new Intent(CatererHomeActivity.this, OrderHistoryActivity.class));
         }
 
     }
