@@ -234,7 +234,7 @@ public class VendorPendingOrdersAdapter extends RecyclerView.Adapter<VendorPendi
         private void updateOrderStatus() {
             AlertDialog.Builder builder;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                builder = new AlertDialog.Builder(itemView.getContext(), android.R.style.Theme_Material_Dialog_Alert);
+                builder = new AlertDialog.Builder(itemView.getContext(), android.R.style.Theme_DeviceDefault_Light_Dialog);
             } else {
                 builder = new AlertDialog.Builder(itemView.getContext());
             }

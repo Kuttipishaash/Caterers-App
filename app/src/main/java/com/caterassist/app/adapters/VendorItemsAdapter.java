@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 import com.caterassist.app.R;
 import com.caterassist.app.dialogs.AddToCartDialog;
@@ -64,9 +65,12 @@ public class VendorItemsAdapter extends RecyclerView.Adapter<VendorItemsAdapter.
                 RequestOptions requestOptions = new RequestOptions();
                 requestOptions.placeholder(R.drawable.placeholder);
                 requestOptions.error(R.drawable.ic_error_placeholder);
+
                 Glide.with(holder.itemView.getContext())
                         .setDefaultRequestOptions(requestOptions)
                         .load(uri)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .apply(requestOptions)
                         .into(holder.image);
             }).addOnFailureListener(exception -> holder.image.setImageResource(R.drawable.ic_error_placeholder));
         }

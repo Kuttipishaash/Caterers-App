@@ -2,10 +2,11 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/vendor_items_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     android:background="@drawable/gradient_light"
+    android:fitsSystemWindows="true"
     tools:context=".activities.ViewVendorItemsActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -100,6 +101,7 @@
                         android:orientation="horizontal">
 
                         <LinearLayout
+                            android:id="@+id/act_vendor_mail_vendor"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -109,7 +111,7 @@
                             android:orientation="vertical">
 
                             <ImageButton
-                                android:id="@+id/act_vendor_mail_vendor"
+
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@color/transparent"
@@ -127,6 +129,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/act_vendor_add_to_fav"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -136,7 +139,7 @@
                             android:orientation="vertical">
 
                             <ImageButton
-                                android:id="@+id/act_vendor_add_to_fav"
+
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@color/transparent"
@@ -156,6 +159,7 @@
 
 
                         <LinearLayout
+                            android:id="@+id/act_vendor_call_vendor"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -165,7 +169,7 @@
                             android:orientation="vertical">
 
                             <ImageButton
-                                android:id="@+id/act_vendor_call_vendor"
+
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@color/transparent"

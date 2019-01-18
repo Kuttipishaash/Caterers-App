@@ -2,12 +2,13 @@ package com.caterassist.app.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +39,7 @@ import androidx.annotation.NonNull;
 import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import de.mateware.snacky.Snacky;
 import es.dmoral.toasty.Toasty;
 
 public class ViewVendorItemsActivity extends Activity implements View.OnClickListener {
@@ -54,9 +56,9 @@ public class ViewVendorItemsActivity extends Activity implements View.OnClickLis
     private LinearLayoutManager vendorItemsLayoutManager;
     private VendorItemsAdapter vendorItemsAdapter;
     private androidx.appcompat.widget.Toolbar toolbar;
-    private ImageButton emailVendorImageBtn;
-    private ImageButton callVendorImageBtn;
-    private ImageButton addToFavoutitesImageBtn;
+    private LinearLayout emailVendorImageBtn;
+    private LinearLayout callVendorImageBtn;
+    private LinearLayout addToFavoutitesImageBtn;
     private ImageView vendorImageView;
     private TextView vendorNameTextView;
     private TextView vendorAddressTextView;
@@ -237,7 +239,31 @@ public class ViewVendorItemsActivity extends Activity implements View.OnClickLis
         addToFavoutitesImageBtn.setOnClickListener(this);
         emailVendorImageBtn.setOnClickListener(this);
         callVendorImageBtn.setOnClickListener(this);
+
+        showCartSnack();
+
     }
+
+    public void showCartSnack() {
+        Snacky.builder()
+                .setActivity(ViewVendorItemsActivity.this)
+                .setBackgroundColor(getResources().getColor(R.color.colorPrimary))
+                .setActionText("View Cart")
+                .setActionClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(ViewVendorItemsActivity.this, CartActivity.class));
+                    }
+                })
+                .setText("Current Items: 2")
+                .setIcon(R.drawable.ic_cart)
+                .setActionTextTypefaceStyle(Typeface.BOLD)
+                .setActionTextColor(getResources().getColor(R.color.white))
+                .setDuration(Snacky.LENGTH_INDEFINITE)
+                .build()
+                .show();
+    }
+
 
     @Override
     public void onClick(View v) {
