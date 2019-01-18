@@ -78,10 +78,10 @@ public class ForgotPassword extends AppCompatActivity implements View.OnClickLis
                         if (task.isSuccessful()) {
                             progressDialog.dismiss();
                             Toasty.success(ForgotPassword.this, "Reset password instructions has sent to your email",
-                                    Toast.LENGTH_SHORT).show();
+                                    Toast.LENGTH_LONG).show();
                         } else {
                             progressDialog.dismiss();
-                            Toasty.error(ForgotPassword.this, "Email ID does not exist! Please try again.",
+                            Toasty.error(ForgotPassword.this, "Failed!",
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
