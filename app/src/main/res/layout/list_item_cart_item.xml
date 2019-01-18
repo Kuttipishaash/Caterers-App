@@ -10,8 +10,8 @@
 
     <ImageView
         android:id="@+id/li_item_cart_item_image"
-        android:layout_width="85dp"
-        android:layout_height="85dp"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"

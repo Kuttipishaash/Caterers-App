@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp"
+        android:elevation="5dp"
+        app:cardBackgroundColor="@color/white">
 
         <LinearLayout
             android:id="@+id/caterer_order_info_parent"
@@ -30,31 +34,31 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Order ID:"
+                        android:text="Order ID"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Vendor Name:"
+                        android:text="Vendor Name"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Total:"
+                        android:text="Total"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Status:"
+                        android:text="Status"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Time:"
+                        android:text="Time"
                         android:textStyle="bold" />
 
                 </LinearLayout>
@@ -115,21 +119,21 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <Button
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/li_caterer_order_status_update"
                     style="@style/Rounded_Button_Accent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
                     android:textColor="@color/white" />
-                <Button
+
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/li_caterer_order_reject"
-                    style="@style/Rounded_Button_Accent"
+                    style="@style/Rounded_Button_White"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:text="Reject"
-                    android:textColor="@color/white" />
+                    android:text="Reject" />
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>

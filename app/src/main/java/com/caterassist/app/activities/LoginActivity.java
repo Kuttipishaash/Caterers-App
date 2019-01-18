@@ -147,7 +147,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         } else if (v.getId() == signUpLinearLayout.getId()) {
             startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
         } else if (v.getId() == termsCondTextView.getId()) {
-            startActivity(new Intent(LoginActivity.this, FAQActivity.class));
+            startActivity(new Intent(LoginActivity.this, AboutUsActivity.class));
         } else if (v.getId() == forgotPasswordTextView.getId()) {
             startActivity(new Intent(LoginActivity.this, ForgotPassword.class));
         }

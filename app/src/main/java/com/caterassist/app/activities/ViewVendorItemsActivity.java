@@ -1,9 +1,10 @@
 package com.caterassist.app.activities;
 
-import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -36,13 +37,14 @@ import com.mikhaellopez.circularimageview.CircularImageView;
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import de.mateware.snacky.Snacky;
 import es.dmoral.toasty.Toasty;
 
-public class ViewVendorItemsActivity extends Activity implements View.OnClickListener {
+public class ViewVendorItemsActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "VendorItemsViewAct";
     private String vendorUID;
@@ -275,8 +277,14 @@ public class ViewVendorItemsActivity extends Activity implements View.OnClickLis
                 if (vendorDetails.getUserPhone() != null) {
                     String phoneNumber = vendorDetails.getUserPhone();
                     Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phoneNumber));
-                    startActivity(callIntent);
+                    if (Build.VERSION.SDK_INT >= 23) {
+                        if (checkSelfPermission(android.Manifest.permission.CALL_PHONE)
+                                == PackageManager.PERMISSION_GRANTED) {
+                            startActivity(callIntent);
+                        }
+                    }
                 }
+
                 break;
             case R.id.act_vendor_mail_vendor:
                 if (vendorDetails.getUserEmail() != null) {

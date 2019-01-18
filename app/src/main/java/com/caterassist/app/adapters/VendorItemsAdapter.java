@@ -56,8 +56,11 @@ public class VendorItemsAdapter extends RecyclerView.Adapter<VendorItemsAdapter.
         holder.name.setText(vendorItem.getName());
         holder.category.setText(vendorItem.getCategory());
         holder.rate.setText(String.valueOf(vendorItem.getRatePerUnit()));
+        String unitString = " Rs/" + vendorItem.getUnit();
+        holder.rateunit.setText(unitString);
+
         String itemInStock = vendorItem.getStock() + " " + vendorItem.getUnit();
-        holder.category.setText(itemInStock);
+        holder.qtyInStock.setText(itemInStock);
         String imageUrl = vendorItem.getImageUrl();
         if (imageUrl != null) {
             StorageReference storageReference = FirebaseStorage.getInstance().getReference();
@@ -86,6 +89,7 @@ public class VendorItemsAdapter extends RecyclerView.Adapter<VendorItemsAdapter.
         TextView name;
         TextView category;
         TextView rate;
+        TextView rateunit;
         TextView qtyInStock;
         LinearLayout addToCart;
 
@@ -95,6 +99,7 @@ public class VendorItemsAdapter extends RecyclerView.Adapter<VendorItemsAdapter.
             name = itemView.findViewById(R.id.li_item_vend_item_name);
             category = itemView.findViewById(R.id.li_item_vend_item_category);
             rate = itemView.findViewById(R.id.li_item_vend_item_rate);
+            rateunit = itemView.findViewById(R.id.li_item_vend_item_rate_unit);
             qtyInStock = itemView.findViewById(R.id.li_item_vend_item_stock);
             addToCart = itemView.findViewById(R.id.li_item_vend_item_add_to_cart);
 
