@@ -54,6 +54,14 @@ public class OrderHistoryActivity extends Activity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        if (childEventListener != null) {
+            query.removeEventListener(childEventListener);
+        }
+        super.onBackPressed();
+    }
+
     private void fetchOrderDetails() {
         historyOrderInfoAdapter = new HistoryOrderInfoAdapter();
         historyOrderInfoAdapter.setOrderDetailsArrayList(orderDetailsArrayList);

@@ -119,7 +119,7 @@ public class OrderDetailsActivity extends Activity implements View.OnClickListen
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toasty.error(OrderDetailsActivity.this, "Some error occured!", Toast.LENGTH_SHORT).show();
+                Toasty.error(OrderDetailsActivity.this, "Error occured while fetching items!", Toast.LENGTH_SHORT).show();
             }
         });
     }

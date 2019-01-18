@@ -3,6 +3,7 @@ package com.caterassist.app.activities;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 import com.caterassist.app.BuildConfig;
 import com.caterassist.app.R;
 import com.caterassist.app.adapters.CartAdapter;
+import com.caterassist.app.dialogs.LoadingDialog;
 import com.caterassist.app.models.CartItem;
 import com.caterassist.app.models.Order;
 import com.caterassist.app.models.OrderDetails;
@@ -57,7 +59,9 @@ public class CartActivity extends Activity implements View.OnClickListener {
     private RecyclerView cartItemsRecyclerView;
     private LinearLayout checkoutButton;
     private LinearLayout clearCartButton;
-
+    private LoadingDialog loadingDialog;
+    private Handler handler;
+    private Runnable runnable;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,7 +108,6 @@ public class CartActivity extends Activity implements View.OnClickListener {
                 cartItem.setId(dataSnapshot.getKey());
                 cartItemsArrayList.add(cartItem);
                 cartItemsAdapter.notifyDataSetChanged();
-
             }
 
             @Override
@@ -151,6 +154,7 @@ public class CartActivity extends Activity implements View.OnClickListener {
                 CartItem cartItem = dataSnapshot.getValue(CartItem.class);
                 String cartItemKey = dataSnapshot.getKey();
                 // ...
+
             }
 
             @Override
@@ -161,6 +165,21 @@ public class CartActivity extends Activity implements View.OnClickListener {
             }
         };
         cartItemsReference.addChildEventListener(cartItemsEventListener);
+        cartItemsReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (loadingDialog != null || loadingDialog.isShowing()) {
+                    loadingDialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                if (loadingDialog != null || loadingDialog.isShowing()) {
+                    loadingDialog.dismiss();
+                }
+            }
+        });
         cartItemsAdapter = new CartAdapter();
         cartItemsAdapter.setCartItemsArrayList(cartItemsArrayList);
         cartItemsLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
@@ -177,6 +196,32 @@ public class CartActivity extends Activity implements View.OnClickListener {
         cartItemsArrayList = new ArrayList<>();
         checkoutButton.setOnClickListener(this);
         clearCartButton.setOnClickListener(this);
+
+        loadingDialog = new LoadingDialog(this);
+        loadingDialog.setLoadingMessage("Loading your cart...");
+        loadingDialog.show();
+        final int interval = 10000; // 1 Second
+        handler = new Handler();
+        runnable = () -> {
+            if (loadingDialog != null)
+                if (loadingDialog.isShowing()) {
+                    loadingDialog.dismiss();
+                    Toast.makeText(CartActivity.this, "Please check your internet connection and try again!", Toast.LENGTH_SHORT).show();
+                }
+        };
+        handler.postAtTime(runnable, System.currentTimeMillis() + interval);
+        handler.postDelayed(runnable, interval);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (handler != null && runnable != null) {
+            handler.removeCallbacks(runnable);
+        }
+        if (cartItemsEventListener != null) {
+            cartItemsReference.removeEventListener(cartItemsEventListener);
+        }
+        super.onBackPressed();
     }
 
     @Override
