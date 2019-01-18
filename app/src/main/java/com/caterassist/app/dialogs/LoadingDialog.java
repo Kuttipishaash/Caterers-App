@@ -14,9 +14,11 @@ import androidx.annotation.NonNull;
 public class LoadingDialog extends Dialog {
     private TextView loadingMessageTxtView;
     private ProgressBar loadingProgressBar;
+    private String loadingMessage;
 
-    public LoadingDialog(@NonNull Context context) {
+    public LoadingDialog(@NonNull Context context, String message) {
         super(context);
+        this.loadingMessage = message;
     }
 
     @Override
@@ -24,17 +26,14 @@ public class LoadingDialog extends Dialog {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.loading_dialog);
-        initViews();
         this.setCancelable(false);
-    }
-
-    public void setLoadingMessage(String message) {
-        loadingMessageTxtView.setText(message);
+        initViews();
     }
 
     private void initViews() {
         loadingMessageTxtView = findViewById(R.id.loading_message);
         loadingProgressBar = findViewById(R.id.loading_progress_bar);
+        loadingMessageTxtView.setText(loadingMessage);
     }
 
 }

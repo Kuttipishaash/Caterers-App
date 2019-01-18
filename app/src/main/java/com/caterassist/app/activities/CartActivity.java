@@ -1,16 +1,19 @@
 package com.caterassist.app.activities;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.caterassist.app.BuildConfig;
+import com.caterassist.app.DialogOrderSuccess;
 import com.caterassist.app.R;
 import com.caterassist.app.adapters.CartAdapter;
+import com.caterassist.app.dialogs.LoadingDialog;
 import com.caterassist.app.models.CartItem;
 import com.caterassist.app.models.Order;
 import com.caterassist.app.models.OrderDetails;
@@ -37,12 +40,15 @@ import java.util.Iterator;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import es.dmoral.toasty.Toasty;
 
-public class CartActivity extends Activity implements View.OnClickListener {
+public class CartActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "CartActivity";
 
@@ -204,8 +210,7 @@ public class CartActivity extends Activity implements View.OnClickListener {
         checkoutButton.setOnClickListener(this);
         clearCartButton.setOnClickListener(this);
 
-        loadingDialog = new LoadingDialog(this);
-        loadingDialog.setLoadingMessage("Loading your cart...");
+        loadingDialog = new LoadingDialog(this, "Loading cart items...");
         loadingDialog.show();
         final int interval = 10000; // 1 Second
         handler = new Handler();

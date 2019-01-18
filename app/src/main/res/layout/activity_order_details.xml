@@ -141,7 +141,7 @@
                             android:text="Date" />
 
                         <TextView
-                            android:id="@+id/act_ord_det_order_timestamp"
+                            android:id="@+id/act_ord_det_order_date"
                             style="@style/OrderHistoryItem"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -165,7 +165,7 @@
                             android:text="Time" />
 
                         <TextView
-                            android:id="@+id/li_history_order_info_timestamp_time"
+                            android:id="@+id/act_ord_det_order_time"
                             style="@style/OrderHistoryItem"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

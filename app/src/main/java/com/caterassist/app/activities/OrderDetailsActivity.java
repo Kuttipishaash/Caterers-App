@@ -35,7 +35,8 @@ public class OrderDetailsActivity extends Activity implements View.OnClickListen
     private RecyclerView orderItemsRecyclerView;
     private TextView userTypeTxtView;
     private TextView userNameTxtView;
-    private TextView orderTimestampTxtView;
+    private TextView orderDateTxtView;
+    private TextView orderTimeTxtView;
     private TextView orderIDTxtView;
     private TextView orderTotalAmtTxtView;
     private TextView orderStatusTxtView;
@@ -80,7 +81,9 @@ public class OrderDetailsActivity extends Activity implements View.OnClickListen
         }
         orderIDTxtView.setText(orderId);
         orderTotalAmtTxtView.setText(String.valueOf(orderDetails.getOrderTotalAmount()));
-        orderTimestampTxtView.setText(String.valueOf(orderDetails.getOrderTime()));
+        String timeStamp[] = String.valueOf(orderDetails.getOrderTime()).split(" ");
+        orderDateTxtView.setText(timeStamp[0]);
+        orderTimeTxtView.setText(timeStamp[1]);
         String status;
         //TODO Set color in this switch case
         switch (orderDetails.getOrderStatus()) {
@@ -128,7 +131,8 @@ public class OrderDetailsActivity extends Activity implements View.OnClickListen
         userTypeTxtView = findViewById(R.id.act_ord_det_caterer_or_vendor);
         userNameTxtView = findViewById(R.id.act_ord_det_order_placed_user);
         orderIDTxtView = findViewById(R.id.act_ord_det_order_id);
-        orderTimestampTxtView = findViewById(R.id.act_ord_det_order_timestamp);
+        orderDateTxtView = findViewById(R.id.act_ord_det_order_date);
+        orderTimeTxtView = findViewById(R.id.act_ord_det_order_time);
         orderTotalAmtTxtView = findViewById(R.id.act_ord_det_order_total_amt);
         orderStatusTxtView = findViewById(R.id.act_ord_det_order_status);
         deleteOrderBtn = findViewById(R.id.act_ord_det_order_delete_btn);
