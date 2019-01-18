@@ -17,6 +17,7 @@ import com.caterassist.app.utils.AppUtils;
 import com.caterassist.app.utils.Constants;
 import com.caterassist.app.utils.FirebaseUtils;
 import com.github.jorgecastilloprz.FABProgressCircle;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
@@ -171,7 +172,12 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                         Toasty.error(LoginActivity.this, "Login failed! Please try again.",
                                 Toast.LENGTH_SHORT).show();
                     }
-                });
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toasty.info(getApplicationContext(), e.toString().split(":", 2)[1], Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private boolean emptyCheck() {
