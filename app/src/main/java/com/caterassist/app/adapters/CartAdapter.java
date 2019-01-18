@@ -58,7 +58,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartItemViewHo
         }
         holder.itemNameTextView.setText(cartItem.getName());
         holder.itemRateTextView.setText(String.valueOf(cartItem.getRate()));
-        holder.itemTotalTextView.setText(String.valueOf(cartItem.getTotalAmount()));
+
+        String totalPrice = "₹"+String.valueOf(cartItem.getTotalAmount());
+        holder.itemTotalTextView.setText(totalPrice);
         holder.itemQtyTxtView.setText(String.valueOf(cartItem.getQuantity()));
         holder.tempQuantity = cartItem.getQuantity();
     }

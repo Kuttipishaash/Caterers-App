@@ -41,4 +41,7 @@
     <string name="toast_added_item_qty_less_than_zero">The quantity should be greater than zero.</string>
 
     <string name="privacy_signup_2">"<u>Terms &amp; Conditions agreement, End-User License Agreement (EULA) and Privacy Policy.</u>"</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

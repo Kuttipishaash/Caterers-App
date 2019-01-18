@@ -3,7 +3,6 @@ package com.caterassist.app.activities;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import es.dmoral.toasty.Toasty;
 
 public class ForgotPassword extends AppCompatActivity implements View.OnClickListener {
 
@@ -27,12 +27,13 @@ public class ForgotPassword extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_forgot_password);
         this.getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         initViews();
+
+
+        resetPasswordButton.setOnClickListener(this);
     }
 
     private void initViews() {
@@ -45,7 +46,21 @@ public class ForgotPassword extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         if (v.getId() == resetPasswordButton.getId()) {
             String email = forgotEmail.getText().toString();
-            resetUserPassword(email);
+            if (emptyCheck()) {
+                resetUserPassword(email);
+            }
+        }
+    }
+
+    private boolean emptyCheck() {
+        String email = forgotEmail.getText().toString();
+
+        if (email.trim().equalsIgnoreCase("")) {
+            forgotEmail.requestFocus();
+            forgotEmail.setError("This field can not be blank");
+            return false;
+        } else {
+            return true;
         }
     }
 
@@ -53,7 +68,7 @@ public class ForgotPassword extends AppCompatActivity implements View.OnClickLis
     public void resetUserPassword(String email) {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         final ProgressDialog progressDialog = new ProgressDialog(ForgotPassword.this);
-        progressDialog.setMessage("verifying..");
+        progressDialog.setMessage("Checking Email...");
         progressDialog.show();
 
         mAuth.sendPasswordResetEmail(email)
@@ -62,19 +77,19 @@ public class ForgotPassword extends AppCompatActivity implements View.OnClickLis
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             progressDialog.dismiss();
-                            Toast.makeText(getApplicationContext(), "Reset password instructions has sent to your email",
-                                    Toast.LENGTH_SHORT).show();
+                            Toasty.success(ForgotPassword.this, "Reset password instructions has sent to your email",
+                                    Toast.LENGTH_LONG).show();
                         } else {
                             progressDialog.dismiss();
-                            Toast.makeText(getApplicationContext(),
-                                    "Email don't exist", Toast.LENGTH_SHORT).show();
+                            Toasty.error(ForgotPassword.this, "Failed!",
+                                    Toast.LENGTH_SHORT).show();
                         }
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 progressDialog.dismiss();
-                Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
+                Toasty.info(getApplicationContext(), e.toString().split(":", 2)[1], Toast.LENGTH_LONG).show();
             }
         });
     }

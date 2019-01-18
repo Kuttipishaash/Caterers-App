@@ -3,7 +3,6 @@ package com.caterassist.app.activities;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -12,7 +11,6 @@ import android.widget.Toast;
 import com.caterassist.app.BuildConfig;
 import com.caterassist.app.R;
 import com.caterassist.app.adapters.CartAdapter;
-import com.caterassist.app.dialogs.LoadingDialog;
 import com.caterassist.app.models.CartItem;
 import com.caterassist.app.models.Order;
 import com.caterassist.app.models.OrderDetails;
@@ -62,12 +60,16 @@ public class CartActivity extends Activity implements View.OnClickListener {
     private LoadingDialog loadingDialog;
     private Handler handler;
     private Runnable runnable;
+
+    private TextView vendorNameTextView, totalAmountTextView, noOfItemTextView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
         initViews();
         fetchCartItems();
+        setNoItemView();
     }
 
     @Override
@@ -108,6 +110,7 @@ public class CartActivity extends Activity implements View.OnClickListener {
                 cartItem.setId(dataSnapshot.getKey());
                 cartItemsArrayList.add(cartItem);
                 cartItemsAdapter.notifyDataSetChanged();
+
             }
 
             @Override
@@ -154,7 +157,6 @@ public class CartActivity extends Activity implements View.OnClickListener {
                 CartItem cartItem = dataSnapshot.getValue(CartItem.class);
                 String cartItemKey = dataSnapshot.getKey();
                 // ...
-
             }
 
             @Override
@@ -193,6 +195,11 @@ public class CartActivity extends Activity implements View.OnClickListener {
         cartItemsRecyclerView = findViewById(R.id.act_cart_recyc_cart_items);
         checkoutButton = findViewById(R.id.act_cart_btn_checkout);
         clearCartButton = findViewById(R.id.act_cart_btn_clear_cart);
+
+        vendorNameTextView = findViewById(R.id.li_cart_vend_name);
+        totalAmountTextView = findViewById(R.id.li_cart_total);
+        noOfItemTextView = findViewById(R.id.li_no_of_items);
+
         cartItemsArrayList = new ArrayList<>();
         checkoutButton.setOnClickListener(this);
         clearCartButton.setOnClickListener(this);
@@ -222,6 +229,24 @@ public class CartActivity extends Activity implements View.OnClickListener {
             cartItemsReference.removeEventListener(cartItemsEventListener);
         }
         super.onBackPressed();
+
+    }
+
+
+    private void setNoItemView() {
+        View includeView = findViewById(R.id.include_cart_empty);
+        includeView.setVisibility(View.GONE);
+        if (cartItemsReference == null && cartItemsArrayList.size() == 0) {
+            includeView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void showDialogOrderSuccess() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        DialogOrderSuccess newFragment = new DialogOrderSuccess();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        transaction.add(android.R.id.content, newFragment).addToBackStack(null).commit();
     }
 
     @Override
@@ -229,11 +254,12 @@ public class CartActivity extends Activity implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.act_cart_btn_checkout:
                 if (vendorDetails != null && cartItemsArrayList.size() > 0) {
+
                     checkout();
                 }
                 break;
             case R.id.act_cart_btn_clear_cart:
-                if (cartItemsReference != null) {
+                if (cartItemsReference != null && cartItemsArrayList.size() > 0) {
                     clearCart();
                 }
                 break;

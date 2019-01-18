@@ -2,10 +2,11 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/vendor_items_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     android:background="@drawable/gradient_light"
+    android:fitsSystemWindows="true"
     tools:context=".activities.ViewVendorItemsActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -100,6 +101,7 @@
                         android:orientation="horizontal">
 
                         <LinearLayout
+                            android:id="@+id/act_vendor_mail_vendor"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -109,7 +111,7 @@
                             android:orientation="vertical">
 
                             <ImageButton
-                                android:id="@+id/act_vendor_mail_vendor"
+
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@color/transparent"
@@ -127,6 +129,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/act_vendor_add_to_fav"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -136,7 +139,7 @@
                             android:orientation="vertical">
 
                             <ImageButton
-                                android:id="@+id/act_vendor_add_to_fav"
+
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@color/transparent"
@@ -156,6 +159,7 @@
 
 
                         <LinearLayout
+                            android:id="@+id/act_vendor_call_vendor"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -165,7 +169,7 @@
                             android:orientation="vertical">
 
                             <ImageButton
-                                android:id="@+id/act_vendor_call_vendor"
+
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@color/transparent"
@@ -193,50 +197,67 @@
 
             </RelativeLayout>
 
+            <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:background="@color/grey_10" />-->
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:elevation="10dp"
+                app:cardCornerRadius="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="@dimen/spacing_large"
+                            android:layout_height="0dp" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Active Listings"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+                            android:textColor="@color/grey_60"
+                            android:textStyle="bold" />
+
+                        <ImageButton
+                            android:layout_width="?attr/actionBarSize"
+                            android:layout_height="wrap_content"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:tint="@color/colorPrimary"
+                            app:srcCompat="@drawable/ic_sort" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/grey_10" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/act_vendor_items_recyc_items"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:nestedScrollingEnabled="false" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/grey_10" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <View
-                    android:layout_width="@dimen/spacing_large"
-                    android:layout_height="0dp" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Active Listings"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
-                    android:textColor="@color/grey_60"
-                    android:textStyle="bold" />
-
-                <ImageButton
-                    android:layout_width="?attr/actionBarSize"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:tint="@color/colorPrimary"
-                    app:srcCompat="@drawable/ic_sort" />
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/grey_10" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/act_vendor_items_recyc_items"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:nestedScrollingEnabled="false" />
-
+                android:layout_height="@dimen/spacing_xxxlarge" />
 
         </LinearLayout>
 
