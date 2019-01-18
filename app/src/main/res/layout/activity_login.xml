@@ -197,7 +197,7 @@
                                 app:borderWidth="0dp"
                                 app:elevation="5dp"
                                 app:fabSize="normal"
-                                app:rippleColor="@color/colorPrimaryDark"
+                                android:background="@drawable/button_accent_rect"
                                 app:srcCompat="@drawable/ic_chevron_right" />
 
                         </com.github.jorgecastilloprz.FABProgressCircle>

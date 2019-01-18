@@ -179,9 +179,11 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         String password = passwordEdtTxt.getText().toString();
 
         if (email.trim().equalsIgnoreCase("")) {
+            usernameEdtTxt.requestFocus();
             usernameEdtTxt.setError("This field can not be blank");
             return false;
         } else if (password.trim().equalsIgnoreCase("")) {
+            passwordEdtTxt.requestFocus();
             passwordEdtTxt.setError("This field can not be blank");
             return false;
         } else {
