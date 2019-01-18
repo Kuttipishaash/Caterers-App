@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.caterassist.app.BuildConfig;
@@ -61,12 +62,15 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
     private LinearLayout checkoutButton;
     private LinearLayout clearCartButton;
 
+    private TextView vendorNameTextView, totalAmountTextView, noOfItemTextView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
         initViews();
         fetchCartItems();
+        setNoItemView();
     }
 
     @Override
@@ -177,15 +181,22 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
         cartItemsRecyclerView = findViewById(R.id.act_cart_recyc_cart_items);
         checkoutButton = findViewById(R.id.act_cart_btn_checkout);
         clearCartButton = findViewById(R.id.act_cart_btn_clear_cart);
+
+        vendorNameTextView = findViewById(R.id.li_cart_vend_name);
+        totalAmountTextView = findViewById(R.id.li_cart_total);
+        noOfItemTextView = findViewById(R.id.li_no_of_items);
+
         cartItemsArrayList = new ArrayList<>();
         checkoutButton.setOnClickListener(this);
         clearCartButton.setOnClickListener(this);
 
+    }
+
+
+    private void setNoItemView() {
         View includeView = findViewById(R.id.include_cart_empty);
-
         includeView.setVisibility(View.GONE);
-
-        if (cartItemsArrayList.size() == 0) {
+        if (cartItemsReference == null && cartItemsArrayList.size() == 0) {
             includeView.setVisibility(View.VISIBLE);
         }
     }
