@@ -129,14 +129,14 @@ public class VendorItemsAdapter extends RecyclerView.Adapter<VendorItemsAdapter.
                             UserDetails userDetails = dataSnapshot.getValue(UserDetails.class);
                             if (userDetails != null) {
                                 if (userDetails.getUserID().equals(vendorDetails.getUserID())) {
-                                    addItemToCart();
+                                    addItemToCart(vendorItemArrayList.get(getAdapterPosition()));
                                 } else {
                                     Toasty.warning(itemView.getContext(),
                                             "You cannot add items from a different vendor to the cart.",
                                             Toast.LENGTH_SHORT).show();
                                 }
                             } else {
-                                addItemToCart();
+                                addItemToCart(vendorItemArrayList.get(getAdapterPosition()));
                             }
                         }
 
@@ -149,9 +149,10 @@ public class VendorItemsAdapter extends RecyclerView.Adapter<VendorItemsAdapter.
             }
         }
 
-        private void addItemToCart() {
+        private void addItemToCart(VendorItem vendorItem) {
             FragmentManager fragmentManager = parentActivity.getSupportFragmentManager();
             AddToCartDialog newFragment = new AddToCartDialog();
+            newFragment.setValues(vendorItem, vendorDetails);
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
             transaction.add(android.R.id.content, newFragment).addToBackStack(null).commit();

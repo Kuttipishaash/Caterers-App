@@ -1,7 +1,6 @@
 package com.caterassist.app.dialogs;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,7 +27,6 @@ import androidx.fragment.app.DialogFragment;
 import es.dmoral.toasty.Toasty;
 
 public class AddToCartDialog extends DialogFragment implements View.OnClickListener {
-    private Context context;
     private TextView itemNameTextView, itemUnitsTxtView, itemQtuAvailableTxtView, itemRateTxtView;
     private FloatingActionButton cancelButton, confirmButton;
     private EditText itemQuantitiyEdtTxt;
@@ -37,9 +35,14 @@ public class AddToCartDialog extends DialogFragment implements View.OnClickListe
 
     private View rootView;
 
+    public AddToCartDialog() {
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.dialog_add_to_cart, container, false);
+        initViews();
+        setViewContent();
         return rootView;
     }
 
@@ -48,7 +51,6 @@ public class AddToCartDialog extends DialogFragment implements View.OnClickListe
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        initViews();
         return dialog;
     }
 
@@ -61,11 +63,10 @@ public class AddToCartDialog extends DialogFragment implements View.OnClickListe
     public void setValues(VendorItem vendorItem, UserDetails vendorDetails) {
         this.vendorItem = vendorItem;
         this.vendorDetails = vendorDetails;
-        setViewContent();
     }
 
 
-    private void setViewContent() {
+    public void setViewContent() {
         itemNameTextView.setText(vendorItem.getName());
         itemUnitsTxtView.setText(vendorItem.getUnit());
         itemRateTxtView.setText(String.valueOf(vendorItem.getRatePerUnit()));
@@ -92,7 +93,7 @@ public class AddToCartDialog extends DialogFragment implements View.OnClickListe
             case R.id.diag_add_to_cart_confirm_button:
                 Double inputQuantity = Double.parseDouble(itemQuantitiyEdtTxt.getText().toString());
                 if (inputQuantity > vendorItem.getStock()) {
-                    Toasty.warning(context, "The quantity entered is not currently in stock.", Toast.LENGTH_SHORT).show();
+                    Toasty.warning(getContext(), "The quantity entered is not currently in stock.", Toast.LENGTH_SHORT).show();
                 } else {
                     addToCart(inputQuantity);
                 }
@@ -120,7 +121,7 @@ public class AddToCartDialog extends DialogFragment implements View.OnClickListe
             Objects.requireNonNull(itemsReference.getParent()).child(FirebaseUtils.CART_VENDOR_BRANCH).setValue(vendorDetails);
             dismiss();
         } else {
-            Toasty.warning(context, context.getString(R.string.toast_added_item_qty_less_than_zero), Toast.LENGTH_SHORT).show();
+            Toasty.warning(getContext(), getContext().getString(R.string.toast_added_item_qty_less_than_zero), Toast.LENGTH_SHORT).show();
         }
     }
 }
