@@ -28,12 +28,20 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 import es.dmoral.toasty.Toasty;
 
 public class VendorItemsAdapter extends RecyclerView.Adapter<VendorItemsAdapter.VendorItemsViewHolder> {
     private ArrayList<VendorItem> vendorItemArrayList;
     private UserDetails vendorDetails;
+    private AppCompatActivity parentActivity;
+
+    public void setParentActivity(AppCompatActivity parentActivity) {
+        this.parentActivity = parentActivity;
+    }
 
     public void setVendorDetails(UserDetails vendorDetails) {
         this.vendorDetails = vendorDetails;
@@ -142,10 +150,11 @@ public class VendorItemsAdapter extends RecyclerView.Adapter<VendorItemsAdapter.
         }
 
         private void addItemToCart() {
-            AddToCartDialog addToCartDialog = new AddToCartDialog(itemView.getContext(),
-                    vendorItemArrayList.get(getAdapterPosition()),
-                    vendorDetails);
-            addToCartDialog.show();
+            FragmentManager fragmentManager = parentActivity.getSupportFragmentManager();
+            AddToCartDialog newFragment = new AddToCartDialog();
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            transaction.add(android.R.id.content, newFragment).addToBackStack(null).commit();
         }
     }
 }

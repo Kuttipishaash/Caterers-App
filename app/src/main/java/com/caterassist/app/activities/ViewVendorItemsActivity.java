@@ -108,6 +108,7 @@ public class ViewVendorItemsActivity extends AppCompatActivity implements View.O
                 vendorDetails = dataSnapshot.getValue(UserDetails.class);
                 vendorDetails.setUserID(vendorUID);
                 vendorItemsAdapter = new VendorItemsAdapter();
+                vendorItemsAdapter.setParentActivity(ViewVendorItemsActivity.this);
                 vendorItemsAdapter.setVendorDetails(vendorDetails);
                 vendorItemsAdapter.setVendorItemArrayList(vendorItemsArrayList);
                 vendorItemsLayoutManager = new LinearLayoutManager(ViewVendorItemsActivity.this, RecyclerView.VERTICAL, false);

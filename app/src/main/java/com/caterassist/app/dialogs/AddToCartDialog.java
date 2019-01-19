@@ -3,7 +3,9 @@ package com.caterassist.app.dialogs;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -22,9 +24,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
 import es.dmoral.toasty.Toasty;
 
-public class AddToCartDialog extends Dialog implements View.OnClickListener {
+public class AddToCartDialog extends DialogFragment implements View.OnClickListener {
     private Context context;
     private TextView itemNameTextView, itemUnitsTxtView, itemQtuAvailableTxtView, itemRateTxtView;
     private FloatingActionButton cancelButton, confirmButton;
@@ -32,21 +35,35 @@ public class AddToCartDialog extends Dialog implements View.OnClickListener {
     private VendorItem vendorItem;
     private UserDetails vendorDetails;
 
-    public AddToCartDialog(@NonNull Context context, VendorItem vendorItem, UserDetails vendorDetails) {
-        super(context);
-        this.context = context;
-        this.vendorItem = vendorItem;
-        this.vendorDetails = vendorDetails;
+    private View rootView;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        rootView = inflater.inflate(R.layout.dialog_add_to_cart, container, false);
+        return rootView;
+    }
+
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        Dialog dialog = super.onCreateDialog(savedInstanceState);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        initViews();
+        return dialog;
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.dialog_add_to_cart);
-        initViews();
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
+
+
+    public void setValues(VendorItem vendorItem, UserDetails vendorDetails) {
+        this.vendorItem = vendorItem;
+        this.vendorDetails = vendorDetails;
         setViewContent();
     }
+
 
     private void setViewContent() {
         itemNameTextView.setText(vendorItem.getName());
@@ -57,13 +74,13 @@ public class AddToCartDialog extends Dialog implements View.OnClickListener {
     }
 
     private void initViews() {
-        itemNameTextView = findViewById(R.id.diag_add_to_cart_item_name_txt_view);
-        itemUnitsTxtView = findViewById(R.id.diag_add_to_cart_units_txt_view);
-        cancelButton = findViewById(R.id.diag_add_to_cart_cancel_btn);
-        confirmButton = findViewById(R.id.diag_add_to_cart_confirm_button);
-        itemQuantitiyEdtTxt = findViewById(R.id.diag_add_to_cart_quantity_input);
-        itemQtuAvailableTxtView = findViewById(R.id.diag_add_to_cart_item_stock);
-        itemRateTxtView = findViewById(R.id.diag_add_to_cart_item_rate);
+        itemNameTextView = rootView.findViewById(R.id.diag_add_to_cart_item_name_txt_view);
+        itemUnitsTxtView = rootView.findViewById(R.id.diag_add_to_cart_units_txt_view);
+        cancelButton = rootView.findViewById(R.id.diag_add_to_cart_cancel_btn);
+        confirmButton = rootView.findViewById(R.id.diag_add_to_cart_confirm_button);
+        itemQuantitiyEdtTxt = rootView.findViewById(R.id.diag_add_to_cart_quantity_input);
+        itemQtuAvailableTxtView = rootView.findViewById(R.id.diag_add_to_cart_item_stock);
+        itemRateTxtView = rootView.findViewById(R.id.diag_add_to_cart_item_rate);
 
         cancelButton.setOnClickListener(this);
         confirmButton.setOnClickListener(this);
