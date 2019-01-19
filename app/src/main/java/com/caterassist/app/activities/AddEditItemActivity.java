@@ -2,6 +2,7 @@ package com.caterassist.app.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -43,6 +44,7 @@ public class AddEditItemActivity extends Activity implements View.OnClickListene
     TextView itemCategoryTxtView;
     Spinner itemNameSpinner;
     TextView itemNameTxtView;
+    TextView titleTextView;
     EditText itemRateEdtTxt;
     EditText itemStockEdtTxt;
     ImageView itemImageView;
@@ -96,10 +98,12 @@ public class AddEditItemActivity extends Activity implements View.OnClickListene
             if (intent.hasExtra("item")) {
                 isEdit = true;
                 vendorItem = (VendorItem) intent.getSerializableExtra("item");
+                titleTextView.setText("Edit Listed Item");
                 itemCategorySpinner.setVisibility(View.GONE);
                 itemNameSpinner.setVisibility(View.GONE);
-                itemCategoryTxtView.setVisibility(View.VISIBLE);
-                itemNameTxtView.setVisibility(View.VISIBLE);
+                itemCategoryTxtView.setTextSize(15);
+                itemNameTxtView.setTextSize(18);
+                itemNameTxtView.setTypeface(null, Typeface.BOLD);
                 itemCategoryTxtView.setText(vendorItem.getCategory());
                 itemNameTxtView.setText(vendorItem.getName());
                 unitTextView.setText(vendorItem.getUnit());
@@ -137,6 +141,7 @@ public class AddEditItemActivity extends Activity implements View.OnClickListene
         saveButton = findViewById(R.id.act_addedt_submit_btn);
         unitTextView = findViewById(R.id.act_addedt_item_unit);
         itemImageView = findViewById(R.id.act_addedt_item_img);
+        titleTextView = findViewById(R.id.add_edit_title);
         saveButton.setOnClickListener(this);
     }
 

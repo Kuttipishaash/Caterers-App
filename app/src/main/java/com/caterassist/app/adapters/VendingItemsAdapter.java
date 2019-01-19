@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,8 +60,10 @@ public class VendingItemsAdapter extends RecyclerView.Adapter<VendingItemsAdapte
         }
         holder.itemName.setText(vendorItem.getName());
         holder.itemCategory.setText(vendorItem.getCategory());
-        holder.itemRate.setText(String.valueOf(vendorItem.getRatePerUnit()));
-        holder.itemStock.setText(String.valueOf(vendorItem.getStock()));
+        String itemRateString = String.valueOf(vendorItem.getRatePerUnit()) + " ₹/" + vendorItem.getUnit();
+        holder.itemRate.setText(itemRateString);
+        String itemStockString = String.valueOf(vendorItem.getStock()) + " " + vendorItem.getUnit();
+        holder.itemStock.setText(String.valueOf(itemStockString));
     }
 
     @Override
@@ -75,6 +78,7 @@ public class VendingItemsAdapter extends RecyclerView.Adapter<VendingItemsAdapte
         TextView itemRate;
         TextView itemCategory;
         TextView itemStock;
+        RelativeLayout itemLayout;
         ImageButton removeItemButton;
         ImageButton editItemButton;
 
@@ -87,7 +91,9 @@ public class VendingItemsAdapter extends RecyclerView.Adapter<VendingItemsAdapte
             itemStock = itemView.findViewById(R.id.textVieli_vending_item_stock);
             removeItemButton = itemView.findViewById(R.id.li_vending_item_remove);
             editItemButton = itemView.findViewById(R.id.li_vending_item_edit);
+            itemLayout = itemView.findViewById(R.id.vending_list_item);
 
+            itemLayout.setOnClickListener(this);
             removeItemButton.setOnClickListener(this);
             editItemButton.setOnClickListener(this);
         }
@@ -95,7 +101,7 @@ public class VendingItemsAdapter extends RecyclerView.Adapter<VendingItemsAdapte
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.li_vending_item_edit:
+                case (R.id.vending_list_item):
                     Intent intent = new Intent(itemView.getContext(), AddEditItemActivity.class);
                     intent.putExtra("item", vendingItemArrayList.get(getAdapterPosition()));
                     itemView.getContext().startActivity(intent);
