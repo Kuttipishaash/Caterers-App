@@ -10,9 +10,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.caterassist.app.BuildConfig;
-import com.caterassist.app.DialogOrderSuccess;
 import com.caterassist.app.R;
 import com.caterassist.app.adapters.CartAdapter;
+import com.caterassist.app.dialogs.DialogOrderSuccess;
 import com.caterassist.app.dialogs.LoadingDialog;
 import com.caterassist.app.models.CartItem;
 import com.caterassist.app.models.Order;
@@ -246,9 +246,11 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void showDialogOrderSuccess() {
+    private void showDialogOrderSuccess(Order order) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         DialogOrderSuccess newFragment = new DialogOrderSuccess();
+        newFragment.setOrderDetails(order.getOrderInfo());
+        newFragment.setItemCount(order.getOrderItems().size());
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         transaction.add(android.R.id.content, newFragment).addToBackStack(null).commit();
@@ -353,7 +355,7 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
                                                             Toasty.success(CartActivity.this,
                                                                     getString(R.string.toast_checkout_success),
                                                                     Toast.LENGTH_SHORT).show();
-                                                            showDialogOrderSuccess();
+                                                            showDialogOrderSuccess(order);
                                                         })
                                                         .addOnFailureListener(e -> {
                                                             Toasty.success(CartActivity.this,

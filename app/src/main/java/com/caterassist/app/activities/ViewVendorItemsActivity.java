@@ -122,7 +122,7 @@ public class ViewVendorItemsActivity extends AppCompatActivity implements View.O
                         RequestOptions requestOptions = new RequestOptions();
                         requestOptions.placeholder(R.drawable.placeholder);
                         requestOptions.error(R.drawable.ic_error_placeholder);
-
+//TODo:Error when closing activity before image is fetched
                         Glide.with(ViewVendorItemsActivity.this)
                                 .setDefaultRequestOptions(requestOptions)
                                 .load(uri)

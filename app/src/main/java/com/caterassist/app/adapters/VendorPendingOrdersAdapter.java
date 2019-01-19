@@ -123,6 +123,7 @@ public class VendorPendingOrdersAdapter extends RecyclerView.Adapter<VendorPendi
                 Intent intent = new Intent(itemView.getContext(), OrderDetailsActivity.class);
                 intent.putExtra(Constants.IntentExtrasKeys.ORDER_DETAILS_BRANCH, FirebaseUtils.VENDOR_PENDING_ORDERS);
                 intent.putExtra(Constants.IntentExtrasKeys.ORDER_ID, orderDetailsArrayList.get(getAdapterPosition()).getOrderId());
+                intent.putExtra(Constants.IntentExtrasKeys.ORDER_INFO, orderDetailsArrayList.get(getAdapterPosition()));
                 itemView.getContext().startActivity(intent);
             } else if (v.getId() == updateStatusBtn.getId()) {
                 updateOrderStatus();

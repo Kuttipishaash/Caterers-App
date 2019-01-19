@@ -95,6 +95,7 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/order_suc_dialog_date"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical"
@@ -109,6 +110,7 @@
                             android:layout_weight="1" />
 
                         <TextView
+                            android:id="@+id/order_suc_dialog_time"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical"
@@ -144,6 +146,7 @@
                             android:textColor="@color/grey_40" />
 
                         <TextView
+                            android:id="@+id/order_suc_dialog_vend_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical"
@@ -152,13 +155,13 @@
                             android:textColor="@color/grey_900"
                             android:textStyle="bold" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:text="Angamaly, Ernakulam"
-                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
-                            android:textColor="@color/grey_40" />
+                        <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:gravity="center_vertical"-->
+                        <!--android:text="Angamaly, Ernakulam"-->
+                        <!--android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"-->
+                        <!--android:textColor="@color/grey_40" />-->
 
                     </LinearLayout>
 
@@ -193,6 +196,7 @@
                             android:textColor="@color/grey_40" />
 
                         <TextView
+                            android:id="@+id/order_suc_dialog_item_count"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical"
@@ -229,6 +233,7 @@
                             android:textColor="@color/grey_40" />
 
                         <TextView
+                            android:id="@+id/order_suc_dialog_total_amt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical"
@@ -240,13 +245,15 @@
                     </LinearLayout>
 
                     <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/order_suc_view_order"
                         android:layout_width="0dp"
                         android:layout_weight="2"
                         android:textAlignment="center"
                         android:layout_gravity="center"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
-                        style="@style/Rounded_Button_White"                        android:text="View Order"
+                        style="@style/Rounded_Button_White"
+                        android:text="View Order"
                         android:textColor="@color/grey_40" />
 
                 </LinearLayout>
@@ -255,7 +262,7 @@
         </androidx.cardview.widget.CardView>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab"
+            android:id="@+id/order_suc_diaglog_dismiss"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/spacing_large"

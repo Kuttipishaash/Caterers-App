@@ -49,6 +49,9 @@ public class AddToCartDialog extends DialogFragment implements View.OnClickListe
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.dialog_add_to_cart, container, false);
+        initViews();
+        setViewContent();
+
         return rootView;
     }
 
@@ -57,7 +60,6 @@ public class AddToCartDialog extends DialogFragment implements View.OnClickListe
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        initViews();
         return dialog;
     }
 
@@ -70,7 +72,6 @@ public class AddToCartDialog extends DialogFragment implements View.OnClickListe
     public void setValues(VendorItem vendorItem, UserDetails vendorDetails) {
         this.vendorItem = vendorItem;
         this.vendorDetails = vendorDetails;
-        setViewContent();
     }
 
 

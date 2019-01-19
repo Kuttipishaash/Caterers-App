@@ -73,6 +73,7 @@ public class OrderDetailsActivity extends Activity implements View.OnClickListen
     private void setOrderInfo() {
         if (AppUtils.isCurrentUserVendor(this)) {
             userTypeTxtView.setText("Caterer Name: ");
+            //TODO:Null pointer to fix
             userNameTxtView.setText(orderDetails.getCatererName());
         } else {
             viewVendorBtn.setVisibility(View.VISIBLE);
