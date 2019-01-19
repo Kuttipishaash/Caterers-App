@@ -15,12 +15,13 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/add_edit_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:gravity="center"
-            android:text="Add Item"
+            android:text="Add New Listing"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             android:textColor="@color/colorAccent"
             android:textStyle="bold" />
@@ -38,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/spacing_mlarge"
             android:gravity="center"
-            android:text="Add a new listing below" />
+            android:text="Add or manage a listing below" />
 
         <TextView
             android:id="@+id/textView14"
