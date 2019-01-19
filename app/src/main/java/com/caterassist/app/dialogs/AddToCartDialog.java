@@ -8,9 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.caterassist.app.R;
 import com.caterassist.app.models.CartItem;
 import com.caterassist.app.models.UserDetails;
@@ -20,6 +23,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.Objects;
 
@@ -34,12 +39,14 @@ public class AddToCartDialog extends DialogFragment implements View.OnClickListe
     private EditText itemQuantitiyEdtTxt;
     private VendorItem vendorItem;
     private UserDetails vendorDetails;
+    private ImageView itemImage;
 
     private View rootView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.dialog_add_to_cart, container, false);
+        initViews();
         return rootView;
     }
 
@@ -48,7 +55,6 @@ public class AddToCartDialog extends DialogFragment implements View.OnClickListe
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        initViews();
         return dialog;
     }
 
@@ -68,6 +74,19 @@ public class AddToCartDialog extends DialogFragment implements View.OnClickListe
     private void setViewContent() {
         itemNameTextView.setText(vendorItem.getName());
         itemUnitsTxtView.setText(vendorItem.getUnit());
+        String imageUrl = vendorItem.getImageUrl();
+        if (imageUrl != null) {
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+            storageReference.child(imageUrl).getDownloadUrl().addOnSuccessListener(uri -> {
+                RequestOptions requestOptions = new RequestOptions();
+                requestOptions.placeholder(R.drawable.placeholder);
+                requestOptions.error(R.drawable.ic_error_placeholder);
+                Glide.with(itemImage.getContext())
+                        .setDefaultRequestOptions(requestOptions)
+                        .load(uri)
+                        .into(itemImage);
+            }).addOnFailureListener(exception -> itemImage.setImageResource(R.drawable.ic_error_placeholder));
+        }
         itemRateTxtView.setText(String.valueOf(vendorItem.getRatePerUnit()));
         String unitsAvailable = String.valueOf(vendorItem.getStock()) + vendorItem.getUnit();
         itemQtuAvailableTxtView.setText(unitsAvailable);
@@ -76,6 +95,7 @@ public class AddToCartDialog extends DialogFragment implements View.OnClickListe
     private void initViews() {
         itemNameTextView = rootView.findViewById(R.id.diag_add_to_cart_item_name_txt_view);
         itemUnitsTxtView = rootView.findViewById(R.id.diag_add_to_cart_units_txt_view);
+        itemImage = rootView.findViewById(R.id.add_to_cart_placeholder);
         cancelButton = rootView.findViewById(R.id.diag_add_to_cart_cancel_btn);
         confirmButton = rootView.findViewById(R.id.diag_add_to_cart_confirm_button);
         itemQuantitiyEdtTxt = rootView.findViewById(R.id.diag_add_to_cart_quantity_input);
