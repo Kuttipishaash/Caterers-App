@@ -1,225 +1,255 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_centerInParent="true"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:paddingTop="@dimen/spacing_large">
+    android:layout_height="match_parent"
+    android:background="@color/overlay_dark_50">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="320dp"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        app:cardBackgroundColor="@color/transparent"
-        app:cardCornerRadius="6dp"
-        app:cardElevation="0dp">
-
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minWidth="300dp"
-            android:orientation="vertical"
-            android:paddingHorizontal="10dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/spacing_large"
-                android:text="Add to Cart"
-                android:textAlignment="center"
-                android:textAllCaps="true"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="@dimen/text_large"
-                android:textStyle="bold" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@color/grey_10" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="10dp" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    style="@style/OrderHistoryLabel"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:text="Item Name" />
-
-                <TextView
-                    android:id="@+id/diag_add_to_cart_item_name_txt_view"
-                    style="@style/OrderHistoryItem"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Item XXX"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="20sp" />
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="10dp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="2">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        style="@style/OrderHistoryLabel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Quantity in stock" />
-
-                    <TextView
-                        android:id="@+id/diag_add_to_cart_item_stock"
-                        style="@style/OrderHistoryItem"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="TextView"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="22sp" />
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <TextView
-                        style="@style/OrderHistoryLabel"
-                        android:layout_width="150dp"
-                        android:layout_height="wrap_content"
-                        android:text="Rate" />
-
-                    <TextView
-                        android:id="@+id/diag_add_to_cart_item_rate"
-                        style="@style/OrderHistoryItem"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="TextView"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="22sp" />
-                </LinearLayout>
-            </LinearLayout>
-
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="10dp" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@color/grey_10" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="15dp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center">
-
-                <EditText
-                    android:id="@+id/diag_add_to_cart_quantity_input"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:inputType="numberDecimal"
-                    android:text="0.0" />
-
-                <TextView
-                    android:id="@+id/diag_add_to_cart_units_txt_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="UNITS"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="15dp" />
-
-
-            <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:weightSum="2">-->
-
-            <!--<Button-->
-            <!--android:id="@+id/diag_add_to_cart_cancel_btn"-->
-            <!--style="@style/Rounded_Button_White"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"-->
-            <!--android:text="Cancel"-->
-            <!--android:textAlignment="center" />-->
-
-            <!--<Button-->
-            <!--android:id="@+id/diag_add_to_cart_confirm_button"-->
-            <!--style="@style/Rounded_Button_Accent"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"-->
-            <!--android:text="Confirm"-->
-            <!--android:textAlignment="center" />-->
-
-            <!--</LinearLayout>-->
-
-
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
-
-    <LinearLayout
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="3dp">
+        android:orientation="vertical"
+        android:padding="2dp"
+        android:paddingTop="@dimen/spacing_large">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/diag_add_to_cart_cancel_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/spacing_large"
-            android:layout_marginEnd="@dimen/spacing_xlarge"
-            app:backgroundTint="@color/grey_600"
-            app:elevation="2dp"
-            app:fabSize="normal"
-            app:srcCompat="@drawable/ic_close" />
+        <androidx.cardview.widget.CardView
+            android:layout_width="320dp"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/spacing_large"
+            android:layout_weight="1"
+            android:visibility="visible"
+            app:cardCornerRadius="6dp"
+            app:cardElevation="6dp">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/diag_add_to_cart_confirm_button"
-            android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:padding="@dimen/spacing_large">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_middle"
+                    android:gravity="center_vertical"
+                    android:text="Add to Cart"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/spacing_middle"
+                    android:gravity="center_vertical"
+                    android:text="Select desired quantity to add to cart"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                    android:textColor="@color/grey_40" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_margin="@dimen/spacing_middle"
+                    android:background="@drawable/line_dash_grey_20" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/OrderHistoryLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Item Name" />
+
+                        <TextView
+                            android:id="@+id/diag_add_to_cart_item_name_txt_view"
+                            style="@style/OrderHistoryItem"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Item XXX"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="20sp" />
+
+                    </LinearLayout>
+
+                    <com.mikhaellopez.circularimageview.CircularImageView
+                        android:id="@+id/add_to_cart_placeholder"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/placeholder"
+                        app:civ_border="false" />
+                </LinearLayout>
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/OrderHistoryLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Quantity in stock" />
+
+                        <TextView
+                            android:id="@+id/diag_add_to_cart_item_stock"
+                            style="@style/OrderHistoryItem"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="TextView"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="22sp" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/OrderHistoryLabel"
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"
+                            android:text="Rate" />
+
+                        <TextView
+                            android:id="@+id/diag_add_to_cart_item_rate"
+                            style="@style/OrderHistoryItem"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="TextView"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="22sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_margin="@dimen/spacing_middle"
+                    android:background="@drawable/line_dash_grey_20" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center">
+
+                    <EditText
+                        android:id="@+id/diag_add_to_cart_quantity_input"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:gravity="center"
+                        android:inputType="numberDecimal"
+                        android:text="0.0" />
+
+                    <TextView
+                        android:id="@+id/diag_add_to_cart_units_txt_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="UNITS"
+                        android:textSize="19sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp" />
+
+
+                <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:weightSum="2">-->
+
+                <!--<Button-->
+                <!--android:id="@+id/diag_add_to_cart_cancel_btn"-->
+                <!--style="@style/Rounded_Button_White"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:text="Cancel"-->
+                <!--android:textAlignment="center" />-->
+
+                <!--<Button-->
+                <!--android:id="@+id/diag_add_to_cart_confirm_button"-->
+                <!--style="@style/Rounded_Button_Accent"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:text="Confirm"-->
+                <!--android:textAlignment="center" />-->
+
+                <!--</LinearLayout>-->
+
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_xlarge"
-            android:tint="@color/white"
-            app:backgroundTint="@color/colorAccent"
-            app:elevation="2dp"
-            app:fabSize="normal"
-            app:srcCompat="@drawable/ic_check" />
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="3dp">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/diag_add_to_cart_cancel_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacing_large"
+                android:layout_marginEnd="@dimen/spacing_xlarge"
+                app:backgroundTint="@color/grey_600"
+                app:elevation="2dp"
+                app:fabSize="normal"
+                app:srcCompat="@drawable/ic_close" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/diag_add_to_cart_confirm_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_xlarge"
+                android:tint="@color/white"
+                app:backgroundTint="@color/colorAccent"
+                app:elevation="2dp"
+                app:fabSize="normal"
+                app:srcCompat="@drawable/ic_check" />
+        </LinearLayout>
+
+
     </LinearLayout>
-
-
-</LinearLayout>
+</RelativeLayout>
