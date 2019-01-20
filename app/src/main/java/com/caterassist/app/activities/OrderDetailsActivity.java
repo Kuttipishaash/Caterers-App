@@ -146,6 +146,7 @@ public class OrderDetailsActivity extends Activity implements View.OnClickListen
         cartItemArrayList = new ArrayList<>();
         orderItemsAdapter = new OrderItemsAdapter();
         orderItemsAdapter.setCartItemArrayList(cartItemArrayList);
+        orderItemsAdapter.setActivity(this);
         orderItemsLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         orderItemsRecyclerView.setLayoutManager(orderItemsLayoutManager);
         orderItemsRecyclerView.setAdapter(orderItemsAdapter);

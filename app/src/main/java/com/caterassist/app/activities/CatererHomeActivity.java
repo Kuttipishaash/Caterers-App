@@ -179,6 +179,7 @@ public class CatererHomeActivity extends FragmentActivity implements View.OnClic
         allVendorsRef = FirebaseDatabase.getInstance().getReference(databasePath);
         allVendorsAdapter = new VendorListAdapter();
         allVendorsAdapter.setVendorsList(allVendorsArrayList);
+        allVendorsAdapter.setActivity(this);
         allVendorsLayoutManager = new LinearLayoutManager(CatererHomeActivity.this, RecyclerView.VERTICAL, false);
         allVendorsRecyclerView.setLayoutManager(allVendorsLayoutManager);
         allVendorsRecyclerView.setAdapter(allVendorsAdapter);
@@ -211,6 +212,7 @@ public class CatererHomeActivity extends FragmentActivity implements View.OnClic
                 FirebaseAuth.getInstance().getUid();
         favouriteVendorsAdapter = new FavouriteVendorsAdapter();
         favouriteVendorsAdapter.setFavouriteVendorArrayList(favouriteVendorArrayList);
+        favouriteVendorsAdapter.setActivity(this);
         favouriteVendorsLayoutManager = new LinearLayoutManager(CatererHomeActivity.this, RecyclerView.HORIZONTAL, false);
         favouriteVendorsRecyclerView.setLayoutManager(favouriteVendorsLayoutManager);
         favouriteVendorsRecyclerView.setAdapter(favouriteVendorsAdapter);

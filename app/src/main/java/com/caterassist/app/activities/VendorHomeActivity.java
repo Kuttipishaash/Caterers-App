@@ -197,6 +197,7 @@ public class VendorHomeActivity extends FragmentActivity implements View.OnClick
         vendingItemsReference.addChildEventListener(vendingItemsEventListener);
         vendingItemsAdapter = new VendingItemsAdapter();
         vendingItemsAdapter.setVendingItemArrayList(vendingItemsArrayList);
+        vendingItemsAdapter.setActivity(this);
         vendingItemsLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         vendingItemsRecyclerView.setLayoutManager(vendingItemsLayoutManager);
         vendingItemsRecyclerView.setAdapter(vendingItemsAdapter);

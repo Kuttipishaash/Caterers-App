@@ -1,5 +1,6 @@
 package com.caterassist.app.adapters;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -30,9 +31,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class VendingItemsAdapter extends RecyclerView.Adapter<VendingItemsAdapter.VendingItemViewHolder> {
     private ArrayList<VendorItem> vendingItemArrayList;
-
+    private Activity activity;
     public void setVendingItemArrayList(ArrayList<VendorItem> vendingItemArrayList) {
         this.vendingItemArrayList = vendingItemArrayList;
+    }
+
+    public void setActivity(Activity activity) {
+        this.activity = activity;
     }
 
     @NonNull
@@ -52,7 +57,7 @@ public class VendingItemsAdapter extends RecyclerView.Adapter<VendingItemsAdapte
                 RequestOptions requestOptions = new RequestOptions();
                 requestOptions.placeholder(R.drawable.placeholder);
                 requestOptions.error(R.drawable.ic_error_placeholder);
-                Glide.with(holder.itemView.getContext())
+                Glide.with(activity.getApplicationContext())
                         .setDefaultRequestOptions(requestOptions)
                         .load(uri)
                         .into(holder.itemImage);

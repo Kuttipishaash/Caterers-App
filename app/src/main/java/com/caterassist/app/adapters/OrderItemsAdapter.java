@@ -1,5 +1,6 @@
 package com.caterassist.app.adapters;
 
+import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.OrderDetailsViewHolder> {
     ArrayList<CartItem> cartItemArrayList;
+    Activity activity;
+
+    public void setActivity(Activity activity) {
+        this.activity = activity;
+    }
 
     public void setCartItemArrayList(ArrayList<CartItem> cartItemArrayList) {
         this.cartItemArrayList = cartItemArrayList;
@@ -42,7 +48,7 @@ public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.Or
                 RequestOptions requestOptions = new RequestOptions();
                 requestOptions.placeholder(R.drawable.placeholder);
                 requestOptions.error(R.drawable.ic_error_placeholder);
-                Glide.with(holder.itemView.getContext())
+                Glide.with(activity.getApplicationContext())
                         .setDefaultRequestOptions(requestOptions)
                         .load(uri)
                         .into(holder.itemImageView);

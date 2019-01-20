@@ -33,7 +33,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import es.dmoral.toasty.Toasty;
 
 public class VendorPendingOrdersAdapter extends RecyclerView.Adapter<VendorPendingOrdersAdapter.ViewHolder> {
-    ArrayList<OrderDetails> orderDetailsArrayList;
+    private ArrayList<OrderDetails> orderDetailsArrayList;
     private static final String TAG = "VendPendingOrdersAdpt";
 
     public void setOrderDetailsArrayList(ArrayList<OrderDetails> orderDetailsArrayList) {

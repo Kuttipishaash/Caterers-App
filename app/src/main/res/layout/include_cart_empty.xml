@@ -42,7 +42,7 @@
 
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/no_dash"
+                android:id="@+id/cart_go_to_dash"
                 style="@style/Rounded_Button_Accent"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"

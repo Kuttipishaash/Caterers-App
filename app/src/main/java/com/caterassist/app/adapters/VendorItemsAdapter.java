@@ -39,6 +39,7 @@ public class VendorItemsAdapter extends RecyclerView.Adapter<VendorItemsAdapter.
     private UserDetails vendorDetails;
     private AppCompatActivity parentActivity;
 
+
     public void setParentActivity(AppCompatActivity parentActivity) {
         this.parentActivity = parentActivity;
     }
@@ -77,7 +78,7 @@ public class VendorItemsAdapter extends RecyclerView.Adapter<VendorItemsAdapter.
                 requestOptions.placeholder(R.drawable.placeholder);
                 requestOptions.error(R.drawable.ic_error_placeholder);
 
-                Glide.with(holder.itemView.getContext())
+                Glide.with(parentActivity.getApplicationContext())
                         .setDefaultRequestOptions(requestOptions)
                         .load(uri)
                         .transition(DrawableTransitionOptions.withCrossFade())

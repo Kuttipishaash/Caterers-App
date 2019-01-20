@@ -1,6 +1,7 @@
 package com.caterassist.app.adapters;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -33,6 +34,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class FavouriteVendorsAdapter extends RecyclerView.Adapter<FavouriteVendorsAdapter.ViewHolder> {
     private ArrayList<UserDetails> favouriteVendorArrayList;
+    private Activity activity;
+
+    public void setActivity(Activity activity) {
+        this.activity = activity;
+    }
 
     public void setFavouriteVendorArrayList(ArrayList<UserDetails> favouriteVendorArrayList) {
         this.favouriteVendorArrayList = favouriteVendorArrayList;
@@ -57,7 +63,7 @@ public class FavouriteVendorsAdapter extends RecyclerView.Adapter<FavouriteVendo
                 requestOptions.placeholder(R.drawable.placeholder);
                 requestOptions.error(R.drawable.ic_error_placeholder);
 
-                Glide.with(holder.itemView.getContext())
+                Glide.with(activity.getApplicationContext())
                         .setDefaultRequestOptions(requestOptions)
                         .load(uri)
                         .into(holder.vendorImage);

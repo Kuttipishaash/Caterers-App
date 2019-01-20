@@ -1,11 +1,14 @@
 package com.caterassist.app.activities;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,6 +66,9 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
     private RecyclerView cartItemsRecyclerView;
     private LinearLayout checkoutButton;
     private LinearLayout clearCartButton;
+    private Button dashboardButton;
+    private LinearLayout includeView;
+    private RelativeLayout cartInfoParent;
     private LoadingDialog loadingDialog;
     private Handler handler;
     private Runnable runnable;
@@ -75,7 +81,6 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_cart);
         initViews();
         fetchCartItems();
-        setNoItemView();
     }
 
     @Override
@@ -98,6 +103,7 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 vendorDetails = dataSnapshot.getValue(UserDetails.class);
+                vendorNameTextView.setText(vendorDetails.getUserName());
             }
 
             @Override
@@ -115,6 +121,7 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
                 CartItem cartItem = dataSnapshot.getValue(CartItem.class);
                 cartItem.setId(dataSnapshot.getKey());
                 cartItemsArrayList.add(cartItem);
+                checkCartEmpty();
                 cartItemsAdapter.notifyDataSetChanged();
 
             }
@@ -149,6 +156,7 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
                 for (int i = 0; i < cartItemsArrayList.size(); i++) {
                     if (cartItemsArrayList.get(i).getId().equals(cartItemKey)) {
                         cartItemsArrayList.remove(i);
+                        checkCartEmpty();
                         cartItemsAdapter.notifyDataSetChanged();
                     }
                 }
@@ -170,6 +178,7 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
                 Log.w(TAG, "postComments:onCancelled", databaseError.toException());
                 Toast.makeText(CartActivity.this, "Failed to load cart items.",
                         Toast.LENGTH_SHORT).show();
+                checkCartEmpty();
             }
         };
         cartItemsReference.addChildEventListener(cartItemsEventListener);
@@ -179,6 +188,7 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
                 if (loadingDialog != null || loadingDialog.isShowing()) {
                     loadingDialog.dismiss();
                 }
+                checkCartEmpty();
             }
 
             @Override
@@ -186,10 +196,12 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
                 if (loadingDialog != null || loadingDialog.isShowing()) {
                     loadingDialog.dismiss();
                 }
+                checkCartEmpty();
             }
         });
         cartItemsAdapter = new CartAdapter();
         cartItemsAdapter.setCartItemsArrayList(cartItemsArrayList);
+        cartItemsAdapter.setActivity(this);
         cartItemsLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         cartItemsRecyclerView.setLayoutManager(cartItemsLayoutManager);
         cartItemsRecyclerView.setAdapter(cartItemsAdapter);
@@ -197,10 +209,36 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
                 DividerItemDecoration.VERTICAL));
     }
 
+    private void checkCartEmpty() {
+        int cartSize = cartItemsArrayList.size();
+        noOfItemTextView.setText(String.valueOf(cartSize));
+        double totalAmount = 0;
+        for (CartItem item :
+                cartItemsArrayList) {
+            totalAmount += item.getTotalAmount();
+        }
+        totalAmountTextView.setText(String.valueOf(totalAmount));
+        if (cartSize == 0) {
+            includeView.setVisibility(View.VISIBLE);
+            cartItemsRecyclerView.setVisibility(View.GONE);
+            cartInfoParent.setVisibility(View.GONE);
+        } else {
+            includeView.setVisibility(View.GONE);
+            cartInfoParent.setVisibility(View.VISIBLE);
+            cartItemsRecyclerView.setVisibility(View.VISIBLE);
+        }
+    }
+
+
     private void initViews() {
+        includeView = findViewById(R.id.include_cart_empty);
+        includeView.setVisibility(View.GONE);
+        cartInfoParent = findViewById(R.id.cart_order_info_parent);
+        cartInfoParent.setVisibility(View.GONE);
         cartItemsRecyclerView = findViewById(R.id.act_cart_recyc_cart_items);
         checkoutButton = findViewById(R.id.act_cart_btn_checkout);
         clearCartButton = findViewById(R.id.act_cart_btn_clear_cart);
+        dashboardButton = findViewById(R.id.cart_go_to_dash);
 
         vendorNameTextView = findViewById(R.id.li_cart_vend_name);
         totalAmountTextView = findViewById(R.id.li_cart_total);
@@ -209,6 +247,7 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
         cartItemsArrayList = new ArrayList<>();
         checkoutButton.setOnClickListener(this);
         clearCartButton.setOnClickListener(this);
+        dashboardButton.setOnClickListener(this);
 
         loadingDialog = new LoadingDialog(this, "Loading cart items...");
         loadingDialog.show();
@@ -237,15 +276,6 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-
-    private void setNoItemView() {
-        View includeView = findViewById(R.id.include_cart_empty);
-        includeView.setVisibility(View.GONE);
-        if (cartItemsReference == null && cartItemsArrayList.size() == 0) {
-            includeView.setVisibility(View.VISIBLE);
-        }
-    }
-
     private void showDialogOrderSuccess(Order order) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         DialogOrderSuccess newFragment = new DialogOrderSuccess();
@@ -269,6 +299,10 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
                 if (cartItemsReference != null && cartItemsArrayList.size() > 0) {
                     clearCart();
                 }
+                break;
+            case R.id.cart_go_to_dash:
+                startActivity(new Intent(CartActivity.this, CatererHomeActivity.class));
+                finish();
                 break;
         }
     }

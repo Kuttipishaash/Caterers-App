@@ -1,5 +1,6 @@
 package com.caterassist.app.adapters;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.view.LayoutInflater;
@@ -28,6 +29,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartItemViewHolder> {
     private ArrayList<CartItem> cartItemsArrayList;
+    private Activity activity;
+
+    public void setActivity(Activity activity) {
+        this.activity = activity;
+    }
 
     public void setCartItemsArrayList(ArrayList<CartItem> cartItemsArrayList) {
         this.cartItemsArrayList = cartItemsArrayList;
@@ -50,7 +56,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartItemViewHo
                 RequestOptions requestOptions = new RequestOptions();
                 requestOptions.placeholder(R.drawable.placeholder);
                 requestOptions.error(R.drawable.ic_error_placeholder);
-                Glide.with(holder.itemView.getContext())
+                Glide.with(activity.getApplicationContext())
                         .setDefaultRequestOptions(requestOptions)
                         .load(uri)
                         .into(holder.itemImageView);

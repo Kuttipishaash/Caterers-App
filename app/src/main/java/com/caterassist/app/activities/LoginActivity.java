@@ -154,7 +154,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     }
 
     private void login() {
-        //TODO: Check if entries are not null
         String email = usernameEdtTxt.getText().toString();
         String password = passwordEdtTxt.getText().toString();
         firebaseAuth.signInWithEmailAndPassword(email, password)

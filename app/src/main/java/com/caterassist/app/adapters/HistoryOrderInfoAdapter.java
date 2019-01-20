@@ -33,6 +33,7 @@ public class HistoryOrderInfoAdapter extends RecyclerView.Adapter<HistoryOrderIn
         isVendor = vendor;
     }
 
+
     public void setOrderDetailsArrayList(ArrayList<OrderDetails> orderDetailsArrayList) {
         this.orderDetailsArrayList = orderDetailsArrayList;
     }

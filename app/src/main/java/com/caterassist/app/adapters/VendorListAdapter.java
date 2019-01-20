@@ -1,6 +1,7 @@
 package com.caterassist.app.adapters;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -35,6 +36,11 @@ import es.dmoral.toasty.Toasty;
 public class VendorListAdapter extends RecyclerView.Adapter<VendorListAdapter.ViewHolder> implements Filterable {
     private ArrayList<UserDetails> vendorsList;
     private ArrayList<UserDetails> filteredVendorsList;
+    private Activity activity;
+
+    public void setActivity(Activity activity) {
+        this.activity = activity;
+    }
 
     public void setVendorsList(ArrayList<UserDetails> vendorsList) {
         this.vendorsList = vendorsList;
@@ -61,7 +67,7 @@ public class VendorListAdapter extends RecyclerView.Adapter<VendorListAdapter.Vi
                 RequestOptions requestOptions = new RequestOptions();
                 requestOptions.placeholder(R.drawable.placeholder);
                 requestOptions.error(R.drawable.ic_error_placeholder);
-                Glide.with(holder.itemView.getContext())
+                Glide.with(activity.getApplicationContext())
                         .setDefaultRequestOptions(requestOptions)
                         .load(uri)
                         .into(holder.vendorImageView);

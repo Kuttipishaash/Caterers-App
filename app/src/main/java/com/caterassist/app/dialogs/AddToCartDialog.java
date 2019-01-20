@@ -2,6 +2,8 @@ package com.caterassist.app.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,10 +17,13 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.caterassist.app.R;
+import com.caterassist.app.activities.CartActivity;
 import com.caterassist.app.models.CartItem;
 import com.caterassist.app.models.UserDetails;
 import com.caterassist.app.models.VendorItem;
 import com.caterassist.app.utils.FirebaseUtils;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -30,6 +35,7 @@ import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
+import de.mateware.snacky.Snacky;
 import es.dmoral.toasty.Toasty;
 
 public class AddToCartDialog extends DialogFragment implements View.OnClickListener {
@@ -140,11 +146,50 @@ public class AddToCartDialog extends DialogFragment implements View.OnClickListe
             String databasePath = FirebaseUtils.getDatabaseMainBranchName() + FirebaseUtils.CART_BRANCH_NAME + FirebaseAuth.getInstance().getUid() + "/";
             String cartItemsPath = databasePath + FirebaseUtils.CART_ITEMS_BRANCH;
             DatabaseReference itemsReference = FirebaseDatabase.getInstance().getReference(cartItemsPath);
-            itemsReference.child(cartItem.getId()).setValue(cartItem);
-            Objects.requireNonNull(itemsReference.getParent()).child(FirebaseUtils.CART_VENDOR_BRANCH).setValue(vendorDetails);
+            itemsReference.child(cartItem.getId()).setValue(cartItem).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Objects.requireNonNull(itemsReference.getParent()).child(FirebaseUtils.CART_VENDOR_BRANCH)
+                            .setValue(vendorDetails)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    showCartSnack();
+                                }
+                            });
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toasty.error(getContext(), "Adding to cart failed").show();
+                }
+            });
+
             dismiss();
         } else {
             Toasty.warning(getContext(), getContext().getString(R.string.toast_added_item_qty_less_than_zero), Toast.LENGTH_SHORT).show();
         }
+
+    }
+
+    public void showCartSnack() {
+        Snacky.builder()
+                .setActivity(getActivity())
+                .setBackgroundColor(getResources().getColor(R.color.colorPrimary))
+                .setActionText("View Cart")
+                .setActionClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(getActivity(), CartActivity.class));
+                        getActivity().finish();
+                    }
+                })
+                .setText("Item added to cart")
+                .setIcon(R.drawable.ic_cart)
+                .setActionTextTypefaceStyle(Typeface.BOLD)
+                .setActionTextColor(getResources().getColor(R.color.white))
+                .setDuration(Snacky.LENGTH_LONG)
+                .build()
+                .show();
     }
 }
