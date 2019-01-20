@@ -2,8 +2,8 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:id="@+id/vendor_dash_root"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradient_light"
     android:padding="0dp"
@@ -45,14 +45,58 @@
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/vendor_dash_toolbar"
                     android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
+                    android:layout_height="wrap_content"
+                    android:minHeight="?attr/actionBarSize"
                     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                     app:contentInsetStartWithNavigation="0dp"
                     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                     app:subtitle="Angamaly, Ernakulam"
                     app:subtitleTextAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                     app:subtitleTextColor="@color/grey_10"
-                    app:title="ABC Caterer" />
+                    app:title="ABC Caterer">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/activity_vertical_margin">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Hi, ABC Wholesale "
+                                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                                android:textColor="@color/grey_10"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Angamaly, Ernakulam"
+                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                                android:textColor="@color/grey_10" />
+                        </LinearLayout>
+
+                        <com.mikhaellopez.circularimageview.CircularImageView
+                            android:id="@+id/vendor_view_profile"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_weight="0.5"
+                            android:foreground="?attr/selectableItemBackgroundBorderless"
+                            android:src="@drawable/tomato_placeholder"
+                            app:civ_border="true"
+                            app:civ_border_color="@color/colorAccent"
+                            app:civ_border_width="1dp" />
+                    </RelativeLayout>
+
+                </androidx.appcompat.widget.Toolbar>
+
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -78,7 +122,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="@dimen/spacing_middle">
+                        android:paddingStart="@dimen/spacing_medium"
+                        android:paddingTop="@dimen/spacing_medium"
+                        android:paddingEnd="@dimen/spacing_medium"
+                        android:paddingBottom="1dp">
 
                         <View
                             android:layout_width="match_parent"
@@ -98,22 +145,21 @@
                                 android:orientation="vertical">
 
                                 <com.google.android.material.floatingactionbutton.FloatingActionButton
-                                    android:id="@+id/vendor_view_profile"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:clickable="true"
                                     android:tint="@android:color/white"
-                                    app:backgroundTint="@color/light_green_500"
+                                    app:backgroundTint="@color/light_red_500"
                                     app:elevation="0dp"
                                     app:fabSize="mini"
                                     app:rippleColor="@android:color/white"
-                                    app:srcCompat="@drawable/ic_person" />
+                                    app:srcCompat="@drawable/ic_close" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="@dimen/spacing_medium"
-                                    android:text="MY PROFILE"
+                                    android:text="REJECTED ORDER"
                                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                                     android:textColor="@color/grey_40" />
 
@@ -131,17 +177,19 @@
                                     android:layout_height="wrap_content"
                                     android:clickable="true"
                                     android:tint="@android:color/white"
-                                    app:backgroundTint="@color/yellow_600"
+                                    app:backgroundTint="@color/light_green_500"
                                     app:elevation="0dp"
                                     app:fabSize="mini"
                                     app:rippleColor="@android:color/white"
-                                    app:srcCompat="@drawable/ic_cater_menu" />
+                                    app:srcCompat="@drawable/ic_check" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="@dimen/spacing_medium"
-                                    android:text="CATERERS"
+                                    android:gravity="center"
+                                    android:singleLine="false"
+                                    android:text="COMPLETED ORDERS"
                                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                                     android:textColor="@color/grey_40" />
                             </LinearLayout>
@@ -158,6 +206,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:clickable="true"
+
                                     android:tint="@android:color/white"
                                     app:backgroundTint="@color/purple_400"
                                     app:elevation="0dp"
@@ -187,7 +236,7 @@
 
                         <View
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/spacing_mxlarge" />
+                            android:layout_height="@dimen/spacing_mlarge" />
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
@@ -254,7 +303,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:dividerHeight="0.5dp"
-                                android:nestedScrollingEnabled="false"/>
+                                android:nestedScrollingEnabled="false" />
                         </LinearLayout>
 
                     </LinearLayout>

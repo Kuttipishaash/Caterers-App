@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient_light"
+    android:background="@color/white"
     android:fitsSystemWindows="true"
     android:focusable="true"
     android:focusableInTouchMode="true"
@@ -13,40 +13,46 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="@dimen/activity_horizontal_margin">
+        android:orientation="vertical">
 
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="Sign Up"
-            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-            android:textColor="@color/colorAccent"
-            android:textStyle="bold" />
-
-        <View
-            android:layout_width="55dp"
-            android:layout_height="3dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/spacing_xmedium"
-            android:layout_marginBottom="@dimen/spacing_mlarge"
-            android:background="@color/colorAccent" />
-
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/spacing_mlarge"
-            android:gravity="center"
-            android:text="Create an account to log in &amp; use our services." />
+            android:background="@drawable/title_gradient"
+            android:orientation="vertical"
+            android:padding="16dp">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Sign Up"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="55dp"
+                android:layout_height="3dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/spacing_xmedium"
+                android:layout_marginBottom="@dimen/spacing_mlarge"
+                android:background="@color/colorAccent" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_mlarge"
+                android:gravity="center"
+                android:text="Create an account to log in &amp; use our services." />
+
+        </LinearLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp">
+            android:padding="@dimen/activity_horizontal_margin">
 
             <com.mikhaellopez.circularimageview.CircularImageView
                 android:id="@+id/act_sign_user_img"
@@ -241,7 +247,6 @@
                     </LinearLayout>
 
 
-
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
@@ -344,4 +349,4 @@
             android:paddingEnd="25dp"
             android:text="Sign Up" />
     </LinearLayout>
-</ScrollView>
+</androidx.core.widget.NestedScrollView>

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,7 +57,8 @@ public class VendorHomeActivity extends FragmentActivity implements View.OnClick
     private RecyclerView vendingItemsRecyclerView;
     private Toolbar toolbar;
     private Integer approvalAwaitingOrders;
-    private FloatingActionButton awaitingOrdersFab, viewProfileFab;
+    private FloatingActionButton awaitingOrdersFab;
+    private ImageView viewProfileFab;
 
 
     @Override
@@ -114,6 +116,7 @@ public class VendorHomeActivity extends FragmentActivity implements View.OnClick
                     Log.e(TAG, "onDataChange: Approval awaiting order variable null in firebase");
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.e(TAG, "onCancelled: Failed to fetch pending orders");
@@ -264,8 +267,8 @@ public class VendorHomeActivity extends FragmentActivity implements View.OnClick
         vendingItemsArrayList = new ArrayList<>();
 
         UserDetails userDetails = AppUtils.getUserInfoSharedPreferences(this);
-        String title = "Hi," + userDetails.getUserName();
-        toolbar.setTitle(title);
+//        String title = "Hi," + userDetails.getUserName();
+//        toolbar.setTitle(title);
         String subtitle = userDetails.getUserLocationName() + ", " + userDetails.getUserDistrictName();
         toolbar.setSubtitle(subtitle);
         fetchItems();
