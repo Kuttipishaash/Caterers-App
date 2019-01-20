@@ -17,7 +17,7 @@
         app:actionViewClass="android.widget.SearchView"
         app:showAsAction="always" />
     <item
-        android:id="@+id/action_cart"
+        android:id="@+id/btm_sheet_option_cart"
         android:icon="@drawable/ic_cart"
         android:iconTint="@color/white"
         android:title="@string/action_cart"

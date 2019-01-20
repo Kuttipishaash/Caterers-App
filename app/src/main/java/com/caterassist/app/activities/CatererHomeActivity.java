@@ -9,9 +9,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.caterassist.app.R;
 import com.caterassist.app.adapters.FavouriteVendorsAdapter;
 import com.caterassist.app.adapters.VendorListAdapter;
@@ -30,10 +34,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
@@ -46,7 +53,7 @@ public class CatererHomeActivity extends FragmentActivity implements View.OnClic
     private static final String TAG = "CatererDash";
     private static final int CALL_PERMISSION_REQ_CODE = 100;
     private ArrayList<UserDetails> allVendorsArrayList;
-    //TODO: toolbar
+    private Toolbar toolbar;
     private DatabaseReference favouriteVendorsReference;
     private ChildEventListener favouriteVendorsEventListener;
     private RecyclerView favouriteVendorsRecyclerView;
@@ -57,9 +64,12 @@ public class CatererHomeActivity extends FragmentActivity implements View.OnClic
     private LinearLayoutManager allVendorsLayoutManager;
     private VendorListAdapter allVendorsAdapter;
     private RecyclerView allVendorsRecyclerView;
-    private FloatingActionButton viewProfileFAB, viewOrderHistoryFAB, viewCartFAB;
+    private FloatingActionButton viewOrderHistoryFAB, viewCartFAB;
     private BottomAppBar bottomAppBar;
     private SearchView searchView;
+    private ImageView viewProfileFab;
+    private TextView profileName;
+    private TextView profileLocation;
 
 
     @Override
@@ -114,6 +124,28 @@ public class CatererHomeActivity extends FragmentActivity implements View.OnClic
         setupBottomAppBar();
         fetchFavouriteVendors();
         fetchAllVendors();
+
+        UserDetails userDetails = AppUtils.getUserInfoSharedPreferences(this);
+
+        String title = "Hi, " + userDetails.getUserName();
+        profileName.setText(title);
+        toolbar.setTitle(title);
+        String subtitle = userDetails.getUserLocationName() + ", " + userDetails.getUserDistrictName();
+        profileLocation.setText(subtitle);
+
+        String imageUrl = userDetails.getUserImageUrl();
+        if (imageUrl != null) {
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+            storageReference.child(imageUrl).getDownloadUrl().addOnSuccessListener(uri -> {
+                RequestOptions requestOptions = new RequestOptions();
+                requestOptions.placeholder(R.drawable.placeholder);
+                requestOptions.error(R.drawable.ic_error_placeholder);
+                Glide.with(CatererHomeActivity.this)
+                        .setDefaultRequestOptions(requestOptions)
+                        .load(uri)
+                        .into(viewProfileFab);
+            }).addOnFailureListener(exception -> viewProfileFab.setImageResource(R.drawable.ic_error_placeholder));
+        }
     }
 
     @Override
@@ -159,17 +191,14 @@ public class CatererHomeActivity extends FragmentActivity implements View.OnClic
             BottomSheetDialogFragment bottomSheetDialogFragment = new BottomNavigationDrawerFragment();
             bottomSheetDialogFragment.show(getSupportFragmentManager(), bottomSheetDialogFragment.getTag());
         });
-       /* bottomAppBar.setOnMenuItemClickListener(item -> {
+        bottomAppBar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.btm_sheet_option_cart:
                     startActivity(new Intent(CatererHomeActivity.this, CartActivity.class));
                     break;
-                case R.id.btm_sheet_caterer_order_history:
-                    startActivity(new Intent(CatererHomeActivity.this, OrderHistoryActivity.class));
-                    break;
             }
             return true;
-        });*/
+        });
         //TODO: Implement pending orders
     }
 
@@ -287,21 +316,25 @@ public class CatererHomeActivity extends FragmentActivity implements View.OnClic
 
     private void initViews() {
         favouriteVendorsRecyclerView = findViewById(R.id.frag_cate_dash_fav_vendors);
+        toolbar = findViewById(R.id.cater_dash_toolbar);
         allVendorsRecyclerView = findViewById(R.id.frag_cate_all_vendors);
-        viewProfileFAB = findViewById(R.id.caterer_view_profile);
         viewOrderHistoryFAB = findViewById(R.id.caterer_order_history);
         viewCartFAB = findViewById(R.id.act_caterer_cart);
         favouriteVendorArrayList = new ArrayList<>();
         bottomAppBar = findViewById(R.id.bottom_app_bar_caterer);
 
-        viewProfileFAB.setOnClickListener(this);
+        viewProfileFab = findViewById(R.id.cater_view_profile);
+        profileName = findViewById(R.id.cater_home_name);
+        profileLocation = findViewById(R.id.cater_home_location);
+
+        viewProfileFab.setOnClickListener(this);
         viewCartFAB.setOnClickListener(this);
         viewOrderHistoryFAB.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == viewProfileFAB.getId()) {
+        if (v.getId() == viewProfileFab.getId()) {
             startActivity(new Intent(this, EditProfileActivity.class));
         } else if (v.getId() == viewCartFAB.getId()) {
             startActivity(new Intent(CatererHomeActivity.this, CartActivity.class));

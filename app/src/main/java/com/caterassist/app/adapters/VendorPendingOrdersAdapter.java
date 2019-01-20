@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -108,6 +109,7 @@ public class VendorPendingOrdersAdapter extends RecyclerView.Adapter<VendorPendi
         TextView orderTimeStampTimeTxtView;
         TextView vendorNameTxtView;
         TextView orderTotalAmtTxtView;
+        ImageView caterProfileImage;
         TextView caterLocation;
         Button updateStatusBtn;
         Button rejectOrderBtn;
@@ -124,6 +126,7 @@ public class VendorPendingOrdersAdapter extends RecyclerView.Adapter<VendorPendi
             updateStatusBtn = itemView.findViewById(R.id.li_caterer_order_status_update);
             rejectOrderBtn = itemView.findViewById(R.id.li_caterer_order_reject);
             caterLocation = itemView.findViewById(R.id.li_caterer_order_info_vendor_location);
+            caterProfileImage = itemView.findViewById(R.id.li_caterer_order_info_image_view);
 
 
             parentLayout.setOnClickListener(this);

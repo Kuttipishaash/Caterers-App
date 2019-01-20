@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.caterassist.app.R;
 import com.caterassist.app.adapters.VendingItemsAdapter;
 import com.caterassist.app.fragments.BottomNavigationDrawerFragment;
@@ -29,6 +31,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
@@ -58,7 +62,10 @@ public class VendorHomeActivity extends FragmentActivity implements View.OnClick
     private Toolbar toolbar;
     private Integer approvalAwaitingOrders;
     private FloatingActionButton awaitingOrdersFab;
+    private FloatingActionButton orderHistoryFab;
     private ImageView viewProfileFab;
+    private TextView profileName;
+    private TextView profileLocation;
 
 
     @Override
@@ -82,12 +89,16 @@ public class VendorHomeActivity extends FragmentActivity implements View.OnClick
         toolbar = findViewById(R.id.vendor_dash_toolbar);
         awaitingOrderNumberTxtView = findViewById(R.id.frag_vend_dash_awaiting_orders);
         awaitingOrdersFab = findViewById(R.id.frag_vend_dash_awaiting_orders_fab);
+        orderHistoryFab = findViewById(R.id.frag_vend_dash_order_history);
         viewProfileFab = findViewById(R.id.vendor_view_profile);
+        profileName = findViewById(R.id.vendor_home_name);
+        profileLocation = findViewById(R.id.vendor_home_location);
 
         addEditItemFAB = findViewById(R.id.act_home_fab);
         bottomAppBar = findViewById(R.id.bottom_app_bar_vendor);
 
         awaitingOrdersFab.setOnClickListener(this);
+        orderHistoryFab.setOnClickListener(this);
         viewProfileFab.setOnClickListener(this);
     }
 
@@ -218,7 +229,11 @@ public class VendorHomeActivity extends FragmentActivity implements View.OnClick
         } else if (v.getId() == R.id.act_home_fab) {
 
             startActivity(new Intent(VendorHomeActivity.this, AddEditItemActivity.class));
+        } else if (v.getId() == R.id.frag_vend_dash_order_history) {
+
+            startActivity(new Intent(VendorHomeActivity.this, OrderHistoryActivity.class));
         }
+
     }
 
     private void getPermissions() {
@@ -267,10 +282,28 @@ public class VendorHomeActivity extends FragmentActivity implements View.OnClick
         vendingItemsArrayList = new ArrayList<>();
 
         UserDetails userDetails = AppUtils.getUserInfoSharedPreferences(this);
-//        String title = "Hi," + userDetails.getUserName();
-//        toolbar.setTitle(title);
+
+        String title = "Hi, " + userDetails.getUserName();
+        profileName.setText(title);
+        toolbar.setTitle(title);
         String subtitle = userDetails.getUserLocationName() + ", " + userDetails.getUserDistrictName();
+        profileLocation.setText(subtitle);
         toolbar.setSubtitle(subtitle);
+        String imageUrl = userDetails.getUserImageUrl();
+        if (imageUrl != null) {
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+            storageReference.child(imageUrl).getDownloadUrl().addOnSuccessListener(uri -> {
+                RequestOptions requestOptions = new RequestOptions();
+                requestOptions.placeholder(R.drawable.placeholder);
+                requestOptions.error(R.drawable.ic_error_placeholder);
+                Glide.with(VendorHomeActivity.this)
+                        .setDefaultRequestOptions(requestOptions)
+                        .load(uri)
+                        .into(viewProfileFab);
+            }).addOnFailureListener(exception -> viewProfileFab.setImageResource(R.drawable.ic_error_placeholder));
+        }
+
+
         fetchItems();
         fetchPendingOrders();
         addEditItemFAB.setOnClickListener(this);
