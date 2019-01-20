@@ -20,4 +20,8 @@
     <dimen name="text_medium">15sp</dimen>
     <dimen name="text_large">20sp</dimen>
 
+    <dimen name="card_elevation_small">1dp</dimen>
+    <dimen name="card_elevation__medium">5dp</dimen>
+    <dimen name="card_elevation__large">8dp</dimen>
+
 </resources>

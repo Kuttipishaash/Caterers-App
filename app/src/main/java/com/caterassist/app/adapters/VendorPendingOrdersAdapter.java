@@ -51,9 +51,16 @@ public class VendorPendingOrdersAdapter extends RecyclerView.Adapter<VendorPendi
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         OrderDetails orderDetails = orderDetailsArrayList.get(position);
         holder.orderIDTxtView.setText(orderDetails.getOrderId());
-        holder.orderTimeStampTxtView.setText(orderDetails.getOrderTime());
+
+        String[] timeStampStr = orderDetails.getOrderTime().split(" ", 2);
+
+        holder.orderTimeStampTxtView.setText(timeStampStr[0]);
+        holder.orderTimeStampTimeTxtView.setText(timeStampStr[1]);
+
         holder.vendorNameTxtView.setText(orderDetails.getVendorName());
-        holder.orderTotalAmtTxtView.setText(String.valueOf(orderDetails.getOrderTotalAmount()));
+
+        String totalAmount = "₹" + String.valueOf(orderDetails.getOrderTotalAmount());
+        holder.orderTotalAmtTxtView.setText(totalAmount);
         String buttonText;
         String statusText;
         switch (orderDetails.getOrderStatus()) {
@@ -96,6 +103,7 @@ public class VendorPendingOrdersAdapter extends RecyclerView.Adapter<VendorPendi
         TextView orderIDTxtView;
         TextView orderStatusTxtView;
         TextView orderTimeStampTxtView;
+        TextView orderTimeStampTimeTxtView;
         TextView vendorNameTxtView;
         TextView orderTotalAmtTxtView;
         Button updateStatusBtn;
@@ -108,6 +116,7 @@ public class VendorPendingOrdersAdapter extends RecyclerView.Adapter<VendorPendi
             orderStatusTxtView = itemView.findViewById(R.id.li_caterer_order_info_status);
             vendorNameTxtView = itemView.findViewById(R.id.li_caterer_order_info_vendor_name);
             orderTimeStampTxtView = itemView.findViewById(R.id.li_caterer_order_info_timestamp);
+            orderTimeStampTimeTxtView = itemView.findViewById(R.id.li_caterer_order_info_timestamp_time);
             orderTotalAmtTxtView = itemView.findViewById(R.id.li_caterer_order_info_order_total);
             updateStatusBtn = itemView.findViewById(R.id.li_caterer_order_status_update);
             rejectOrderBtn = itemView.findViewById(R.id.li_caterer_order_reject);
