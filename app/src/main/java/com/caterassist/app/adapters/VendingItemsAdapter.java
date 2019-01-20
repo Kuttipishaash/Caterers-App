@@ -60,7 +60,7 @@ public class VendingItemsAdapter extends RecyclerView.Adapter<VendingItemsAdapte
         }
         holder.itemName.setText(vendorItem.getName());
         holder.itemCategory.setText(vendorItem.getCategory());
-        String itemRateString = String.valueOf(vendorItem.getRatePerUnit()) + " ₹/" + vendorItem.getUnit();
+        String itemRateString = " ₹" + String.valueOf(vendorItem.getRatePerUnit()) + "/" + vendorItem.getUnit();
         holder.itemRate.setText(itemRateString);
         String itemStockString = String.valueOf(vendorItem.getStock()) + " " + vendorItem.getUnit();
         holder.itemStock.setText(String.valueOf(itemStockString));

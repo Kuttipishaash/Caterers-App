@@ -88,6 +88,7 @@
                             android:layout_height="50dp"
                             android:layout_alignParentEnd="true"
                             android:layout_weight="0.5"
+                            android:foreground="?attr/selectableItemBackgroundBorderless"
                             android:src="@drawable/tomato_placeholder"
                             app:civ_border="true"
                             app:civ_border_color="@color/colorAccent"

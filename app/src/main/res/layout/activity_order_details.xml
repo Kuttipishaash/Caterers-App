@@ -32,6 +32,8 @@
             android:layout_marginBottom="@dimen/spacing_mlarge"
             android:background="@color/colorAccent" />
 
+        <include layout="@layout/list_item_vendor_new_order"/>
+
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -70,15 +72,15 @@
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/act_order_det_view_vend"
                         style="@style/Rounded_Button_White"
-                        android:layout_below="@id/act_ord_det_order_delete_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:visibility="gone"
+                        android:layout_below="@id/act_ord_det_order_delete_btn"
                         android:layout_alignRight="@+id/item_history_order_vend"
                         android:layout_alignParentEnd="true"
                         android:background="@color/transparent"
                         android:contentDescription="delete"
-                        android:text="View" />
+                        android:text="View"
+                        android:visibility="gone" />
 
                     <LinearLayout
                         android:id="@+id/item_history_order_id"
