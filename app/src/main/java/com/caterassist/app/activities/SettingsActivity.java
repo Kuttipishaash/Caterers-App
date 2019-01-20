@@ -30,7 +30,7 @@ public class SettingsActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.act_settings_my_profile:
-                startActivity(new Intent(SettingsActivity.this, ProfileActivity.class));
+                startActivity(new Intent(SettingsActivity.this, EditProfileActivity.class));
         }
     }
 }

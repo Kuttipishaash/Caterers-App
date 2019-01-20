@@ -4,13 +4,16 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.caterassist.app.R;
 import com.caterassist.app.adapters.OrderItemsAdapter;
+import com.caterassist.app.dialogs.LoadingDialog;
 import com.caterassist.app.models.CartItem;
 import com.caterassist.app.models.OrderDetails;
 import com.caterassist.app.utils.AppUtils;
@@ -30,6 +33,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import es.dmoral.toasty.Toasty;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 public class OrderDetailsActivity extends Activity implements View.OnClickListener {
 
     private RecyclerView orderItemsRecyclerView;
@@ -40,6 +46,8 @@ public class OrderDetailsActivity extends Activity implements View.OnClickListen
     private TextView orderIDTxtView;
     private TextView orderTotalAmtTxtView;
     private TextView orderStatusTxtView;
+    private LinearLayout noItemsView;
+    private LoadingDialog loadingDialog;
     private ImageButton deleteOrderBtn;
     private ImageButton viewVendorBtn;
 
@@ -49,7 +57,8 @@ public class OrderDetailsActivity extends Activity implements View.OnClickListen
     private String orderBranchName;
     private String orderId;
     private OrderDetails orderDetails;
-
+    private Handler handler;
+    private Runnable runnable;
     private LinearLayoutManager orderItemsLayoutManager;
 
     @Override
@@ -70,12 +79,27 @@ public class OrderDetailsActivity extends Activity implements View.OnClickListen
         }
     }
 
+    private void checkItems() {
+        if (cartItemArrayList.size() > 0) {
+            //TODO: Show the top card
+            orderItemsRecyclerView.setVisibility(VISIBLE);
+            noItemsView.setVisibility(GONE);
+        } else {
+            noItemsView.setVisibility(VISIBLE);
+            orderItemsRecyclerView.setVisibility(GONE);
+            //TODO: Hide the top card
+        }
+    }
+
     private void setOrderInfo() {
         if (AppUtils.isCurrentUserVendor(this)) {
+            userTypeTxtView.setText("Caterer Name: ");
             userTypeTxtView.setText("Caterer");
             //TODO:Null pointer to fix
             userNameTxtView.setText(orderDetails.getCatererName());
         } else {
+            viewVendorBtn.setVisibility(VISIBLE);
+            userTypeTxtView.setText("Vendor Name: ");
             viewVendorBtn.setVisibility(View.VISIBLE);
             userTypeTxtView.setText("Vendor");
             userNameTxtView.setText(orderDetails.getVendorName());
@@ -109,7 +133,29 @@ public class OrderDetailsActivity extends Activity implements View.OnClickListen
         orderStatusTxtView.setText(status);
     }
 
+    @Override
+    public void onBackPressed() {
+        if (handler != null && runnable != null) {
+            handler.removeCallbacks(runnable);
+        }
+        super.onBackPressed();
+    }
+
     private void fetchItems() {
+        loadingDialog = new LoadingDialog(this, "Loading order details...");
+        loadingDialog.show();
+        final int interval = 10000; // 1 Second
+        handler = new Handler();
+        runnable = () -> {
+            if (loadingDialog != null)
+                if (loadingDialog.isShowing()) {
+                    loadingDialog.dismiss();
+                    Toast.makeText(OrderDetailsActivity.this, "Please check your internet connection and try again!", Toast.LENGTH_SHORT).show();
+                    checkItems();
+                }
+        };
+        handler.postAtTime(runnable, System.currentTimeMillis() + interval);
+        handler.postDelayed(runnable, interval);
         String databasePath = FirebaseUtils.getDatabaseMainBranchName() + orderBranchName +
                 FirebaseAuth.getInstance().getUid() + "/" + orderId + "/" + FirebaseUtils.ORDER_ITEMS_BRANCH;
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(databasePath);
@@ -121,16 +167,20 @@ public class OrderDetailsActivity extends Activity implements View.OnClickListen
                     cartItemArrayList.add(cartItem);
                     orderItemsAdapter.notifyDataSetChanged();
                 }
+                checkItems();
+                loadingDialog.dismiss();
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+                loadingDialog.dismiss();
                 Toasty.error(OrderDetailsActivity.this, "Error occured while fetching items!", Toast.LENGTH_SHORT).show();
+                checkItems();
             }
         });
     }
 
     private void initViews() {
+        noItemsView = findViewById(R.id.error_items_list_empty);
         userTypeTxtView = findViewById(R.id.li_caterer_order_info_user_type);
         userNameTxtView = findViewById(R.id.li_caterer_order_info_vendor_name);
         orderIDTxtView = findViewById(R.id.li_caterer_order_info_id);
@@ -164,21 +214,27 @@ public class OrderDetailsActivity extends Activity implements View.OnClickListen
                                 getResources().getString(R.string.dialog_message_delete_order_history))
                         .setPositiveButton(
                                 getResources().getString(R.string.dialog_btn_yes),
-                                (dialog, which) -> deleteItem())
+                                (dialog, which) -> deleteOrder())
                         .setNegativeButton((getResources().getString(R.string.dialog_btn_no))
                                 , (dialog, which) -> dialog.dismiss()).show();
             } else {
                 Toasty.warning(this, "You cannot delete an unfulfilled order!").show();
             }
         } else if (v.getId() == viewVendorBtn.getId()) {
-            Intent viewVendorIntent = new Intent(OrderDetailsActivity.this, ViewVendorItemsActivity.class);
-            viewVendorIntent.putExtra(Constants.IntentExtrasKeys.VIEW_VENDOR_ITEMS_INTENT_VENDOR_UID, orderDetails.getVendorId());
-            startActivity(viewVendorIntent);
-            finish();
+            if (AppUtils.isCurrentUserVendor(this)) {
+                Intent viewCatererIntent = new Intent(OrderDetailsActivity.this, CatererProfileActivity.class);
+                viewCatererIntent.putExtra(Constants.IntentExtrasKeys.USER_ID, orderDetails.getCatererID());
+                startActivity(viewCatererIntent);
+            } else {
+                Intent viewVendorIntent = new Intent(OrderDetailsActivity.this, ViewVendorItemsActivity.class);
+                viewVendorIntent.putExtra(Constants.IntentExtrasKeys.VIEW_VENDOR_ITEMS_INTENT_VENDOR_UID, orderDetails.getVendorId());
+                startActivity(viewVendorIntent);
+                finish();
+            }
         }
     }
 
-    private void deleteItem() {
+    private void deleteOrder() {
         String orderID = orderDetails.getOrderId();
         String branch = AppUtils.isCurrentUserVendor(this) ? FirebaseUtils.ORDERS_VENDOR_BRANCH : FirebaseUtils.ORDERS_CATERER_BRANCH;
         String databasePath = FirebaseUtils.getDatabaseMainBranchName() + branch +

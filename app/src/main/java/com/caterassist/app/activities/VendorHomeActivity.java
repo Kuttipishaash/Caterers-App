@@ -214,7 +214,7 @@ public class VendorHomeActivity extends FragmentActivity implements View.OnClick
         if (v.getId() == R.id.frag_vend_dash_awaiting_orders_fab) {
             startActivity(new Intent(this, VendorPendingOrdersActivity.class));
         } else if (v.getId() == R.id.vendor_view_profile) {
-            startActivity(new Intent(this, ProfileActivity.class));
+            startActivity(new Intent(this, EditProfileActivity.class));
         } else if (v.getId() == R.id.act_home_fab) {
 
             startActivity(new Intent(VendorHomeActivity.this, AddEditItemActivity.class));

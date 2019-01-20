@@ -258,6 +258,7 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
                 if (loadingDialog.isShowing()) {
                     loadingDialog.dismiss();
                     Toast.makeText(CartActivity.this, "Please check your internet connection and try again!", Toast.LENGTH_SHORT).show();
+                    checkCartEmpty();
                 }
         };
         handler.postAtTime(runnable, System.currentTimeMillis() + interval);

@@ -23,6 +23,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import es.dmoral.toasty.Toasty;
 
 public class VendorPendingOrdersActivity extends Activity {
     private static final String TAG = "VendorNewOrders";
@@ -39,6 +40,7 @@ public class VendorPendingOrdersActivity extends Activity {
         setContentView(R.layout.activity_vendor_pending_orders);
         pendingOrdersRecycView = findViewById(R.id.act_vend_pending_orders_recyc_view);
         fetchOrders();
+        Toasty.warning(this, "hgjkg").show();
     }
 
     @Override

@@ -302,7 +302,7 @@ public class CatererHomeActivity extends FragmentActivity implements View.OnClic
     @Override
     public void onClick(View v) {
         if (v.getId() == viewProfileFAB.getId()) {
-            startActivity(new Intent(this, ProfileActivity.class));
+            startActivity(new Intent(this, EditProfileActivity.class));
         } else if (v.getId() == viewCartFAB.getId()) {
             startActivity(new Intent(CatererHomeActivity.this, CartActivity.class));
         } else if (v.getId() == viewOrderHistoryFAB.getId()) {

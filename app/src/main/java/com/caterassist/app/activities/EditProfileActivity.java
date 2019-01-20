@@ -37,7 +37,7 @@ import java.io.IOException;
 import es.dmoral.toasty.Toasty;
 import id.zelory.compressor.Compressor;
 
-public class ProfileActivity extends Activity implements View.OnClickListener {
+public class EditProfileActivity extends Activity implements View.OnClickListener {
     private UserDetails userDetails;
     private static final String TAG = "ProfileAct";
     //Views
@@ -59,7 +59,7 @@ public class ProfileActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_edit_profile);
         awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
         initViews();
         userDetails = AppUtils.getUserInfoSharedPreferences(this);
@@ -81,7 +81,7 @@ public class ProfileActivity extends Activity implements View.OnClickListener {
                 RequestOptions requestOptions = new RequestOptions();
                 requestOptions.placeholder(R.drawable.user_placeholder);
                 requestOptions.error(R.drawable.ic_error_placeholder);
-                Glide.with(ProfileActivity.this)
+                Glide.with(EditProfileActivity.this)
                         .setDefaultRequestOptions(requestOptions)
                         .load(uri)
                         .into(profileImage);
@@ -135,10 +135,10 @@ public class ProfileActivity extends Activity implements View.OnClickListener {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(databasePath);
         databaseReference.setValue(userDetails).addOnSuccessListener(aVoid -> {
             Toasty.success(this, "Profile changed successfully!").show();
-            AppUtils.setUserInfoSharedPreferences(userDetails, ProfileActivity.this);
+            AppUtils.setUserInfoSharedPreferences(userDetails, EditProfileActivity.this);
             imageChanged = false;
             finish();
-        }).addOnFailureListener(e -> Toasty.error(ProfileActivity.this, "User profile update failed!").show());
+        }).addOnFailureListener(e -> Toasty.error(EditProfileActivity.this, "User profile update failed!").show());
     }
 
     private void uploadNewImage() {
@@ -146,7 +146,7 @@ public class ProfileActivity extends Activity implements View.OnClickListener {
             StorageReference storageRef = FirebaseStorage.getInstance().getReference("images/" + userDetails.getUserEmail());
             UploadTask uploadTask = storageRef.putFile(profileImageUri);
             uploadTask.addOnFailureListener(exception
-                    -> Toasty.error(ProfileActivity.this, "Registration request failed").show())
+                    -> Toasty.error(EditProfileActivity.this, "Registration request failed").show())
                     .addOnSuccessListener(taskSnapshot
                             -> {
                         Log.i(TAG, "editProfile: Image uploaded.");
@@ -174,7 +174,7 @@ public class ProfileActivity extends Activity implements View.OnClickListener {
                         Bitmap compressedImageBitmap = new Compressor(this).compressToBitmap(file);
                         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                         compressedImageBitmap.compress(Bitmap.CompressFormat.JPEG, 50, bytes);
-                        String path = MediaStore.Images.Media.insertImage(ProfileActivity.this.getContentResolver(), compressedImageBitmap, "catering_app_profile_picture", null);
+                        String path = MediaStore.Images.Media.insertImage(EditProfileActivity.this.getContentResolver(), compressedImageBitmap, "catering_app_profile_picture", null);
                         profileImageUri = Uri.parse(path);
                         imageChanged = true;
 
