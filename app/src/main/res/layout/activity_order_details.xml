@@ -32,209 +32,11 @@
             android:layout_marginBottom="@dimen/spacing_mlarge"
             android:background="@color/colorAccent" />
 
-        <include layout="@layout/list_item_vendor_new_order"/>
+        <include layout="@layout/list_item_vendor_new_order" />
 
-
-        <androidx.cardview.widget.CardView
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginVertical="10dp"
-            android:elevation="10dp"
-            app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="10dp">
-
-            <RelativeLayout
-                android:id="@+id/order_det_parent"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?android:selectableItemBackground"
-                android:clickable="true"
-                android:focusable="true"
-                android:orientation="vertical">
-
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/fab_margin">
-
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/act_ord_det_order_delete_btn"
-                        style="@style/Base.TextAppearance.AppCompat.Button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignParentEnd="true"
-                        android:contentDescription="delete"
-                        android:text="Delete" />
-
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/act_order_det_view_vend"
-                        style="@style/Rounded_Button_White"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/act_ord_det_order_delete_btn"
-                        android:layout_alignRight="@+id/item_history_order_vend"
-                        android:layout_alignParentEnd="true"
-                        android:background="@color/transparent"
-                        android:contentDescription="delete"
-                        android:text="View"
-                        android:visibility="gone" />
-
-                    <LinearLayout
-                        android:id="@+id/item_history_order_id"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            style="@style/OrderHistoryLabel"
-                            android:layout_height="wrap_content"
-                            android:text="Order ID" />
-
-                        <TextView
-                            android:id="@+id/act_ord_det_order_id"
-                            style="@style/OrderHistoryItem"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="abcd"
-                            android:textSize="15sp" />
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:id="@+id/item_history_order_vend"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/item_history_order_id"
-                        android:layout_marginTop="@dimen/spacing_large"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/act_ord_det_caterer_or_vendor"
-                            style="@style/OrderHistoryLabel"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Vendor" />
-
-                        <TextView
-                            android:id="@+id/act_ord_det_order_placed_user"
-                            style="@style/OrderHistoryItem"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Vendor XXX"
-                            android:textSize="18sp" />
-
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:id="@+id/item_history_date"
-                        android:layout_width="130dp"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/item_history_order_vend"
-                        android:layout_marginTop="@dimen/spacing_large"
-                        android:orientation="vertical">
-
-                        <TextView
-                            style="@style/OrderHistoryLabel"
-                            android:layout_height="wrap_content"
-                            android:text="Date" />
-
-                        <TextView
-                            android:id="@+id/act_ord_det_order_date"
-                            style="@style/OrderHistoryItem"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="XX-XX-XXXX" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/item_history_time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/item_history_order_vend"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginLeft="@dimen/spacing_xxxlarge"
-                        android:layout_marginTop="@dimen/spacing_large"
-                        android:layout_toRightOf="@id/item_history_date"
-                        android:orientation="vertical">
-
-                        <TextView
-                            style="@style/OrderHistoryLabel"
-                            android:layout_height="wrap_content"
-                            android:text="Time" />
-
-                        <TextView
-                            android:id="@+id/act_ord_det_order_time"
-                            style="@style/OrderHistoryItem"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="XX:XX" />
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="250dp"
-                        android:layout_height="1dp"
-                        android:layout_below="@id/item_history_time"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="@dimen/spacing_xmedium"
-                        android:background="@drawable/line_dash_grey_20" />
-
-                    <LinearLayout
-                        android:id="@+id/item_history_amount"
-                        android:layout_width="130dp"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/item_history_date"
-                        android:layout_marginTop="@dimen/spacing_large"
-                        android:orientation="vertical">
-
-                        <TextView
-                            style="@style/OrderHistoryLabel"
-                            android:layout_height="wrap_content"
-                            android:text="amount" />
-
-                        <TextView
-                            android:id="@+id/act_ord_det_order_total_amt"
-                            style="@style/OrderHistoryItem"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="**** Rs"
-                            android:textColor="@color/colorAccent"
-                            android:textSize="22sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/item_history_order_status"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/item_history_date"
-                        android:layout_alignEnd="@id/item_history_amount"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginStart="55dp"
-                        android:layout_marginLeft="55dp"
-                        android:layout_marginTop="19dp"
-                        android:layout_toRightOf="@id/item_history_amount"
-                        android:orientation="vertical">
-
-                        <TextView
-                            style="@style/OrderHistoryLabel"
-                            android:layout_height="wrap_content"
-                            android:text="status" />
-
-                        <TextView
-                            android:id="@+id/act_ord_det_order_status"
-                            style="@style/OrderHistoryItem"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Not Applicable"
-                            android:textSize="15sp" />
-                    </LinearLayout>
-
-                </RelativeLayout>
-            </RelativeLayout>
-        </androidx.cardview.widget.CardView>
+            android:layout_height="@dimen/activity_vertical_margin" />
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -291,7 +93,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:orientation="horizontal"
-                    android:weightSum="5">
+                    android:weightSum="4">
 
                     <ImageView
                         android:id="@+id/li_ord_det_item_image"
@@ -307,7 +109,8 @@
                         android:layout_weight="1.5"
                         android:background="@color/grey_5"
                         android:gravity="center"
-                        android:text="order id" />
+                        android:text="order id"
+                        android:visibility="gone" />
 
                     <TextView
                         style="@style/OrderDetailTableHeader"
@@ -321,7 +124,7 @@
                         style="@style/OrderDetailTableHeader"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="0.5"
+                        android:layout_weight="0.75"
                         android:background="@color/grey_5"
                         android:gravity="center"
                         android:text="QTY" />
@@ -330,7 +133,7 @@
                         style="@style/OrderDetailTableHeader"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="0.5"
+                        android:layout_weight="0.75"
                         android:gravity="center"
                         android:text="rate" />
 

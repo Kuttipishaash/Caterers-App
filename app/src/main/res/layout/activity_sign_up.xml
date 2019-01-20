@@ -341,12 +341,17 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/act_sign_submit"
             style="@style/Rounded_Button_Accent"
-            android:layout_width="match_parent"
+            android:layout_width="250dp"
+            android:layout_gravity="center_horizontal"
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_button"
             android:drawableEnd="@drawable/ic_chevron_right"
             android:paddingStart="45dp"
             android:paddingEnd="25dp"
             android:text="Sign Up" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/spacing_mxlarge" />
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

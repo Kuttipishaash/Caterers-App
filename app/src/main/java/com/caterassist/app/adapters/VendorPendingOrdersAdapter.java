@@ -57,10 +57,12 @@ public class VendorPendingOrdersAdapter extends RecyclerView.Adapter<VendorPendi
         holder.orderTimeStampTxtView.setText(timeStampStr[0]);
         holder.orderTimeStampTimeTxtView.setText(timeStampStr[1]);
 
-        holder.vendorNameTxtView.setText(orderDetails.getVendorName());
+        holder.vendorNameTxtView.setText(orderDetails.getCatererName());
 
         String totalAmount = "₹" + String.valueOf(orderDetails.getOrderTotalAmount());
         holder.orderTotalAmtTxtView.setText(totalAmount);
+        holder.caterLocation.setText(orderDetails.getCatererPhone());
+
         String buttonText;
         String statusText;
         switch (orderDetails.getOrderStatus()) {
@@ -106,6 +108,7 @@ public class VendorPendingOrdersAdapter extends RecyclerView.Adapter<VendorPendi
         TextView orderTimeStampTimeTxtView;
         TextView vendorNameTxtView;
         TextView orderTotalAmtTxtView;
+        TextView caterLocation;
         Button updateStatusBtn;
         Button rejectOrderBtn;
 
@@ -120,6 +123,8 @@ public class VendorPendingOrdersAdapter extends RecyclerView.Adapter<VendorPendi
             orderTotalAmtTxtView = itemView.findViewById(R.id.li_caterer_order_info_order_total);
             updateStatusBtn = itemView.findViewById(R.id.li_caterer_order_status_update);
             rejectOrderBtn = itemView.findViewById(R.id.li_caterer_order_reject);
+            caterLocation = itemView.findViewById(R.id.li_caterer_order_info_vendor_location);
+
 
             parentLayout.setOnClickListener(this);
             updateStatusBtn.setOnClickListener(this);

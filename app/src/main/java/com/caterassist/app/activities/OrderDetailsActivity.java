@@ -5,7 +5,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,8 +40,8 @@ public class OrderDetailsActivity extends Activity implements View.OnClickListen
     private TextView orderIDTxtView;
     private TextView orderTotalAmtTxtView;
     private TextView orderStatusTxtView;
-    private Button deleteOrderBtn;
-    private Button viewVendorBtn;
+    private ImageButton deleteOrderBtn;
+    private ImageButton viewVendorBtn;
 
 
     private ArrayList<CartItem> cartItemArrayList;
@@ -72,16 +72,18 @@ public class OrderDetailsActivity extends Activity implements View.OnClickListen
 
     private void setOrderInfo() {
         if (AppUtils.isCurrentUserVendor(this)) {
-            userTypeTxtView.setText("Caterer Name: ");
+            userTypeTxtView.setText("Caterer");
             //TODO:Null pointer to fix
             userNameTxtView.setText(orderDetails.getCatererName());
         } else {
             viewVendorBtn.setVisibility(View.VISIBLE);
-            userTypeTxtView.setText("Vendor Name: ");
+            userTypeTxtView.setText("Vendor");
             userNameTxtView.setText(orderDetails.getVendorName());
         }
         orderIDTxtView.setText(orderId);
-        orderTotalAmtTxtView.setText(String.valueOf(orderDetails.getOrderTotalAmount()));
+
+        String totalAmount = "₹" + String.valueOf(orderDetails.getOrderTotalAmount());
+        orderTotalAmtTxtView.setText(totalAmount);
         String timeStamp[] = String.valueOf(orderDetails.getOrderTime()).split(" ");
         orderDateTxtView.setText(timeStamp[0]);
         orderTimeTxtView.setText(timeStamp[1]);
@@ -129,16 +131,16 @@ public class OrderDetailsActivity extends Activity implements View.OnClickListen
     }
 
     private void initViews() {
-        userTypeTxtView = findViewById(R.id.act_ord_det_caterer_or_vendor);
-        userNameTxtView = findViewById(R.id.act_ord_det_order_placed_user);
-        orderIDTxtView = findViewById(R.id.act_ord_det_order_id);
-        orderDateTxtView = findViewById(R.id.act_ord_det_order_date);
-        orderTimeTxtView = findViewById(R.id.act_ord_det_order_time);
-        orderTotalAmtTxtView = findViewById(R.id.act_ord_det_order_total_amt);
-        orderStatusTxtView = findViewById(R.id.act_ord_det_order_status);
-        deleteOrderBtn = findViewById(R.id.act_ord_det_order_delete_btn);
+        userTypeTxtView = findViewById(R.id.li_caterer_order_info_user_type);
+        userNameTxtView = findViewById(R.id.li_caterer_order_info_vendor_name);
+        orderIDTxtView = findViewById(R.id.li_caterer_order_info_id);
+        orderDateTxtView = findViewById(R.id.li_caterer_order_info_timestamp);
+        orderTimeTxtView = findViewById(R.id.li_caterer_order_info_timestamp_time);
+        orderTotalAmtTxtView = findViewById(R.id.li_caterer_order_info_order_total);
+        orderStatusTxtView = findViewById(R.id.li_caterer_order_info_status);
+        deleteOrderBtn = findViewById(R.id.li_caterer_order_info_delete);
         orderItemsRecyclerView = findViewById(R.id.act_ord_det_order_items_recyc_view);
-        viewVendorBtn = findViewById(R.id.act_order_det_view_vend);
+        viewVendorBtn = findViewById(R.id.li_caterer_order_info_view_vendor);
 
         deleteOrderBtn.setOnClickListener(this);
         viewVendorBtn.setOnClickListener(this);
