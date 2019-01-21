@@ -96,6 +96,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="₹/Unit"
+                    android:layout_marginLeft="@dimen/spacing_medium"
                     android:textAlignment="center"
                     android:textSize="15sp" />
             </LinearLayout>

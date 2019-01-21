@@ -65,7 +65,7 @@ public class VendorItemsAdapter extends RecyclerView.Adapter<VendorItemsAdapter.
         holder.name.setText(vendorItem.getName());
         holder.category.setText(vendorItem.getCategory());
         holder.rate.setText(String.valueOf(vendorItem.getRatePerUnit()));
-        String unitString = " Rs/" + vendorItem.getUnit();
+        String unitString = "₹/" + vendorItem.getUnit();
         holder.rateunit.setText(unitString);
 
         String itemInStock = vendorItem.getStock() + " " + vendorItem.getUnit();

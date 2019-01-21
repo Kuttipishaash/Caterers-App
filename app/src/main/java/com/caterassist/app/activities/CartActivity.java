@@ -217,7 +217,8 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
                 cartItemsArrayList) {
             totalAmount += item.getTotalAmount();
         }
-        totalAmountTextView.setText(String.valueOf(totalAmount));
+        String amount = "₹"+String.valueOf(totalAmount);
+        totalAmountTextView.setText(amount);
         if (cartSize == 0) {
             includeView.setVisibility(View.VISIBLE);
             cartItemsRecyclerView.setVisibility(View.GONE);

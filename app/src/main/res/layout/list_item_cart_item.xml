@@ -12,6 +12,7 @@
         android:id="@+id/li_item_cart_item_image"
         android:layout_width="80dp"
         android:layout_height="80dp"
+        android:layout_gravity="center_vertical"
         android:background="@color/grey_10"
         android:padding="1dp"
         android:scaleType="centerCrop"
@@ -57,9 +58,9 @@
                         android:id="@+id/li_item_cart_item_category"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="14sp"
                         android:text="Category"
-                        android:textColor="@color/grey_90" />
+                        android:textColor="@color/grey_90"
+                        android:textSize="14sp" />
 
                 </LinearLayout>
 
@@ -70,7 +71,7 @@
                     android:layout_height="@dimen/spacing_xlarge"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:tint="@color/grey_40"
-                    app:srcCompat="@drawable/ic_more" />
+                    app:srcCompat="@drawable/ic_delete" />
 
                 <View
                     android:layout_width="@dimen/spacing_medium"

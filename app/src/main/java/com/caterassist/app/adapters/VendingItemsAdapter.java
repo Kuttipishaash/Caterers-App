@@ -63,14 +63,12 @@ public class VendingItemsAdapter extends RecyclerView.Adapter<VendingItemsAdapte
                 Glide.with(activity.getApplicationContext())
                         .setDefaultRequestOptions(requestOptions)
                         .load(uri)
-                        .transition(DrawableTransitionOptions.withCrossFade())
-                        .apply(requestOptions)
                         .into(holder.itemImage);
             }).addOnFailureListener(exception -> holder.itemImage.setImageResource(R.drawable.ic_error_placeholder));
         }
         holder.itemName.setText(vendorItem.getName());
         holder.itemCategory.setText(vendorItem.getCategory());
-        String itemRateString = " ₹" + String.valueOf(vendorItem.getRatePerUnit()) + "/" + vendorItem.getUnit();
+        String itemRateString = "₹" + String.valueOf(vendorItem.getRatePerUnit()) + "/" + vendorItem.getUnit();
         holder.itemRate.setText(itemRateString);
         String itemStockString = String.valueOf(vendorItem.getStock()) + " " + vendorItem.getUnit();
         holder.itemStock.setText(String.valueOf(itemStockString));

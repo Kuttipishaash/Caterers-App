@@ -52,5 +52,9 @@
     <string name="time_placeholder">XX:XX:XX</string>
     <string name="location_placeholder">Area, District</string>
     <string name="status_placeholder">Not Applicable</string>
+    <string name="rate_placeholder">₹000Xx</string>
+    <string name="price_placeholder">₹00.00</string>
+    <string name="stock_placeholder">00.00</string>
+    <string name="item_name_placeholder">ItemName</string>
 
 </resources>

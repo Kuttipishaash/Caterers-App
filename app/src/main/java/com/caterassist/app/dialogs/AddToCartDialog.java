@@ -15,7 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 import com.caterassist.app.R;
 import com.caterassist.app.activities.CartActivity;
@@ -99,7 +98,9 @@ public class AddToCartDialog extends DialogFragment implements View.OnClickListe
                         .into(itemImage);
             }).addOnFailureListener(exception -> itemImage.setImageResource(R.drawable.ic_error_placeholder));
         }
-        itemRateTxtView.setText(String.valueOf(vendorItem.getRatePerUnit()));
+        String rate = "₹" + String.valueOf(vendorItem.getRatePerUnit()) + vendorItem.getUnit();
+        ;
+        itemRateTxtView.setText(rate);
         String unitsAvailable = String.valueOf(vendorItem.getStock()) + vendorItem.getUnit();
         itemQtuAvailableTxtView.setText(unitsAvailable);
     }
@@ -191,7 +192,7 @@ public class AddToCartDialog extends DialogFragment implements View.OnClickListe
                 .setIcon(R.drawable.ic_cart)
                 .setActionTextTypefaceStyle(Typeface.BOLD)
                 .setActionTextColor(getResources().getColor(R.color.white))
-                .setDuration(Snacky.LENGTH_LONG)
+                .setDuration(Snacky.LENGTH_INDEFINITE)
                 .build()
                 .show();
     }
