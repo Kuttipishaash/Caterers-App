@@ -55,7 +55,7 @@
                     style="@style/OrderHistoryItem"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="abcd"
+                    android:text="@string/orderid_placeholder"
                     android:textSize="15sp" />
             </LinearLayout>
 
@@ -80,7 +80,8 @@
                     style="@style/OrderHistoryItem"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Vendor XXX"
+                    android:text="@string/name_placeholder"
+                    android:textColor="@color/colorAccent"
                     android:textSize="18sp" />
 
             </LinearLayout>
@@ -104,7 +105,7 @@
                     style="@style/OrderHistoryItem"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="XX-XX-XXXX" />
+                    android:text="@string/date_placeholder" />
             </LinearLayout>
 
             <LinearLayout
@@ -128,7 +129,7 @@
                     style="@style/OrderHistoryItem"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="XX:XX" />
+                    android:text="@string/time_placeholder" />
             </LinearLayout>
 
             <View
@@ -157,8 +158,8 @@
                     style="@style/OrderHistoryItem"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="₹0000"
-                    android:textColor="@color/colorAccent"
+                    android:text="@string/amount_placeholder"
+                    android:textColor="@color/green_500"
                     android:textSize="22sp" />
             </LinearLayout>
 
@@ -185,7 +186,7 @@
                     style="@style/OrderHistoryItem"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Not Applicable"
+                    android:text="@string/status_placeholder"
                     android:textSize="15sp" />
             </LinearLayout>
 

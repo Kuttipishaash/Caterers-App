@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 import com.caterassist.app.R;
 import com.caterassist.app.adapters.VendingItemsAdapter;
@@ -293,9 +294,10 @@ public class VendorHomeActivity extends FragmentActivity implements View.OnClick
         if (imageUrl != null) {
             StorageReference storageReference = FirebaseStorage.getInstance().getReference();
             storageReference.child(imageUrl).getDownloadUrl().addOnSuccessListener(uri -> {
-                RequestOptions requestOptions = new RequestOptions();
-                requestOptions.placeholder(R.drawable.placeholder);
-                requestOptions.error(R.drawable.ic_error_placeholder);
+                RequestOptions requestOptions = new RequestOptions()
+                        .placeholder(R.drawable.placeholder)
+                        .error(R.drawable.ic_error_placeholder)
+                        .override(100, 100);
                 Glide.with(VendorHomeActivity.this)
                         .setDefaultRequestOptions(requestOptions)
                         .load(uri)

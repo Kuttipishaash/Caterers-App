@@ -41,8 +41,8 @@ public class CatererProfileActivity extends Activity implements View.OnClickList
     private TextView userNameTxtView;
     private TextView addressLine1TxtView;
     private TextView addressLine2TxtView;
-    private Button callButton;
-    private Button emailButton;
+    private LinearLayout callButton;
+    private LinearLayout emailButton;
     private LinearLayout parentLayout;
 
     private LoadingDialog loadingDialog;

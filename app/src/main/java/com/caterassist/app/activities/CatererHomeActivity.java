@@ -10,11 +10,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 import com.caterassist.app.R;
 import com.caterassist.app.adapters.FavouriteVendorsAdapter;
@@ -43,6 +45,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -137,9 +140,10 @@ public class CatererHomeActivity extends FragmentActivity implements View.OnClic
         if (imageUrl != null) {
             StorageReference storageReference = FirebaseStorage.getInstance().getReference();
             storageReference.child(imageUrl).getDownloadUrl().addOnSuccessListener(uri -> {
-                RequestOptions requestOptions = new RequestOptions();
-                requestOptions.placeholder(R.drawable.placeholder);
-                requestOptions.error(R.drawable.ic_error_placeholder);
+                RequestOptions requestOptions = new RequestOptions()
+                        .placeholder(R.drawable.placeholder)
+                        .error(R.drawable.ic_error_placeholder)
+                        .override(100, 100);
                 Glide.with(CatererHomeActivity.this)
                         .setDefaultRequestOptions(requestOptions)
                         .load(uri)
@@ -176,12 +180,16 @@ public class CatererHomeActivity extends FragmentActivity implements View.OnClic
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                ScrollView sv = (ScrollView) findViewById(R.id.caterer_dash_nested_scroll_view);
+                sv.smoothScrollTo(0, sv.getBottom());
                 allVendorsAdapter.getFilter().filter(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                NestedScrollView sv = (NestedScrollView) findViewById(R.id.caterer_dash_nested_scroll_view);
+                sv.smoothScrollTo(0, sv.getBottom());
                 allVendorsAdapter.getFilter().filter(newText);
                 return false;
             }

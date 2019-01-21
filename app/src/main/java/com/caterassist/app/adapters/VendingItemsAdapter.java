@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 import com.caterassist.app.R;
 import com.caterassist.app.activities.AddEditItemActivity;
@@ -32,6 +33,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class VendingItemsAdapter extends RecyclerView.Adapter<VendingItemsAdapter.VendingItemViewHolder> {
     private ArrayList<VendorItem> vendingItemArrayList;
     private Activity activity;
+
     public void setVendingItemArrayList(ArrayList<VendorItem> vendingItemArrayList) {
         this.vendingItemArrayList = vendingItemArrayList;
     }
@@ -54,12 +56,15 @@ public class VendingItemsAdapter extends RecyclerView.Adapter<VendingItemsAdapte
         if (imageUrl != null) {
             StorageReference storageReference = FirebaseStorage.getInstance().getReference();
             storageReference.child(imageUrl).getDownloadUrl().addOnSuccessListener(uri -> {
-                RequestOptions requestOptions = new RequestOptions();
-                requestOptions.placeholder(R.drawable.placeholder);
-                requestOptions.error(R.drawable.ic_error_placeholder);
+                RequestOptions requestOptions = new RequestOptions()
+                        .placeholder(R.drawable.placeholder)
+                        .error(R.drawable.ic_error_placeholder)
+                        .override(140, 140);
                 Glide.with(activity.getApplicationContext())
                         .setDefaultRequestOptions(requestOptions)
                         .load(uri)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .apply(requestOptions)
                         .into(holder.itemImage);
             }).addOnFailureListener(exception -> holder.itemImage.setImageResource(R.drawable.ic_error_placeholder));
         }

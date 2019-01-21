@@ -28,7 +28,7 @@
             android:layout_width="85dp"
             android:layout_height="85dp"
             android:layout_marginLeft="10dp"
-            android:src="@drawable/user_placeholder"
+            android:src="@color/grey_10"
             app:civ_border="true"
             app:civ_border_width="1dp" />
 
@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
 
                 android:paddingLeft="15dp"
-                android:text="Vendor Name"
+                android:text="@string/name_placeholder"
                 android:textSize="19sp"
                 android:textStyle="bold" />
 
@@ -53,7 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="15dp"
-                android:text="Vendor Location" />
+                android:text="@string/location_placeholder" />
         </LinearLayout>
 
         <LinearLayout

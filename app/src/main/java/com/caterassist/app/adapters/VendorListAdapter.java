@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 import com.caterassist.app.R;
 import com.caterassist.app.activities.ViewVendorItemsActivity;
@@ -32,6 +33,9 @@ import java.util.ArrayList;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import es.dmoral.toasty.Toasty;
+
+import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.with;
+import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
 public class VendorListAdapter extends RecyclerView.Adapter<VendorListAdapter.ViewHolder> implements Filterable {
     private ArrayList<UserDetails> vendorsList;
@@ -64,12 +68,15 @@ public class VendorListAdapter extends RecyclerView.Adapter<VendorListAdapter.Vi
         if (imageUrl != null) {
             StorageReference storageReference = FirebaseStorage.getInstance().getReference();
             storageReference.child(imageUrl).getDownloadUrl().addOnSuccessListener(uri -> {
-                RequestOptions requestOptions = new RequestOptions();
-                requestOptions.placeholder(R.drawable.placeholder);
-                requestOptions.error(R.drawable.ic_error_placeholder);
+                RequestOptions requestOptions = new RequestOptions()
+                        .placeholder(R.drawable.placeholder)
+                        .error(R.drawable.ic_error_placeholder)
+                        .override(150, 150);
                 Glide.with(activity.getApplicationContext())
                         .setDefaultRequestOptions(requestOptions)
                         .load(uri)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .apply(requestOptions)
                         .into(holder.vendorImageView);
             }).addOnFailureListener(exception -> holder.vendorImageView.setImageResource(R.drawable.ic_error_placeholder));
         }

@@ -10,6 +10,15 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="WithActionBar" parent="AppTheme">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowActionBar">true</item>
+        <item name="windowNoTitle">false</item>
+    </style>
+
     <style name="EditText.White" parent="@style/AppTheme">
         <item name="colorControlActivated">@color/grey_600</item>
         <item name="colorControlHighlight">@android:color/darker_gray</item>

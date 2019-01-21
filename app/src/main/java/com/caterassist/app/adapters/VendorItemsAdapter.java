@@ -74,9 +74,11 @@ public class VendorItemsAdapter extends RecyclerView.Adapter<VendorItemsAdapter.
         if (imageUrl != null) {
             StorageReference storageReference = FirebaseStorage.getInstance().getReference();
             storageReference.child(imageUrl).getDownloadUrl().addOnSuccessListener(uri -> {
-                RequestOptions requestOptions = new RequestOptions();
-                requestOptions.placeholder(R.drawable.placeholder);
-                requestOptions.error(R.drawable.ic_error_placeholder);
+                RequestOptions requestOptions = new RequestOptions()
+                        .placeholder(R.drawable.placeholder)
+                        .error(R.drawable.ic_error_placeholder)
+                        .override(150, 150);
+
 
                 Glide.with(parentActivity.getApplicationContext())
                         .setDefaultRequestOptions(requestOptions)

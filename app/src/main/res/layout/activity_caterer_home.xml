@@ -28,7 +28,7 @@
         </RelativeLayout>
 
         <androidx.core.widget.NestedScrollView
-            android:id="@+id/nested_scroll_view"
+            android:id="@+id/caterer_dash_nested_scroll_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="none"
@@ -168,6 +168,7 @@
                                 android:orientation="vertical">
 
                                 <com.google.android.material.floatingactionbutton.FloatingActionButton
+                                    android:id="@+id/caterer_order_history"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:clickable="true"
@@ -175,7 +176,6 @@
                                     app:backgroundTint="@color/yellow_600"
                                     app:elevation="0dp"
                                     app:fabSize="mini"
-                                    android:id="@+id/caterer_order_history"
                                     app:rippleColor="@android:color/white"
                                     app:srcCompat="@drawable/ic_history" />
 
@@ -377,6 +377,10 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/spacing_large" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/spacing_xxxlarge" />
             </LinearLayout>
 
 

@@ -44,4 +44,13 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="name_placeholder">ABCD Wholesale</string>
+    <string name="amount_placeholder">₹0000</string>
+    <string name="orderid_placeholder">-abcdefghijkl123</string>
+    <string name="date_placeholder">XX-XX-XXXX</string>
+    <string name="time_placeholder">XX:XX:XX</string>
+    <string name="location_placeholder">Area, District</string>
+    <string name="status_placeholder">Not Applicable</string>
+
 </resources>
