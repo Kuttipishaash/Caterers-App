@@ -16,13 +16,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 import com.caterassist.app.R;
 import com.caterassist.app.adapters.FavouriteVendorsAdapter;
 import com.caterassist.app.adapters.VendorListAdapter;
 import com.caterassist.app.fragments.BottomNavigationDrawerFragment;
-import com.caterassist.app.models.FavouriteVendor;
 import com.caterassist.app.models.UserDetails;
 import com.caterassist.app.utils.AppUtils;
 import com.caterassist.app.utils.FirebaseUtils;
@@ -30,7 +28,6 @@ import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -58,7 +55,7 @@ public class CatererHomeActivity extends FragmentActivity implements View.OnClic
     private ArrayList<UserDetails> allVendorsArrayList;
     private Toolbar toolbar;
     private DatabaseReference favouriteVendorsReference;
-    private ChildEventListener favouriteVendorsEventListener;
+    private ValueEventListener favouriteVendorsEventListener;
     private RecyclerView favouriteVendorsRecyclerView;
     private LinearLayoutManager favouriteVendorsLayoutManager;
     private FavouriteVendorsAdapter favouriteVendorsAdapter;
@@ -180,7 +177,7 @@ public class CatererHomeActivity extends FragmentActivity implements View.OnClic
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                ScrollView sv = (ScrollView) findViewById(R.id.caterer_dash_nested_scroll_view);
+                ScrollView sv = findViewById(R.id.caterer_dash_nested_scroll_view);
                 sv.smoothScrollTo(0, sv.getBottom());
                 allVendorsAdapter.getFilter().filter(query);
                 return false;
@@ -188,7 +185,7 @@ public class CatererHomeActivity extends FragmentActivity implements View.OnClic
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                NestedScrollView sv = (NestedScrollView) findViewById(R.id.caterer_dash_nested_scroll_view);
+                NestedScrollView sv = findViewById(R.id.caterer_dash_nested_scroll_view);
                 sv.smoothScrollTo(0, sv.getBottom());
                 allVendorsAdapter.getFilter().filter(newText);
                 return false;
@@ -233,14 +230,21 @@ public class CatererHomeActivity extends FragmentActivity implements View.OnClic
                         allVendorsAdapter.notifyDataSetChanged();
                     }
                 }
-
+                checkVendorsEmpty();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                Log.w(TAG, "onCancelled: failed to fetch favourite vendors", databaseError.toException());
+                Toast.makeText(CatererHomeActivity.this, "Failed to load favourite vendors.",
+                        Toast.LENGTH_SHORT).show();
+                checkVendorsEmpty();
             }
         });
+    }
+
+    private void checkVendorsEmpty() {
+        //TODO: implement actions to be taken when the vendors list is empty
     }
 
     private void fetchFavouriteVendors() {
@@ -254,72 +258,38 @@ public class CatererHomeActivity extends FragmentActivity implements View.OnClic
         favouriteVendorsRecyclerView.setLayoutManager(favouriteVendorsLayoutManager);
         favouriteVendorsRecyclerView.setAdapter(favouriteVendorsAdapter);
         favouriteVendorsReference = FirebaseDatabase.getInstance().getReference(databasePath);
-        favouriteVendorsEventListener = new ChildEventListener() {
+        favouriteVendorsEventListener = new ValueEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
-                // A new favouriteVendor has been added, add it to the displayed list
-                UserDetails favouriteVendor = dataSnapshot.getValue(UserDetails.class);
-                favouriteVendor.setUserID(dataSnapshot.getKey());
-                favouriteVendorArrayList.add(favouriteVendor);
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                favouriteVendorArrayList.clear();
+                for (DataSnapshot snapshot :
+                        dataSnapshot.getChildren()) {
+                    UserDetails favouriteVendor = snapshot.getValue(UserDetails.class);
+                    if (favouriteVendor != null) {
+                        favouriteVendor.setUserID(snapshot.getKey());
+                        favouriteVendorArrayList.add(favouriteVendor);
+                    }
+                }
+//                Collections.reverse(favouriteVendorArrayList);
                 favouriteVendorsAdapter.notifyDataSetChanged();
-
+                checkFavouritesEmpty();
+                //TODO :dismiss loading
             }
 
             @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
-                // A favouriteVendor has changed, use the key to determine if we are displaying this
-                // favouriteVendor and if so displayed the changed favouriteVendor.
-                UserDetails favouriteVendor = dataSnapshot.getValue(UserDetails.class);
-                String favouriteVendorKey = dataSnapshot.getKey();
-                for (int i = 0; i < favouriteVendorArrayList.size(); i++) {
-                    if (favouriteVendorArrayList.get(i).getUserID().equals(favouriteVendorKey)) {
-                        favouriteVendorArrayList.remove(i);
-                        favouriteVendor.setUserID(dataSnapshot.getKey());
-                        favouriteVendorArrayList.add(i, favouriteVendor);
-                        favouriteVendorsAdapter.notifyDataSetChanged();
-                        break;
-                    }
-                }
-                // ...
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                Log.d(TAG, "onChildRemoved:" + dataSnapshot.getKey());
-
-                // A favouriteVendor has changed, use the key to determine if we are displaying this
-                // favouriteVendor and if so remove it.
-                String favouriteVendorKey = dataSnapshot.getKey();
-                for (int i = 0; i < favouriteVendorArrayList.size(); i++) {
-                    if (favouriteVendorArrayList.get(i).getUserID().equals(favouriteVendorKey)) {
-                        favouriteVendorArrayList.remove(i);
-                        favouriteVendorsAdapter.notifyDataSetChanged();
-                    }
-                }
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
-                Log.d(TAG, "onChildMoved:" + dataSnapshot.getKey());
-
-                // A favouriteVendor has changed position, use the key to determine if we are
-                // displaying this favouriteVendor and if so move it.
-                FavouriteVendor favouriteVendor = dataSnapshot.getValue(FavouriteVendor.class);
-                String favouriteVendorKey = dataSnapshot.getKey();
-
-                // ...
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.w(TAG, "postComments:onCancelled", databaseError.toException());
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.w(TAG, "onCancelled: failed to fetch favourite vendors", databaseError.toException());
                 Toast.makeText(CatererHomeActivity.this, "Failed to load favourite vendors.",
                         Toast.LENGTH_SHORT).show();
+                checkFavouritesEmpty();
+                //TODO: dismiss loading
             }
         };
-        favouriteVendorsReference.addChildEventListener(favouriteVendorsEventListener);
+        favouriteVendorsReference.addValueEventListener(favouriteVendorsEventListener);
+    }
 
-
+    private void checkFavouritesEmpty() {
+        //TODO: implement a favourites empty view;
     }
 
     private void initViews() {

@@ -21,7 +21,6 @@ import es.dmoral.toasty.Toasty;
 public class ForgotPassword extends AppCompatActivity implements View.OnClickListener {
 
     private Button resetPasswordButton;
-
     private EditText forgotEmail;
 
     @Override
@@ -31,15 +30,12 @@ public class ForgotPassword extends AppCompatActivity implements View.OnClickLis
         this.getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         initViews();
-
-
         resetPasswordButton.setOnClickListener(this);
     }
 
     private void initViews() {
         resetPasswordButton = findViewById(R.id.forgot_password_button);
         forgotEmail = findViewById(R.id.forgot_email_et);
-
     }
 
     @Override

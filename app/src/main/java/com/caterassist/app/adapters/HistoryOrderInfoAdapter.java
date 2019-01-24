@@ -74,7 +74,7 @@ public class HistoryOrderInfoAdapter extends RecyclerView.Adapter<HistoryOrderIn
         holder.orderTimeStampTimeTxtView.setText(timeStampStr[1]);
 
         if (isVendor) {
-            holder.orderStatusTxtView.setVisibility(View.GONE);
+//            holder.orderStatusTxtView.setVisibility(View.GONE);
             holder.orderNameLabel.setText("Caterer");
             holder.nameTxtView.setText(orderDetails.getCatererName());
         } else {

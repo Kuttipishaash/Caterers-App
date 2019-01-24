@@ -86,10 +86,11 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                         return;
                     } else {
                         // Get new Instance ID token
-                        String token = task.getResult().getToken();
-                        Log.e(TAG, token);
-                        Toasty.info(LoginActivity.this, token, Toast.LENGTH_SHORT).show();
-                        saveToken(token);
+                        if (task.getResult() != null) {
+                            String token = task.getResult().getToken();
+                            Log.i(TAG, "generateNotificationToken: Token generated" + token);
+                            saveToken(token);
+                        }
                     }
                 });
     }
@@ -98,7 +99,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         String databasePath = FirebaseUtils.getDatabaseMainBranchName() + FirebaseUtils.USER_INFO_BRANCH_NAME + currentUserID;
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(databasePath);
         databaseReference.child(FirebaseUtils.USER_TOKEN_BRANCH).setValue(token).addOnSuccessListener(aVoid -> {
-            Toasty.success(LoginActivity.this, "Token saved").show();
+            Log.i(TAG, "saveToken: Token saved" + token);
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString(Constants.SharedPref.USER_NOTIFICATION_TOKEN, token);
             editor.apply();

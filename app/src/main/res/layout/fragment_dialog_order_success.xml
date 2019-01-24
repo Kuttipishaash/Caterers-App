@@ -250,9 +250,20 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_weight="2"
+                        android:layout_weight="1"
                         android:gravity="center_vertical"
                         android:text="View Order"
+                        android:textAlignment="center"
+                        android:textColor="@color/grey_40" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/order_suc_call_vendor"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="Call Vendor"
                         android:textAlignment="center"
                         android:textColor="@color/grey_40" />
 

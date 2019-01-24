@@ -2,7 +2,9 @@ package com.caterassist.app.dialogs;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +23,7 @@ import androidx.fragment.app.DialogFragment;
 
 
 public class DialogOrderSuccess extends DialogFragment implements View.OnClickListener {
+    private static final String TAG = "DialogOrdSuccess";
     private View rootView;
     private TextView vendorNameTxtView;
     private TextView orderDateTxtView;
@@ -28,6 +31,8 @@ public class DialogOrderSuccess extends DialogFragment implements View.OnClickLi
     private TextView orderItemCountTxtView;
     private TextView orderTotalAmtTxtView;
     private Button viewOrderBtn;
+    private Button callVendorBtn;
+    private Button dismissButton;
 
     private OrderDetails orderDetails;
     private int itemCount;
@@ -65,9 +70,12 @@ public class DialogOrderSuccess extends DialogFragment implements View.OnClickLi
         orderItemCountTxtView = rootView.findViewById(R.id.order_suc_dialog_item_count);
         orderTotalAmtTxtView = rootView.findViewById(R.id.order_suc_dialog_total_amt);
         viewOrderBtn = rootView.findViewById(R.id.order_suc_view_order);
+        callVendorBtn = rootView.findViewById(R.id.order_suc_call_vendor);
+        dismissButton = rootView.findViewById(R.id.order_suc_diaglog_dismiss);
 
-        rootView.findViewById(R.id.order_suc_diaglog_dismiss).setOnClickListener(this);
+        dismissButton.setOnClickListener(this);
         viewOrderBtn.setOnClickListener(this);
+        callVendorBtn.setOnClickListener(this);
     }
 
     @NonNull
@@ -85,38 +93,27 @@ public class DialogOrderSuccess extends DialogFragment implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.order_suc_diaglog_dismiss) {
+        if (v.getId() == dismissButton.getId()) {
             dismiss();
-        } else if (v.getId() == R.id.order_suc_view_order) {
+        } else if (v.getId() == viewOrderBtn.getId()) {
             Intent intent = new Intent(getContext(), OrderDetailsActivity.class);
 
             intent.putExtra(Constants.IntentExtrasKeys.ORDER_DETAILS_BRANCH, FirebaseUtils.ORDERS_CATERER_BRANCH);
             intent.putExtra(Constants.IntentExtrasKeys.ORDER_ID, orderDetails.getOrderId());
             intent.putExtra(Constants.IntentExtrasKeys.ORDER_INFO, orderDetails);
-            getContext().startActivity(intent);
-
-//            String databasePath = FirebaseUtils.getDatabaseMainBranchName() + FirebaseUtils.ORDERS_CATERER_BRANCH +
-//                    FirebaseAuth.getInstance().getUid() + + "/" +FirebaseUtils.ORDER_INFO_BRANCH;
-//            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(databasePath);
-//            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-//                @Override
-//                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                    OrderDetails orderDetails = dataSnapshot.getValue(OrderDetails.class);
-//                    if(orderDetails!=null){
-//                        Intent intent = new Intent(getContext(), OrderDetailsActivity.class);
-//
-//                            intent.putExtra(Constants.IntentExtrasKeys.ORDER_DETAILS_BRANCH, FirebaseUtils.ORDERS_CATERER_BRANCH);
-//                        intent.putExtra(Constants.IntentExtrasKeys.ORDER_ID, orderDetails.getOrderId());
-//                        intent.putExtra(Constants.IntentExtrasKeys.ORDER_INFO, orderDetails);
-//                        getContext().startActivity(intent);
-//                    }
-//                }
-//
-//                @Override
-//                public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                }
-//            });
+            if (getContext() != null) {
+                getContext().startActivity(intent);
+            } else {
+                Log.e(TAG, "orderViewIntent: Failed due to null context");
+            }
+        } else if (v.getId() == callVendorBtn.getId()) {
+            String phoneNumber = orderDetails.getVendorPhone();
+            Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phoneNumber));
+            if (getContext() != null) {
+                getContext().startActivity(callIntent);
+            } else {
+                Log.e(TAG, "callIntent: Failed due to null context");
+            }
         }
     }
 }

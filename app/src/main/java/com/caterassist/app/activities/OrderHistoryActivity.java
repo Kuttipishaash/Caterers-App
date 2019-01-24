@@ -2,13 +2,19 @@ package com.caterassist.app.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.caterassist.app.R;
 import com.caterassist.app.adapters.HistoryOrderInfoAdapter;
+import com.caterassist.app.dialogs.LoadingDialog;
 import com.caterassist.app.models.OrderDetails;
 import com.caterassist.app.utils.AppUtils;
+import com.caterassist.app.utils.Constants;
 import com.caterassist.app.utils.FirebaseUtils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -17,6 +23,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -25,7 +32,10 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class OrderHistoryActivity extends Activity {
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
+public class OrderHistoryActivity extends Activity implements View.OnClickListener {
     private static final String TAG = "CatererOrderInfo";
     private HistoryOrderInfoAdapter historyOrderInfoAdapter;
     private boolean isVendor;
@@ -33,6 +43,11 @@ public class OrderHistoryActivity extends Activity {
     private RecyclerView orderHistoryRecycView;
     private ArrayList<OrderDetails> orderDetailsArrayList;
     private ChildEventListener childEventListener;
+    private LinearLayout noItemsView;
+    private LoadingDialog loadingDialog;
+    private Handler handler;
+    private Runnable runnable;
+    private Button dashboardLinkButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +56,36 @@ public class OrderHistoryActivity extends Activity {
         isVendor = AppUtils.isCurrentUserVendor(this);
         orderDetailsArrayList = new ArrayList<>();
         orderHistoryRecycView = findViewById(R.id.act_order_hist_recyc_view);
+        noItemsView = findViewById(R.id.error_hist_orders_list_empty);
+        dashboardLinkButton = findViewById(R.id.no_dash);
+        dashboardLinkButton.setOnClickListener(this);
+        loadingDialog = new LoadingDialog(this, "Loading orders...");
+        loadingDialog.show();
+        handler = new Handler();
+        runnable = () -> {
+            if (loadingDialog != null)
+                if (loadingDialog.isShowing()) {
+                    loadingDialog.dismiss();
+                    Toast.makeText(OrderHistoryActivity.this,
+                            "Please check your internet connection and try again!",
+                            Toast.LENGTH_SHORT).show();
+                    checkOrderEmpty();
+                }
+        };
+        handler.postAtTime(runnable, System.currentTimeMillis() + Constants.UtilConstants.LOADING_TIMEOUT);
+        handler.postDelayed(runnable, Constants.UtilConstants.LOADING_TIMEOUT);
         fetchOrderDetails();
 
+    }
+
+    private void checkOrderEmpty() {
+        if (orderDetailsArrayList.size() > 0) {
+            orderHistoryRecycView.setVisibility(VISIBLE);
+            noItemsView.setVisibility(GONE);
+        } else {
+            noItemsView.setVisibility(VISIBLE);
+            orderHistoryRecycView.setVisibility(GONE);
+        }
     }
 
 
@@ -80,6 +123,7 @@ public class OrderHistoryActivity extends Activity {
                 orderDetails.setOrderId(dataSnapshot.getKey());
                 orderDetailsArrayList.add(orderDetails);
                 historyOrderInfoAdapter.notifyDataSetChanged();
+                checkOrderEmpty();
             }
 
             @Override
@@ -107,6 +151,7 @@ public class OrderHistoryActivity extends Activity {
                         historyOrderInfoAdapter.notifyDataSetChanged();
                     }
                 }
+                checkOrderEmpty();
             }
 
             @Override
@@ -121,9 +166,31 @@ public class OrderHistoryActivity extends Activity {
                 Log.w(TAG, "postComments:onCancelled", databaseError.toException());
                 Toast.makeText(OrderHistoryActivity.this, "Failed to load caterer orders.",
                         Toast.LENGTH_SHORT).show();
+                checkOrderEmpty();
             }
         };
         query.addChildEventListener(childEventListener);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (loadingDialog != null) {
+                    if (loadingDialog.isShowing()) {
+                        loadingDialog.dismiss();
+                    }
+                }
+                checkOrderEmpty();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                if (loadingDialog != null) {
+                    if (loadingDialog.isShowing()) {
+                        loadingDialog.dismiss();
+                    }
+                }
+                checkOrderEmpty();
+            }
+        });
     }
 
 
@@ -132,6 +199,13 @@ public class OrderHistoryActivity extends Activity {
             return FirebaseUtils.ORDERS_VENDOR_BRANCH;
         } else {
             return FirebaseUtils.ORDERS_CATERER_BRANCH;
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == dashboardLinkButton.getId()) {
+            finish();
         }
     }
 }

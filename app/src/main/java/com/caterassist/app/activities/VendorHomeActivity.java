@@ -13,7 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 import com.caterassist.app.R;
 import com.caterassist.app.adapters.VendingItemsAdapter;
@@ -298,7 +297,7 @@ public class VendorHomeActivity extends FragmentActivity implements View.OnClick
                         .placeholder(R.drawable.placeholder)
                         .error(R.drawable.ic_error_placeholder)
                         .override(100, 100);
-                Glide.with(VendorHomeActivity.this)
+                Glide.with(VendorHomeActivity.this.getApplicationContext())
                         .setDefaultRequestOptions(requestOptions)
                         .load(uri)
                         .into(viewProfileFab);

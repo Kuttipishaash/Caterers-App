@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -50,6 +51,7 @@ public class OrderDetailsActivity extends Activity implements View.OnClickListen
     private LoadingDialog loadingDialog;
     private ImageButton deleteOrderBtn;
     private ImageButton viewVendorBtn;
+    private Button dashboardLinkBtn;
 
 
     private ArrayList<CartItem> cartItemArrayList;
@@ -188,6 +190,7 @@ public class OrderDetailsActivity extends Activity implements View.OnClickListen
 
     private void initViews() {
         noItemsView = findViewById(R.id.error_items_list_empty);
+        dashboardLinkBtn = findViewById(R.id.no_dash);
         userTypeTxtView = findViewById(R.id.li_caterer_order_info_user_type);
         userNameTxtView = findViewById(R.id.li_caterer_order_info_vendor_name);
         orderIDTxtView = findViewById(R.id.li_caterer_order_info_id);
@@ -201,7 +204,7 @@ public class OrderDetailsActivity extends Activity implements View.OnClickListen
 
         deleteOrderBtn.setOnClickListener(this);
         viewVendorBtn.setOnClickListener(this);
-
+        dashboardLinkBtn.setOnClickListener(this);
         cartItemArrayList = new ArrayList<>();
         orderItemsAdapter = new OrderItemsAdapter();
         orderItemsAdapter.setCartItemArrayList(cartItemArrayList);
@@ -238,6 +241,8 @@ public class OrderDetailsActivity extends Activity implements View.OnClickListen
                 startActivity(viewVendorIntent);
                 finish();
             }
+        } else if (v.getId() == dashboardLinkBtn.getId()) {
+            finish();
         }
     }
 

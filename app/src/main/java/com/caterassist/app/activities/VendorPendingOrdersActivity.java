@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -32,7 +34,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
-public class VendorPendingOrdersActivity extends Activity {
+public class VendorPendingOrdersActivity extends Activity implements View.OnClickListener {
     private static final String TAG = "VendorNewOrders";
     Query query;
     ChildEventListener childEventListener;
@@ -44,14 +46,17 @@ public class VendorPendingOrdersActivity extends Activity {
     private LoadingDialog loadingDialog;
     private Handler handler;
     private Runnable runnable;
+    private Button dashboardLinkBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vendor_pending_orders);
         noItemsView = findViewById(R.id.error_pending_orders_list_empty);
+        dashboardLinkBtn = findViewById(R.id.no_dash);
+        dashboardLinkBtn.setOnClickListener(this);
         pendingOrdersRecycView = findViewById(R.id.act_vend_pending_orders_recyc_view);
-        loadingDialog = new LoadingDialog(this, "Loading order items...");
+        loadingDialog = new LoadingDialog(this, "Loading orders...");
         loadingDialog.show();
         handler = new Handler();
         runnable = () -> {
@@ -175,5 +180,12 @@ public class VendorPendingOrdersActivity extends Activity {
                 checkOrderEmpty();
             }
         });
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == dashboardLinkBtn.getId()) {
+            finish();
+        }
     }
 }
