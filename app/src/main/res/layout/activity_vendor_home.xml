@@ -305,6 +305,19 @@
                                 android:layout_height="match_parent"
                                 android:dividerHeight="0.5dp"
                                 android:nestedScrollingEnabled="false" />
+
+                            <TextView
+                                android:id="@+id/frag_vend_no_vending_items"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingLeft="16dp"
+                                android:paddingTop="64dp"
+                                android:paddingRight="16dp"
+                                android:paddingBottom="64dp"
+                                android:text="No items in your vending list..."
+                                android:textAlignment="center"
+                                android:textColor="@color/design_default_color_primary_dark"
+                                android:textStyle="italic" />
                         </LinearLayout>
 
                     </LinearLayout>

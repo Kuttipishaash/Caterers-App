@@ -46,6 +46,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import es.dmoral.toasty.Toasty;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 public class VendorHomeActivity extends FragmentActivity implements View.OnClickListener {
 
     private static final String TAG = "VendorDash";
@@ -66,6 +69,7 @@ public class VendorHomeActivity extends FragmentActivity implements View.OnClick
     private ImageView viewProfileFab;
     private TextView profileName;
     private TextView profileLocation;
+    private TextView noVendingItems;
 
 
     @Override
@@ -93,6 +97,8 @@ public class VendorHomeActivity extends FragmentActivity implements View.OnClick
         viewProfileFab = findViewById(R.id.vendor_view_profile);
         profileName = findViewById(R.id.vendor_home_name);
         profileLocation = findViewById(R.id.vendor_home_location);
+        noVendingItems = findViewById(R.id.frag_vend_no_vending_items);
+        noVendingItems.setVisibility(View.GONE);
 
         addEditItemFAB = findViewById(R.id.act_home_fab);
         bottomAppBar = findViewById(R.id.bottom_app_bar_vendor);
@@ -150,8 +156,8 @@ public class VendorHomeActivity extends FragmentActivity implements View.OnClick
                 VendorItem cartItem = dataSnapshot.getValue(VendorItem.class);
                 cartItem.setId(dataSnapshot.getKey());
                 vendingItemsArrayList.add(cartItem);
+                checkItemsListEmpty();
                 vendingItemsAdapter.notifyDataSetChanged();
-
             }
 
             @Override
@@ -171,6 +177,7 @@ public class VendorHomeActivity extends FragmentActivity implements View.OnClick
                         break;
                     }
                 }
+                checkItemsListEmpty();
                 // ...
             }
 
@@ -187,6 +194,7 @@ public class VendorHomeActivity extends FragmentActivity implements View.OnClick
                         vendingItemsAdapter.notifyDataSetChanged();
                     }
                 }
+                checkItemsListEmpty();
             }
 
             @Override
@@ -206,6 +214,7 @@ public class VendorHomeActivity extends FragmentActivity implements View.OnClick
                 Log.w(TAG, "onCancelled", databaseError.toException());
                 Toast.makeText(VendorHomeActivity.this, "Failed to load cart items.",
                         Toast.LENGTH_SHORT).show();
+                checkItemsListEmpty();
             }
         };
         vendingItemsReference.addChildEventListener(vendingItemsEventListener);
@@ -217,6 +226,16 @@ public class VendorHomeActivity extends FragmentActivity implements View.OnClick
         vendingItemsRecyclerView.setAdapter(vendingItemsAdapter);
         vendingItemsRecyclerView.addItemDecoration(new DividerItemDecoration(this,
                 DividerItemDecoration.VERTICAL));
+    }
+
+    private void checkItemsListEmpty() {
+        if (vendingItemsArrayList.size() > 0) {
+            vendingItemsRecyclerView.setVisibility(VISIBLE);
+            noVendingItems.setVisibility(GONE);
+        } else {
+            noVendingItems.setVisibility(VISIBLE);
+            vendingItemsRecyclerView.setVisibility(GONE);
+        }
     }
 
 
