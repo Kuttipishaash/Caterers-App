@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,10 +17,12 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.caterassist.app.R;
 import com.caterassist.app.adapters.VendingItemsAdapter;
+import com.caterassist.app.dialogs.LoadingDialog;
 import com.caterassist.app.fragments.BottomNavigationDrawerFragment;
 import com.caterassist.app.models.UserDetails;
 import com.caterassist.app.models.VendorItem;
 import com.caterassist.app.utils.AppUtils;
+import com.caterassist.app.utils.Constants;
 import com.caterassist.app.utils.FirebaseUtils;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -70,7 +73,9 @@ public class VendorHomeActivity extends FragmentActivity implements View.OnClick
     private TextView profileName;
     private TextView profileLocation;
     private TextView noVendingItems;
-
+    private LoadingDialog loadingDialog;
+    private Handler handler;
+    private Runnable runnable;
 
     @Override
     public void onResume() {
@@ -218,6 +223,27 @@ public class VendorHomeActivity extends FragmentActivity implements View.OnClick
             }
         };
         vendingItemsReference.addChildEventListener(vendingItemsEventListener);
+        vendingItemsReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (loadingDialog != null) {
+                    if (loadingDialog.isShowing()) {
+                        loadingDialog.dismiss();
+                    }
+                }
+                checkItemsListEmpty();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                if (loadingDialog != null) {
+                    if (loadingDialog.isShowing()) {
+                        loadingDialog.dismiss();
+                    }
+                }
+                checkItemsListEmpty();
+            }
+        });
         vendingItemsAdapter = new VendingItemsAdapter();
         vendingItemsAdapter.setVendingItemArrayList(vendingItemsArrayList);
         vendingItemsAdapter.setActivity(this);
@@ -323,7 +349,21 @@ public class VendorHomeActivity extends FragmentActivity implements View.OnClick
             }).addOnFailureListener(exception -> viewProfileFab.setImageResource(R.drawable.ic_error_placeholder));
         }
 
-
+        loadingDialog = new LoadingDialog(this, "Loading orders...");
+        loadingDialog.show();
+        handler = new Handler();
+        runnable = () -> {
+            if (loadingDialog != null)
+                if (loadingDialog.isShowing()) {
+                    loadingDialog.dismiss();
+                    Toast.makeText(VendorHomeActivity.this,
+                            "Please check your internet connection and try again!",
+                            Toast.LENGTH_SHORT).show();
+                    checkItemsListEmpty();
+                }
+        };
+        handler.postAtTime(runnable, System.currentTimeMillis() + Constants.UtilConstants.LOADING_TIMEOUT);
+        handler.postDelayed(runnable, Constants.UtilConstants.LOADING_TIMEOUT);
         fetchItems();
         fetchPendingOrders();
         addEditItemFAB.setOnClickListener(this);
