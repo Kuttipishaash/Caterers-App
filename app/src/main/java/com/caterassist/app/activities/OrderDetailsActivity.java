@@ -144,7 +144,6 @@ public class OrderDetailsActivity extends Activity implements View.OnClickListen
     private void fetchItems() {
         loadingDialog = new LoadingDialog(this, "Loading order details...");
         loadingDialog.show();
-        final int interval = 10000; // 1 Second
         handler = new Handler();
         runnable = () -> {
             if (loadingDialog != null)
@@ -154,8 +153,8 @@ public class OrderDetailsActivity extends Activity implements View.OnClickListen
                     checkItems();
                 }
         };
-        handler.postAtTime(runnable, System.currentTimeMillis() + interval);
-        handler.postDelayed(runnable, interval);
+        handler.postAtTime(runnable, System.currentTimeMillis() + Constants.UtilConstants.LOADING_TIMEOUT);
+        handler.postDelayed(runnable, Constants.UtilConstants.LOADING_TIMEOUT);
         String databasePath = FirebaseUtils.getDatabaseMainBranchName() + orderBranchName +
                 FirebaseAuth.getInstance().getUid() + "/" + orderId + "/" + FirebaseUtils.ORDER_ITEMS_BRANCH;
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(databasePath);
@@ -168,11 +167,19 @@ public class OrderDetailsActivity extends Activity implements View.OnClickListen
                     orderItemsAdapter.notifyDataSetChanged();
                 }
                 checkItems();
-                loadingDialog.dismiss();
+                if (loadingDialog != null) {
+                    if (loadingDialog.isShowing()) {
+                        loadingDialog.dismiss();
+                    }
+                }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                loadingDialog.dismiss();
+                if (loadingDialog != null) {
+                    if (loadingDialog.isShowing()) {
+                        loadingDialog.dismiss();
+                    }
+                }
                 Toasty.error(OrderDetailsActivity.this, "Error occured while fetching items!", Toast.LENGTH_SHORT).show();
                 checkItems();
             }

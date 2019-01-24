@@ -2,12 +2,16 @@ package com.caterassist.app.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.caterassist.app.R;
 import com.caterassist.app.adapters.VendorPendingOrdersAdapter;
+import com.caterassist.app.dialogs.LoadingDialog;
 import com.caterassist.app.models.OrderDetails;
+import com.caterassist.app.utils.Constants;
 import com.caterassist.app.utils.FirebaseUtils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -16,6 +20,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -23,7 +28,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import es.dmoral.toasty.Toasty;
+
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
 public class VendorPendingOrdersActivity extends Activity {
     private static final String TAG = "VendorNewOrders";
@@ -33,14 +40,43 @@ public class VendorPendingOrdersActivity extends Activity {
     private RecyclerView pendingOrdersRecycView;
     private LinearLayoutManager pendingOrdersLayoutManager;
     private VendorPendingOrdersAdapter pendingOrdersAdapter;
+    private LinearLayout noItemsView;
+    private LoadingDialog loadingDialog;
+    private Handler handler;
+    private Runnable runnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vendor_pending_orders);
+        noItemsView = findViewById(R.id.error_items_list_empty);
         pendingOrdersRecycView = findViewById(R.id.act_vend_pending_orders_recyc_view);
+        loadingDialog = new LoadingDialog(this, "Loading order items...");
+        loadingDialog.show();
+        handler = new Handler();
+        runnable = () -> {
+            if (loadingDialog != null)
+                if (loadingDialog.isShowing()) {
+                    loadingDialog.dismiss();
+                    Toast.makeText(VendorPendingOrdersActivity.this,
+                            "Please check your internet connection and try again!",
+                            Toast.LENGTH_SHORT).show();
+                    checkOrderEmpty();
+                }
+        };
+        handler.postAtTime(runnable, System.currentTimeMillis() + Constants.UtilConstants.LOADING_TIMEOUT);
+        handler.postDelayed(runnable, Constants.UtilConstants.LOADING_TIMEOUT);
         fetchOrders();
-        Toasty.warning(this, "hgjkg").show();
+    }
+
+    private void checkOrderEmpty() {
+        if (orderDetailsArrayList.size() > 0) {
+            pendingOrdersRecycView.setVisibility(VISIBLE);
+            noItemsView.setVisibility(GONE);
+        } else {
+            noItemsView.setVisibility(VISIBLE);
+            pendingOrdersRecycView.setVisibility(GONE);
+        }
     }
 
     @Override
@@ -67,9 +103,12 @@ public class VendorPendingOrdersActivity extends Activity {
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 DataSnapshot orderDetailsSnapshot = dataSnapshot.child(FirebaseUtils.ORDER_INFO_BRANCH);
                 OrderDetails orderDetails = orderDetailsSnapshot.getValue(OrderDetails.class);
-                orderDetails.setOrderId(dataSnapshot.getKey());
-                orderDetailsArrayList.add(orderDetails);
-                pendingOrdersAdapter.notifyDataSetChanged();
+                if (orderDetails != null) {
+                    orderDetails.setOrderId(dataSnapshot.getKey());
+                    orderDetailsArrayList.add(orderDetails);
+                    pendingOrdersAdapter.notifyDataSetChanged();
+                }
+                checkOrderEmpty();
             }
 
             @Override
@@ -97,6 +136,7 @@ public class VendorPendingOrdersActivity extends Activity {
                         pendingOrdersAdapter.notifyDataSetChanged();
                     }
                 }
+                checkOrderEmpty();
             }
 
             @Override
@@ -114,5 +154,26 @@ public class VendorPendingOrdersActivity extends Activity {
             }
         };
         query.addChildEventListener(childEventListener);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (loadingDialog != null) {
+                    if (loadingDialog.isShowing()) {
+                        loadingDialog.dismiss();
+                    }
+                }
+                checkOrderEmpty();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                if (loadingDialog != null) {
+                    if (loadingDialog.isShowing()) {
+                        loadingDialog.dismiss();
+                    }
+                }
+                checkOrderEmpty();
+            }
+        });
     }
 }

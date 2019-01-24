@@ -22,6 +22,7 @@ import com.caterassist.app.models.Order;
 import com.caterassist.app.models.OrderDetails;
 import com.caterassist.app.models.UserDetails;
 import com.caterassist.app.utils.AppUtils;
+import com.caterassist.app.utils.Constants;
 import com.caterassist.app.utils.FirebaseUtils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -187,16 +188,20 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
         cartItemsReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (loadingDialog != null || loadingDialog.isShowing()) {
-                    loadingDialog.dismiss();
+                if (loadingDialog != null) {
+                    if (loadingDialog.isShowing()) {
+                        loadingDialog.dismiss();
+                    }
                 }
                 checkCartEmpty();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                if (loadingDialog != null || loadingDialog.isShowing()) {
-                    loadingDialog.dismiss();
+                if (loadingDialog != null) {
+                    if (loadingDialog.isShowing()) {
+                        loadingDialog.dismiss();
+                    }
                 }
                 checkCartEmpty();
             }
@@ -254,7 +259,6 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
 
         loadingDialog = new LoadingDialog(this, "Loading cart items...");
         loadingDialog.show();
-        final int interval = 10000; // 1 Second
         handler = new Handler();
         runnable = () -> {
             if (loadingDialog != null)
@@ -264,8 +268,8 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
                     checkCartEmpty();
                 }
         };
-        handler.postAtTime(runnable, System.currentTimeMillis() + interval);
-        handler.postDelayed(runnable, interval);
+        handler.postAtTime(runnable, System.currentTimeMillis() + Constants.UtilConstants.LOADING_TIMEOUT);
+        handler.postDelayed(runnable, Constants.UtilConstants.LOADING_TIMEOUT);
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.caterassist.app.dialogs;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -22,8 +21,6 @@ import com.caterassist.app.models.CartItem;
 import com.caterassist.app.models.UserDetails;
 import com.caterassist.app.models.VendorItem;
 import com.caterassist.app.utils.FirebaseUtils;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -39,7 +36,6 @@ import de.mateware.snacky.Snacky;
 import es.dmoral.toasty.Toasty;
 
 public class AddToCartDialog extends DialogFragment implements View.OnClickListener {
-    private Context context;
     private TextView itemNameTextView, itemUnitsTxtView, itemQtuAvailableTxtView, itemRateTxtView;
     private FloatingActionButton cancelButton, confirmButton;
     private EditText itemQuantitiyEdtTxt;
@@ -99,7 +95,6 @@ public class AddToCartDialog extends DialogFragment implements View.OnClickListe
             }).addOnFailureListener(exception -> itemImage.setImageResource(R.drawable.ic_error_placeholder));
         }
         String rate = "₹" + String.valueOf(vendorItem.getRatePerUnit()) + vendorItem.getUnit();
-        ;
         itemRateTxtView.setText(rate);
         String unitsAvailable = String.valueOf(vendorItem.getStock()) + vendorItem.getUnit();
         itemQtuAvailableTxtView.setText(unitsAvailable);
@@ -124,7 +119,7 @@ public class AddToCartDialog extends DialogFragment implements View.OnClickListe
         switch (v.getId()) {
             case R.id.diag_add_to_cart_confirm_button:
                 Double inputQuantity = Double.parseDouble(itemQuantitiyEdtTxt.getText().toString());
-                if (inputQuantity > vendorItem.getStock()) {
+                if (inputQuantity > vendorItem.getStock() && getContext() != null) {
                     Toasty.warning(getContext(), "The quantity entered is not currently in stock.", Toast.LENGTH_SHORT).show();
                 } else {
                     addToCart(inputQuantity);
@@ -150,50 +145,44 @@ public class AddToCartDialog extends DialogFragment implements View.OnClickListe
             String databasePath = FirebaseUtils.getDatabaseMainBranchName() + FirebaseUtils.CART_BRANCH_NAME + FirebaseAuth.getInstance().getUid() + "/";
             String cartItemsPath = databasePath + FirebaseUtils.CART_ITEMS_BRANCH;
             DatabaseReference itemsReference = FirebaseDatabase.getInstance().getReference(cartItemsPath);
-            itemsReference.child(cartItem.getId()).setValue(cartItem).addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    Objects.requireNonNull(itemsReference.getParent()).child(FirebaseUtils.CART_VENDOR_BRANCH)
+            itemsReference.child(cartItem.getId()).setValue(cartItem)
+                    .addOnSuccessListener(aVoid -> Objects.requireNonNull(itemsReference.getParent()).child(FirebaseUtils.CART_VENDOR_BRANCH)
                             .setValue(vendorDetails)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    showCartSnack();
-                                }
-                            });
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
+                            .addOnSuccessListener(aVoid1 -> showCartSnack())).addOnFailureListener(e -> {
+                if (getContext() != null) {
                     Toasty.error(getContext(), "Adding to cart failed").show();
+
                 }
             });
 
             dismiss();
         } else {
-            Toasty.warning(getContext(), getContext().getString(R.string.toast_added_item_qty_less_than_zero), Toast.LENGTH_SHORT).show();
+            if (getContext() != null) {
+                Toasty.warning(getContext(), getContext().getString(R.string.toast_added_item_qty_less_than_zero), Toast.LENGTH_SHORT).show();
+            }
         }
 
     }
 
     public void showCartSnack() {
-        Snacky.builder()
-                .setActivity(getActivity())
-                .setBackgroundColor(getResources().getColor(R.color.colorPrimary))
-                .setActionText("View Cart")
-                .setActionClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+        if (getActivity() != null) {
+            Snacky.builder()
+                    .setActivity(getActivity())
+                    .setBackgroundColor(getResources().getColor(R.color.colorPrimary))
+                    .setActionText("View Cart")
+                    .setActionClickListener(v -> {
                         startActivity(new Intent(getActivity(), CartActivity.class));
-                        getActivity().finish();
-                    }
-                })
-                .setText("Item added to cart")
-                .setIcon(R.drawable.ic_cart)
-                .setActionTextTypefaceStyle(Typeface.BOLD)
-                .setActionTextColor(getResources().getColor(R.color.white))
-                .setDuration(Snacky.LENGTH_INDEFINITE)
-                .build()
-                .show();
+                        if (getActivity() != null) {
+                            getActivity().finish();
+                        }
+                    })
+                    .setText("Item added to cart")
+                    .setIcon(R.drawable.ic_cart)
+                    .setActionTextTypefaceStyle(Typeface.BOLD)
+                    .setActionTextColor(getResources().getColor(R.color.white))
+                    .setDuration(Snacky.LENGTH_INDEFINITE)
+                    .build()
+                    .show();
+        }
     }
 }

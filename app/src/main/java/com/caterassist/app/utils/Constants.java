@@ -33,4 +33,8 @@ public class Constants {
         public static final String GENERAL_CHANNEL_ID = "general";
         public static final String GENERAL_CHANNEL_NAME = "General";
     }
+
+    public static class UtilConstants {
+        public static final int LOADING_TIMEOUT = 3000; // 3 Seconds
+    }
 }
