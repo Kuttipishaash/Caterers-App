@@ -103,7 +103,9 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 vendorDetails = dataSnapshot.getValue(UserDetails.class);
-                vendorNameTextView.setText(vendorDetails.getUserName());
+                if (vendorDetails != null) {
+                    vendorNameTextView.setText(vendorDetails.getUserName());
+                }
             }
 
             @Override
