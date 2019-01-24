@@ -52,7 +52,7 @@
             android:layout_height="match_parent" />
 
         <include
-            android:id="@+id/error_items_list_empty"
+            android:id="@+id/error_pending_orders_list_empty"
             layout="@layout/include_no_item_page"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

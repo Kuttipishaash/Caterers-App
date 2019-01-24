@@ -49,7 +49,7 @@ public class VendorPendingOrdersActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vendor_pending_orders);
-        noItemsView = findViewById(R.id.error_items_list_empty);
+        noItemsView = findViewById(R.id.error_pending_orders_list_empty);
         pendingOrdersRecycView = findViewById(R.id.act_vend_pending_orders_recyc_view);
         loadingDialog = new LoadingDialog(this, "Loading order items...");
         loadingDialog.show();
