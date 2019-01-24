@@ -294,6 +294,19 @@
                                     android:nestedScrollingEnabled="false"
                                     android:orientation="horizontal"
                                     android:scrollbars="horizontal" />
+
+                                <TextView
+                                    android:id="@+id/frag_cate_dash_fav_vendors_nothing"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:paddingLeft="16dp"
+                                    android:paddingTop="64dp"
+                                    android:paddingRight="16dp"
+                                    android:paddingBottom="64dp"
+                                    android:text="No favourites"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/design_default_color_primary_dark"
+                                    android:textStyle="italic" />
                             </LinearLayout>
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
@@ -346,7 +359,9 @@
                                     <!--android:background="?attr/selectableItemBackgroundBorderless"-->
                                     <!--android:tint="@color/colorPrimary"-->
                                     <!--app:srcCompat="@drawable/ic_add" />-->
+                                    <!--TODO: implement sorting feature later-->
                                     <ImageButton
+                                        android:visibility="gone"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:background="@color/transparent"
@@ -368,6 +383,19 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:nestedScrollingEnabled="false" />
+
+                                <TextView
+                                    android:id="@+id/frag_cate_dash_vendors_nothing"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:paddingLeft="16dp"
+                                    android:paddingTop="64dp"
+                                    android:paddingRight="16dp"
+                                    android:paddingBottom="64dp"
+                                    android:text="No vendors"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/design_default_color_primary_dark"
+                                    android:textStyle="italic" />
 
 
                             </LinearLayout>

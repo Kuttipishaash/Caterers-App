@@ -49,6 +49,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import es.dmoral.toasty.Toasty;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 public class CatererHomeActivity extends FragmentActivity implements View.OnClickListener {
     private static final String TAG = "CatererDash";
     private static final int CALL_PERMISSION_REQ_CODE = 100;
@@ -56,6 +59,7 @@ public class CatererHomeActivity extends FragmentActivity implements View.OnClic
     private Toolbar toolbar;
     private DatabaseReference favouriteVendorsReference;
     private ValueEventListener favouriteVendorsEventListener;
+    private ValueEventListener vendorsEventListener;
     private RecyclerView favouriteVendorsRecyclerView;
     private LinearLayoutManager favouriteVendorsLayoutManager;
     private FavouriteVendorsAdapter favouriteVendorsAdapter;
@@ -70,6 +74,8 @@ public class CatererHomeActivity extends FragmentActivity implements View.OnClic
     private ImageView viewProfileFab;
     private TextView profileName;
     private TextView profileLocation;
+    private TextView noFavouritesTxtView;
+    private TextView noVendorsTxtView;
 
 
     @Override
@@ -155,6 +161,9 @@ public class CatererHomeActivity extends FragmentActivity implements View.OnClic
         if (favouriteVendorsEventListener != null) {
             favouriteVendorsReference.removeEventListener(favouriteVendorsEventListener);
         }
+        if (vendorsEventListener != null) {
+            allVendorsRef.removeEventListener(vendorsEventListener);
+        }
     }
 
     @Override
@@ -219,17 +228,18 @@ public class CatererHomeActivity extends FragmentActivity implements View.OnClic
         allVendorsRecyclerView.setAdapter(allVendorsAdapter);
         allVendorsRecyclerView.addItemDecoration(new DividerItemDecoration(CatererHomeActivity.this,
                 DividerItemDecoration.VERTICAL));
-        allVendorsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        vendorsEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                allVendorsArrayList.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     UserDetails userDetails = snapshot.getValue(UserDetails.class);
                     if (userDetails.getIsVendor()) {
                         userDetails.setUserID(snapshot.getKey());
                         allVendorsArrayList.add(userDetails);
-                        allVendorsAdapter.notifyDataSetChanged();
                     }
                 }
+                allVendorsAdapter.notifyDataSetChanged();
                 checkVendorsEmpty();
             }
 
@@ -240,11 +250,19 @@ public class CatererHomeActivity extends FragmentActivity implements View.OnClic
                         Toast.LENGTH_SHORT).show();
                 checkVendorsEmpty();
             }
-        });
+        };
+        allVendorsRef.addValueEventListener(vendorsEventListener);
     }
 
     private void checkVendorsEmpty() {
         //TODO: implement actions to be taken when the vendors list is empty
+        if (allVendorsArrayList.size() > 0) {
+            allVendorsRecyclerView.setVisibility(VISIBLE);
+            noVendorsTxtView.setVisibility(GONE);
+        } else {
+            noVendorsTxtView.setVisibility(VISIBLE);
+            allVendorsRecyclerView.setVisibility(GONE);
+        }
     }
 
     private void fetchFavouriteVendors() {
@@ -289,7 +307,13 @@ public class CatererHomeActivity extends FragmentActivity implements View.OnClic
     }
 
     private void checkFavouritesEmpty() {
-        //TODO: implement a favourites empty view;
+        if (favouriteVendorArrayList.size() > 0) {
+            favouriteVendorsRecyclerView.setVisibility(VISIBLE);
+            noFavouritesTxtView.setVisibility(GONE);
+        } else {
+            noFavouritesTxtView.setVisibility(VISIBLE);
+            favouriteVendorsRecyclerView.setVisibility(GONE);
+        }
     }
 
     private void initViews() {
@@ -304,6 +328,10 @@ public class CatererHomeActivity extends FragmentActivity implements View.OnClic
         viewProfileFab = findViewById(R.id.cater_view_profile);
         profileName = findViewById(R.id.cater_home_name);
         profileLocation = findViewById(R.id.cater_home_location);
+        noFavouritesTxtView = findViewById(R.id.frag_cate_dash_fav_vendors_nothing);
+        noFavouritesTxtView.setVisibility(View.GONE);
+        noVendorsTxtView = findViewById(R.id.frag_cate_dash_vendors_nothing);
+        noVendorsTxtView.setVisibility(View.GONE);
 
         viewProfileFab.setOnClickListener(this);
         viewCartFAB.setOnClickListener(this);

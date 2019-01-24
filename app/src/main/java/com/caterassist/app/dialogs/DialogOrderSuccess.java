@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.caterassist.app.R;
@@ -17,6 +18,7 @@ import com.caterassist.app.activities.OrderDetailsActivity;
 import com.caterassist.app.models.OrderDetails;
 import com.caterassist.app.utils.Constants;
 import com.caterassist.app.utils.FirebaseUtils;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
@@ -31,8 +33,8 @@ public class DialogOrderSuccess extends DialogFragment implements View.OnClickLi
     private TextView orderItemCountTxtView;
     private TextView orderTotalAmtTxtView;
     private Button viewOrderBtn;
-    private Button callVendorBtn;
-    private Button dismissButton;
+    private ImageButton callVendorBtn;
+    private FloatingActionButton dismissButton;
 
     private OrderDetails orderDetails;
     private int itemCount;
