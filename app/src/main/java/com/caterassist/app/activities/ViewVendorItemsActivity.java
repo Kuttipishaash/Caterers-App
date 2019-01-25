@@ -210,7 +210,7 @@ public class ViewVendorItemsActivity extends AppCompatActivity implements View.O
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.w(TAG, "postComments:onCancelled", databaseError.toException());
-                Toast.makeText(ViewVendorItemsActivity.this, "Failed to load favourite vendors.",
+                Toasty.error(ViewVendorItemsActivity.this, "Failed to load favourite vendors.",
                         Toast.LENGTH_SHORT).show();
             }
         };

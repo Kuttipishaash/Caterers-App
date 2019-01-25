@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:clickable="true"
     android:focusable="true"
-    android:foreground="?android:selectableItemBackground"
+    android:foreground="?android:selectableItemBackgroundBorderless"
     android:orientation="horizontal"
     android:paddingVertical="@dimen/activity_vertical_margin">
 

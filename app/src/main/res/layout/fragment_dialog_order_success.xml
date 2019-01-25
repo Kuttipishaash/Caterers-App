@@ -169,6 +169,7 @@
                     </LinearLayout>
 
                     <com.mikhaellopez.circularimageview.CircularImageView
+                        android:id="@+id/order_suc_vendor_image"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:src="@drawable/placeholder"
@@ -285,15 +286,14 @@
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/order_suc_view_order"
-                        android:layout_width="0dp"
+                        style="@style/Button.Accent.Borderless"
+                        android:layout_width="35dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-
                         android:gravity="center_vertical"
                         android:text="View Order"
-                        android:textAlignment="center"
-                        android:textColor="@color/grey_40" />
+                        android:textAlignment="center"/>
 
 
                 </LinearLayout>

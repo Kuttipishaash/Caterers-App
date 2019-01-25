@@ -73,6 +73,8 @@ public class VendorListAdapter extends RecyclerView.Adapter<VendorListAdapter.Vi
                         .load(uri)
                         .into(holder.vendorImageView);
             }).addOnFailureListener(exception -> holder.vendorImageView.setImageResource(R.drawable.ic_error_placeholder));
+        } else {
+            holder.vendorImageView.setImageDrawable(null);
         }
     }
 

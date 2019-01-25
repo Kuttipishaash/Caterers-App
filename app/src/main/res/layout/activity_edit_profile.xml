@@ -271,6 +271,7 @@
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/act_prof_save_btn"
+                    android:layout_gravity="center_horizontal"
                     style="@style/Rounded_Button_Accent"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"

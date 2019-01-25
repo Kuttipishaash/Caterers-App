@@ -1,7 +1,7 @@
 package com.caterassist.app.activities;
 
-import android.app.AlertDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -44,6 +44,7 @@ import java.util.Iterator;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -181,7 +182,7 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.w(TAG, "postComments:onCancelled", databaseError.toException());
-                Toast.makeText(CartActivity.this, "Failed to load cart items.",
+                Toasty.error(CartActivity.this, "Failed to load cart items.",
                         Toast.LENGTH_SHORT).show();
                 checkCartEmpty();
             }
@@ -226,7 +227,7 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
                 cartItemsArrayList) {
             totalAmount += item.getTotalAmount();
         }
-        String amount = "₹"+String.valueOf(totalAmount);
+        String amount = "₹" + String.valueOf(totalAmount);
         totalAmountTextView.setText(amount);
         if (cartSize == 0) {
             includeView.setVisibility(View.VISIBLE);
@@ -270,7 +271,7 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
             if (loadingDialog != null)
                 if (loadingDialog.isShowing()) {
                     loadingDialog.dismiss();
-                    Toast.makeText(CartActivity.this, "Please check your internet connection and try again!", Toast.LENGTH_SHORT).show();
+                    Toasty.error(CartActivity.this, "Please check your internet connection and try again!", Toast.LENGTH_SHORT).show();
                     checkCartEmpty();
                 }
         };
@@ -323,8 +324,13 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
 
     private void clearCart() {
 
-        new AlertDialog.Builder(this)
-                .setTitle(getResources().getString(R.string.dialog_title_clear_cart))
+        androidx.appcompat.app.AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new androidx.appcompat.app.AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar_MinWidth);
+        } else {
+            builder = new androidx.appcompat.app.AlertDialog.Builder(this);
+        }
+        builder.setTitle(getResources().getString(R.string.dialog_title_clear_cart))
                 .setMessage(
                         getResources().getString(R.string.dialog_message_clear_cart))
                 .setPositiveButton(
@@ -349,8 +355,13 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void checkout() {
-        new AlertDialog.Builder(this)
-                .setTitle(getResources().getString(R.string.dialog_title_place_order))
+        androidx.appcompat.app.AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new androidx.appcompat.app.AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar_MinWidth);
+        } else {
+            builder = new AlertDialog.Builder(this);
+        }
+        builder.setTitle(getResources().getString(R.string.dialog_title_place_order))
                 .setMessage(
                         getResources().getString(R.string.dialog_message_place_order))
                 .setPositiveButton(

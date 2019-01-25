@@ -1,8 +1,8 @@
 package com.caterassist.app.adapters;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 import com.caterassist.app.R;
 import com.caterassist.app.activities.AddEditItemActivity;
@@ -28,7 +27,9 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
+import es.dmoral.toasty.Toasty;
 
 public class VendingItemsAdapter extends RecyclerView.Adapter<VendingItemsAdapter.VendingItemViewHolder> {
     private ArrayList<VendorItem> vendingItemArrayList;
@@ -121,13 +122,18 @@ public class VendingItemsAdapter extends RecyclerView.Adapter<VendingItemsAdapte
         }
 
         private void showRemoveItemDialog() {
-            new AlertDialog.Builder(itemView.getContext())
-                    .setTitle("Remove Item")
+            androidx.appcompat.app.AlertDialog.Builder builder;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                builder = new androidx.appcompat.app.AlertDialog.Builder(itemView.getContext(), android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar_MinWidth);
+            } else {
+                builder = new AlertDialog.Builder(itemView.getContext());
+            }
+            builder.setTitle("Remove Item")
                     .setMessage("Are you sure to remove this item from your list?")
                     .setPositiveButton("YES", (dialog, which) -> {
                         String itemId = vendingItemArrayList.get(getAdapterPosition()).getId();
                         removeItemFromStock(itemId);
-                        Toast.makeText(itemView.getContext(), "Item removed", Toast.LENGTH_SHORT).show();
+                        Toasty.success(itemView.getContext(), "Item removed", Toast.LENGTH_SHORT).show();
                     })
                     .setNegativeButton("NO", (dialog, which) -> dialog.dismiss())
                     .show();
@@ -136,7 +142,7 @@ public class VendingItemsAdapter extends RecyclerView.Adapter<VendingItemsAdapte
         private void removeItemFromStock(String itemId) {
             String databasePath = FirebaseUtils.getDatabaseMainBranchName() + FirebaseUtils.VENDOR_LIST_BRANCH_NAME
                     + FirebaseAuth.getInstance().getUid() + "/" + itemId;
-            Toast.makeText(itemView.getContext(), databasePath, Toast.LENGTH_SHORT).show();
+            Toasty.error(itemView.getContext(), databasePath, Toast.LENGTH_SHORT).show();
             DatabaseReference vendingItemReference = FirebaseDatabase.getInstance().getReference(databasePath);
             vendingItemReference.setValue(null);
         }

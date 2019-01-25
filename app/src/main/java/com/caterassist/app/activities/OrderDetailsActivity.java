@@ -1,7 +1,6 @@
 package com.caterassist.app.activities;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -37,6 +36,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import es.dmoral.toasty.Toasty;
@@ -186,7 +186,7 @@ public class OrderDetailsActivity extends Activity implements View.OnClickListen
             if (loadingDialog != null)
                 if (loadingDialog.isShowing()) {
                     loadingDialog.dismiss();
-                    Toast.makeText(OrderDetailsActivity.this, "Please check your internet connection and try again!", Toast.LENGTH_SHORT).show();
+                    Toasty.error(OrderDetailsActivity.this, "Please check your internet connection and try again!", Toast.LENGTH_SHORT).show();
                     checkItems();
                 }
         };
@@ -259,8 +259,13 @@ public class OrderDetailsActivity extends Activity implements View.OnClickListen
     public void onClick(View v) {
         if (v.getId() == deleteOrderBtn.getId()) {
             if (orderDetails.getOrderStatus() > 1) {
-                new AlertDialog.Builder(this)
-                        .setTitle(getResources().getString(R.string.dialog_title_delete_order_history))
+                androidx.appcompat.app.AlertDialog.Builder builder;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    builder = new androidx.appcompat.app.AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar_MinWidth);
+                } else {
+                    builder = new AlertDialog.Builder(this);
+                }
+                builder.setTitle(getResources().getString(R.string.dialog_title_delete_order_history))
                         .setMessage(
                                 getResources().getString(R.string.dialog_message_delete_order_history))
                         .setPositiveButton(
@@ -308,7 +313,7 @@ public class OrderDetailsActivity extends Activity implements View.OnClickListen
     private void rejectOrder() {
         androidx.appcompat.app.AlertDialog.Builder builder;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder = new androidx.appcompat.app.AlertDialog.Builder(OrderDetailsActivity.this, android.R.style.Theme_Material_Dialog_Alert);
+            builder = new androidx.appcompat.app.AlertDialog.Builder(OrderDetailsActivity.this, android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar_MinWidth);
         } else {
             builder = new androidx.appcompat.app.AlertDialog.Builder(OrderDetailsActivity.this);
         }
@@ -366,7 +371,7 @@ public class OrderDetailsActivity extends Activity implements View.OnClickListen
     private void updateOrderStatus() {
         androidx.appcompat.app.AlertDialog.Builder builder;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder = new androidx.appcompat.app.AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Light_Dialog);
+            builder = new androidx.appcompat.app.AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar_MinWidth);
         } else {
             builder = new androidx.appcompat.app.AlertDialog.Builder(this);
         }

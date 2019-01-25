@@ -31,6 +31,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import es.dmoral.toasty.Toasty;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -164,7 +165,7 @@ public class OrderHistoryActivity extends Activity implements View.OnClickListen
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.w(TAG, "postComments:onCancelled", databaseError.toException());
-                Toast.makeText(OrderHistoryActivity.this, "Failed to load caterer orders.",
+                Toasty.error(OrderHistoryActivity.this, "Failed to load caterer orders.",
                         Toast.LENGTH_SHORT).show();
                 checkOrderEmpty();
             }

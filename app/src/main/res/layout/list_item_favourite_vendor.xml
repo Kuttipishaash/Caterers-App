@@ -18,7 +18,7 @@
         android:clipToPadding="false"
         android:elevation="0dp"
         android:focusable="true"
-        android:foreground="?android:selectableItemBackground"
+        android:foreground="?android:selectableItemBackgroundBorderless"
         app:cardCornerRadius="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

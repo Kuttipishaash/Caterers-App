@@ -1,8 +1,8 @@
 package com.caterassist.app.adapters;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 import es.dmoral.toasty.Toasty;
 
@@ -82,7 +83,7 @@ public class HistoryOrderInfoAdapter extends RecyclerView.Adapter<HistoryOrderIn
             holder.nameTxtView.setText(orderDetails.getVendorName());
         }
 
-        holder.orderTotalAmtTxtView.setText("₹"+String.valueOf(orderDetails.getOrderTotalAmount()));
+        holder.orderTotalAmtTxtView.setText("₹" + String.valueOf(orderDetails.getOrderTotalAmount()));
     }
 
     @Override
@@ -132,8 +133,13 @@ public class HistoryOrderInfoAdapter extends RecyclerView.Adapter<HistoryOrderIn
             } else if (v.getId() == R.id.li_history_order_info_delete_btn) {
                 Context context = itemView.getContext();
                 if (orderDetailsArrayList.get(getAdapterPosition()).getOrderStatus() > 1) {
-                    new AlertDialog.Builder(itemView.getContext())
-                            .setTitle(context.getResources().getString(R.string.dialog_title_delete_order_history))
+                    androidx.appcompat.app.AlertDialog.Builder builder;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        builder = new androidx.appcompat.app.AlertDialog.Builder(itemView.getContext(), android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar_MinWidth);
+                    } else {
+                        builder = new AlertDialog.Builder(itemView.getContext());
+                    }
+                    builder.setTitle(context.getResources().getString(R.string.dialog_title_delete_order_history))
                             .setMessage(
                                     context.getResources().getString(R.string.dialog_message_delete_order_history))
                             .setPositiveButton(

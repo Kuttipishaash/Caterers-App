@@ -1,7 +1,9 @@
 package com.caterassist.app.dialogs;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -21,6 +24,7 @@ import com.caterassist.app.utils.FirebaseUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
 
@@ -35,6 +39,7 @@ public class DialogOrderSuccess extends DialogFragment implements View.OnClickLi
     private Button viewOrderBtn;
     private LinearLayout callVendorBtn;
     private FloatingActionButton dismissButton;
+    ImageView vendorImageView;
 
     private OrderDetails orderDetails;
     private int itemCount;
@@ -64,6 +69,20 @@ public class DialogOrderSuccess extends DialogFragment implements View.OnClickLi
         String amount = "₹" + String.valueOf(orderDetails.getOrderTotalAmount());
         orderItemCountTxtView.setText(String.valueOf(itemCount));
         orderTotalAmtTxtView.setText(amount);
+//        TODO: Set Dialog Vendor Image View
+
+//        if (orderDetails.getVendorId() != null) {
+//            StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+//            storageReference.child(vendorItem.getImageUrl()).getDownloadUrl().addOnSuccessListener(uri -> {
+//                RequestOptions requestOptions = new RequestOptions();
+//                requestOptions.placeholder(R.drawable.placeholder);
+//                requestOptions.error(R.drawable.ic_error_placeholder);
+//                Glide.with(getActivity())
+//                        .setDefaultRequestOptions(requestOptions)
+//                        .load(uri)
+//                        .into(vendorImageView);
+//            }).addOnFailureListener(exception -> vendorImageView.setImageResource(R.drawable.ic_error_placeholder));
+//        }
     }
 
     private void initViews() {
@@ -75,6 +94,7 @@ public class DialogOrderSuccess extends DialogFragment implements View.OnClickLi
         viewOrderBtn = rootView.findViewById(R.id.order_suc_view_order);
         callVendorBtn = rootView.findViewById(R.id.order_suc_call_vendor);
         dismissButton = rootView.findViewById(R.id.order_suc_diaglog_dismiss);
+        vendorImageView = rootView.findViewById(R.id.order_suc_vendor_image);
 
         dismissButton.setOnClickListener(this);
         viewOrderBtn.setOnClickListener(this);
@@ -113,7 +133,10 @@ public class DialogOrderSuccess extends DialogFragment implements View.OnClickLi
             String phoneNumber = orderDetails.getVendorPhone();
             Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phoneNumber));
             if (getContext() != null) {
-                getContext().startActivity(callIntent);
+                if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+                    getContext().startActivity(callIntent);
+                }
+
             } else {
                 Log.e(TAG, "callIntent: Failed due to null context");
             }

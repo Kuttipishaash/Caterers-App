@@ -30,6 +30,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import es.dmoral.toasty.Toasty;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -154,7 +155,7 @@ public class VendorPendingOrdersActivity extends Activity implements View.OnClic
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.w(TAG, "postComments:onCancelled", databaseError.toException());
-                Toast.makeText(VendorPendingOrdersActivity.this, "Failed to load pending orders.",
+                Toasty.error(VendorPendingOrdersActivity.this, "Failed to load pending orders.",
                         Toast.LENGTH_SHORT).show();
             }
         };

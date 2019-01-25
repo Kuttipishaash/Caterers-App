@@ -20,6 +20,8 @@ import com.caterassist.app.dialogs.LoadingDialog;
 import com.caterassist.app.models.UserDetails;
 import com.caterassist.app.utils.Constants;
 import com.caterassist.app.utils.FirebaseUtils;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,6 +32,7 @@ import com.google.firebase.storage.StorageReference;
 
 import androidx.annotation.NonNull;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.view.ViewCompat;
 import es.dmoral.toasty.Toasty;
 
 public class CatererProfileActivity extends Activity implements View.OnClickListener {
@@ -62,6 +65,21 @@ public class CatererProfileActivity extends Activity implements View.OnClickList
             Toasty.error(this, "No vendor data", Toast.LENGTH_SHORT).show();
             finish();
         }
+        initComponent();
+
+    }
+
+    private void initComponent() {
+        final CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.caterer_profile_collapsing_toolbar);
+        ((AppBarLayout) findViewById(R.id.caterer_profile_app_bar_layout)).addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                int min_height = ViewCompat.getMinimumHeight(collapsing_toolbar) * 2;
+                float scale = (float) (min_height + verticalOffset) / min_height;
+                userImage.setScaleX(scale >= 0 ? scale : 0);
+                userImage.setScaleY(scale >= 0 ? scale : 0);
+            }
+        });
     }
 
     private void fetchUserDetails() {
@@ -73,7 +91,7 @@ public class CatererProfileActivity extends Activity implements View.OnClickList
             if (loadingDialog != null)
                 if (loadingDialog.isShowing()) {
                     loadingDialog.dismiss();
-                    Toast.makeText(CatererProfileActivity.this, "Please check your internet connection and try again!", Toast.LENGTH_SHORT).show();
+                    Toasty.error(CatererProfileActivity.this, "Please check your internet connection and try again!", Toast.LENGTH_SHORT).show();
                     showErrorLayout();
                 }
         };

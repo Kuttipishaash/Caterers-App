@@ -178,7 +178,6 @@ public class CatererHomeActivity extends FragmentActivity implements View.OnClic
 
     private void setupBottomAppBar() {
         bottomAppBar.replaceMenu(R.menu.bottom_bar_overflow_menu_caterer);
-
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         searchView = (SearchView) bottomAppBar.getMenu().findItem(R.id.action_search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
@@ -246,7 +245,7 @@ public class CatererHomeActivity extends FragmentActivity implements View.OnClic
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.w(TAG, "onCancelled: failed to fetch favourite vendors", databaseError.toException());
-                Toast.makeText(CatererHomeActivity.this, "Failed to load favourite vendors.",
+                Toasty.error(CatererHomeActivity.this, "Failed to load favourite vendors.",
                         Toast.LENGTH_SHORT).show();
                 checkVendorsEmpty();
             }
@@ -297,7 +296,7 @@ public class CatererHomeActivity extends FragmentActivity implements View.OnClic
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.w(TAG, "onCancelled: failed to fetch favourite vendors", databaseError.toException());
-                Toast.makeText(CatererHomeActivity.this, "Failed to load favourite vendors.",
+                Toasty.error(CatererHomeActivity.this, "Failed to load favourite vendors.",
                         Toast.LENGTH_SHORT).show();
                 checkFavouritesEmpty();
                 //TODO: dismiss loading

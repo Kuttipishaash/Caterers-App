@@ -217,7 +217,7 @@ public class VendorHomeActivity extends FragmentActivity implements View.OnClick
             public void onCancelled(DatabaseError databaseError) {
                 Log.e(TAG, "onCancelled: Fetching cancelled");
                 Log.w(TAG, "onCancelled", databaseError.toException());
-                Toast.makeText(VendorHomeActivity.this, "Failed to load cart items.",
+                Toasty.error(VendorHomeActivity.this, "Failed to load cart items.",
                         Toast.LENGTH_SHORT).show();
                 checkItemsListEmpty();
             }
@@ -356,7 +356,7 @@ public class VendorHomeActivity extends FragmentActivity implements View.OnClick
             if (loadingDialog != null)
                 if (loadingDialog.isShowing()) {
                     loadingDialog.dismiss();
-                    Toast.makeText(VendorHomeActivity.this,
+                    Toasty.error(VendorHomeActivity.this,
                             "Please check your internet connection and try again!",
                             Toast.LENGTH_SHORT).show();
                     checkItemsListEmpty();
