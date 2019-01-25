@@ -145,13 +145,13 @@
                                 android:orientation="vertical">
 
                                 <com.google.android.material.floatingactionbutton.FloatingActionButton
+                                    android:id="@+id/frag_vend_dash_order_history"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:clickable="true"
                                     android:tint="@android:color/white"
                                     app:backgroundTint="@color/light_red_500"
                                     app:elevation="0dp"
-                                    android:id="@+id/frag_vend_dash_order_history"
                                     app:fabSize="mini"
                                     app:rippleColor="@android:color/white"
                                     app:srcCompat="@drawable/ic_history" />
@@ -171,7 +171,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:gravity="center"
-                                android:orientation="vertical">
+                                android:orientation="vertical"
+                                android:visibility="gone">
 
                                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                                     android:layout_width="wrap_content"
