@@ -53,7 +53,7 @@
 
         <include
             android:id="@+id/error_pending_orders_list_empty"
-            layout="@layout/include_no_item_page"
+            layout="@layout/include_no_item_page_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/spacing_xlarge"

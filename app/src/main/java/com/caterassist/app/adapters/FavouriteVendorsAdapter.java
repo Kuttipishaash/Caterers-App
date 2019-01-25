@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+import es.dmoral.toasty.Toasty;
 
 public class FavouriteVendorsAdapter extends RecyclerView.Adapter<FavouriteVendorsAdapter.ViewHolder> {
     private ArrayList<UserDetails> favouriteVendorArrayList;
@@ -140,10 +141,10 @@ public class FavouriteVendorsAdapter extends RecyclerView.Adapter<FavouriteVendo
         private void removeVendorFromFavourites(String vendorUid) {
             String databasePath = FirebaseUtils.getDatabaseMainBranchName() + FirebaseUtils.FAVOURITE_VENDORS_BRANCH_NAME
                     + FirebaseAuth.getInstance().getUid() + "/" + vendorUid;
-            Toast.makeText(context, databasePath, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context, databasePath, Toast.LENGTH_SHORT).show();
             DatabaseReference favouriteVendorReference = FirebaseDatabase.getInstance().getReference(databasePath);
             favouriteVendorReference.setValue(null);
-            Toast.makeText(context, "Remove clicked", Toast.LENGTH_SHORT).show();
+            Toasty.info(context, "Removed from favorites", Toast.LENGTH_SHORT).show();
         }
     }
 }

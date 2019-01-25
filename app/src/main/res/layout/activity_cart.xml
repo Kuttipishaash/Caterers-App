@@ -23,20 +23,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/title_gradient"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="@dimen/title_padding">
 
                 <TextView
                     android:id="@+id/cart_header"
+                    style="@style/ActivityHeaderTextViewWhite"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/activity_vertical_margin"
-                    android:gravity="center"
-                    android:text="Items Cart"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                    android:textColor="@color/white"
-                    android:textStyle="bold" />
+                    android:text="Items Cart" />
 
                 <View
                     android:id="@+id/cart_header_line"
@@ -204,14 +199,14 @@
 
 
     <LinearLayout
-        android:id="@+id/linearLayout4"
+        android:id="@+id/cart_bottom_buttons"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:layout_alignParentBottom="true"
         android:background="@color/colorAccent"
         android:gravity="center"
         android:orientation="horizontal"
-        android:paddingTop="1dp">
+        android:paddingTop="0.5dp">
 
         <LinearLayout
             android:id="@+id/act_cart_btn_clear_cart"
@@ -231,7 +226,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="Clear Cart"
-                android:textColor="@color/grey_800"
+                android:textAllCaps="true"
+                android:textColor="@color/colorAccent"
                 android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -255,6 +251,7 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:text="Checkout"
+                android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold" />

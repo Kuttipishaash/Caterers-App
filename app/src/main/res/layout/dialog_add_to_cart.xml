@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/overlay_dark_50">
+    android:background="@color/overlay_dark_60">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -124,7 +124,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="@string/stock_placeholder"
-                            android:textColor="@color/grey_800"
+                            android:textColor="@color/red_500"
                             android:textSize="22sp" />
                     </LinearLayout>
 
@@ -233,7 +233,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/spacing_large"
                 android:layout_marginEnd="@dimen/spacing_xlarge"
-                app:backgroundTint="@color/grey_600"
+                app:backgroundTint="@color/grey_800"
                 app:elevation="2dp"
                 app:fabSize="normal"
                 app:srcCompat="@drawable/ic_close" />

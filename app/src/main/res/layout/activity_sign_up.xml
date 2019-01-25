@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/title_gradient"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="@dimen/title_padding">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -42,9 +42,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:text="Sign Up"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                    android:textColor="@color/white"
-                    android:textStyle="bold" />
+                    style="@style/ActivityHeaderTextViewWhite"/>
 
                 <View
                     android:layout_width="55dp"

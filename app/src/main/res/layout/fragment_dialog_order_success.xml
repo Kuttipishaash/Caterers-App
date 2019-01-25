@@ -102,6 +102,7 @@
                             android:text="@string/date_placeholder"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
                             android:textColor="@color/grey_900"
+                            android:textSize="20sp"
                             android:textStyle="bold" />
 
                         <View
@@ -117,6 +118,7 @@
                             android:text="@string/time_placeholder"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
                             android:textColor="@color/grey_900"
+                            android:textSize="20sp"
                             android:textStyle="bold" />
 
                     </LinearLayout>
@@ -153,6 +155,7 @@
                             android:text="@string/name_placeholder"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
                             android:textColor="@color/grey_900"
+                            android:textSize="20sp"
                             android:textStyle="bold" />
 
                         <!--<TextView-->
@@ -180,12 +183,12 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:padding="@dimen/spacing_middle"
-                    android:weightSum="1">
+                    android:weightSum="2">
 
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="1.5"
                         android:orientation="vertical">
 
                         <TextView
@@ -201,12 +204,46 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical"
-                            android:text="5"
+                            android:text="#"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
                             android:textColor="@color/grey_900"
+                            android:textSize="20sp"
                             android:textStyle="bold" />
 
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/order_suc_call_vendor"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:orientation="vertical">
+
+
+                        <ImageButton
+
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="0.5"
+                            android:background="@color/transparent"
+                            android:contentDescription="Call Vendor"
+                            android:gravity="center_vertical"
+                            android:src="@drawable/ic_phone"
+                            android:textAlignment="center"
+                            android:textColor="@color/grey_40"
+                            android:tint="@color/green_500" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="@dimen/spacing_medium"
+                            android:text="Call Vendor"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                            android:textColor="@color/grey_40" />
+                    </LinearLayout>
+
 
                 </LinearLayout>
 
@@ -217,7 +254,7 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:padding="@dimen/spacing_middle"
-                    android:weightSum="5">
+                    android:weightSum="3">
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -241,6 +278,7 @@
                             android:text="@string/amount_placeholder"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
                             android:textColor="@color/green_500"
+                            android:textSize="22sp"
                             android:textStyle="bold" />
 
                     </LinearLayout>
@@ -250,23 +288,13 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_weight="2"
+                        android:layout_weight="1"
+
                         android:gravity="center_vertical"
                         android:text="View Order"
                         android:textAlignment="center"
                         android:textColor="@color/grey_40" />
 
-                    <ImageButton
-                        android:id="@+id/order_suc_call_vendor"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:contentDescription="Call Vendor"
-                        android:src="@drawable/ic_phone"
-                        android:textAlignment="center"
-                        android:textColor="@color/grey_40" />
 
                 </LinearLayout>
             </LinearLayout>

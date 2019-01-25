@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.caterassist.app.R;
@@ -33,7 +33,7 @@ public class DialogOrderSuccess extends DialogFragment implements View.OnClickLi
     private TextView orderItemCountTxtView;
     private TextView orderTotalAmtTxtView;
     private Button viewOrderBtn;
-    private ImageButton callVendorBtn;
+    private LinearLayout callVendorBtn;
     private FloatingActionButton dismissButton;
 
     private OrderDetails orderDetails;
@@ -61,8 +61,9 @@ public class DialogOrderSuccess extends DialogFragment implements View.OnClickLi
         orderDateTxtView.setText(timestamp[0]);
         orderTimeTxtView.setText(timestamp[1]);
         vendorNameTxtView.setText(orderDetails.getVendorName());
+        String amount = "₹" + String.valueOf(orderDetails.getOrderTotalAmount());
         orderItemCountTxtView.setText(String.valueOf(itemCount));
-        orderTotalAmtTxtView.setText(String.valueOf(orderDetails.getOrderTotalAmount()));
+        orderTotalAmtTxtView.setText(amount);
     }
 
     private void initViews() {

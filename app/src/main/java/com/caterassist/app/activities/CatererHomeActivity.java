@@ -74,7 +74,7 @@ public class CatererHomeActivity extends FragmentActivity implements View.OnClic
     private ImageView viewProfileFab;
     private TextView profileName;
     private TextView profileLocation;
-    private TextView noFavouritesTxtView;
+    private View noFavouritesFrag;
     private TextView noVendorsTxtView;
 
 
@@ -309,9 +309,9 @@ public class CatererHomeActivity extends FragmentActivity implements View.OnClic
     private void checkFavouritesEmpty() {
         if (favouriteVendorArrayList.size() > 0) {
             favouriteVendorsRecyclerView.setVisibility(VISIBLE);
-            noFavouritesTxtView.setVisibility(GONE);
+            noFavouritesFrag.setVisibility(GONE);
         } else {
-            noFavouritesTxtView.setVisibility(VISIBLE);
+            noFavouritesFrag.setVisibility(VISIBLE);
             favouriteVendorsRecyclerView.setVisibility(GONE);
         }
     }
@@ -328,8 +328,8 @@ public class CatererHomeActivity extends FragmentActivity implements View.OnClic
         viewProfileFab = findViewById(R.id.cater_view_profile);
         profileName = findViewById(R.id.cater_home_name);
         profileLocation = findViewById(R.id.cater_home_location);
-        noFavouritesTxtView = findViewById(R.id.frag_cate_dash_fav_vendors_nothing);
-        noFavouritesTxtView.setVisibility(View.GONE);
+        noFavouritesFrag = findViewById(R.id.frag_cate_dash_fav_vendors_nothing);
+        noFavouritesFrag.setVisibility(View.GONE);
         noVendorsTxtView = findViewById(R.id.frag_cate_dash_vendors_nothing);
         noVendorsTxtView.setVisibility(View.GONE);
 

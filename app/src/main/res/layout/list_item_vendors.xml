@@ -81,8 +81,23 @@
                 android:layout_weight="1"
                 android:background="@color/transparent"
                 android:padding="16dp"
-                android:src="@drawable/ic_favorite"
+                android:src="@drawable/ic_favorite_border"
                 android:tint="@color/red_700" />
+
+            <!--<com.like.LikeButton-->
+            <!--android:id="@+id/li_vendor_add_favourite"-->
+            <!--android:layout_width="50dp"-->
+            <!--android:layout_height="50dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@color/transparent"-->
+            <!--app:anim_scale_factor="2"-->
+            <!--app:circle_end_color="@color/colorAccent"-->
+            <!--app:circle_start_color="@color/colorPrimary"-->
+            <!--app:dots_primary_color="@color/colorAccent"-->
+            <!--app:dots_secondary_color="@color/colorPrimary"-->
+            <!--app:icon_size="18dp"-->
+            <!--app:icon_type="heart"-->
+            <!--app:liked="true"/>-->
         </LinearLayout>
     </LinearLayout>
 

@@ -57,7 +57,7 @@
             android:layout_alignParentBottom="true"
             android:layout_toEndOf="@id/li_item_vend_item_image"
             android:text="xx units"
-            android:textColor="@color/grey_900"
+            android:textColor="@color/red_500"
             android:textSize="19sp"
             android:textStyle="bold" />
 
@@ -67,15 +67,15 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:gravity="center_horizontal"
-            android:weightSum="2"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:weightSum="2">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_above="@id/li_item_vend_item_add_to_cart"
                 android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -87,16 +87,16 @@
                     android:text="XX"
                     android:textAlignment="center"
                     android:textColor="@color/green_500"
-                    android:textSize="20sp"
+                    android:textSize="22sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/li_item_vend_item_rate_unit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/spacing_medium"
                     android:gravity="center"
                     android:text="₹/Unit"
-                    android:layout_marginLeft="@dimen/spacing_medium"
                     android:textAlignment="center"
                     android:textSize="15sp" />
             </LinearLayout>
@@ -107,8 +107,8 @@
                 style="@style/Rounded_Button_Accent"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:orientation="horizontal"
                 android:layout_weight="1"
+                android:orientation="horizontal"
                 android:paddingStart="15dp"
                 android:paddingEnd="15dp">
 
@@ -116,11 +116,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Add to Cart"
+                    android:textAllCaps="true"
                     android:textColor="@color/white" />
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_marginStart="8dp"
                     android:src="@drawable/ic_add_to_cart"
                     android:tint="@color/white" />

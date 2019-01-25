@@ -97,5 +97,12 @@
         <item name="android:textSize">12sp</item>
     </style>
 
+    <style name="ActivityHeaderTextViewWhite">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Headline</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
 
 </resources>

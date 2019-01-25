@@ -95,7 +95,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="XX unit"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@color/red_500"
                     android:textSize="19sp" />
 
             </LinearLayout>
@@ -114,7 +114,7 @@
         android:layout_alignParentEnd="true"
         android:background="@color/transparent"
         android:clickable="true"
-        android:src="@drawable/ic_close"
+        android:src="@drawable/ic_delete"
         android:tint="@color/grey_700" />
 
     <ImageButton

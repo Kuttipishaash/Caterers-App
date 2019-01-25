@@ -89,8 +89,8 @@
                             android:foreground="?attr/selectableItemBackgroundBorderless"
                             android:src="@drawable/placeholder"
                             app:civ_border="true"
-                            app:civ_border_color="@color/colorAccent"
-                            app:civ_border_width="1dp" />
+                            app:civ_border_color="@color/grey_5"
+                            app:civ_border_width="0.5dp" />
                     </RelativeLayout>
 
                 </androidx.appcompat.widget.Toolbar>
@@ -293,20 +293,23 @@
                                     android:layout_height="wrap_content"
                                     android:nestedScrollingEnabled="false"
                                     android:orientation="horizontal"
-                                    android:scrollbars="horizontal" />
+                                    android:scrollbars="none" />
 
-                                <TextView
+                                <!--<TextView-->
+                                <!--android:id="@+id/frag_cate_dash_fav_vendors_nothing"-->
+                                <!--android:layout_width="match_parent"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:paddingLeft="16dp"-->
+                                <!--android:paddingTop="64dp"-->
+                                <!--android:paddingRight="16dp"-->
+                                <!--android:paddingBottom="64dp"-->
+                                <!--android:text="No favourites"-->
+                                <!--android:textAlignment="center"-->
+                                <!--android:textColor="@color/design_default_color_primary_dark"-->
+                                <!--android:textStyle="italic" />-->
+                                <include
                                     android:id="@+id/frag_cate_dash_fav_vendors_nothing"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:paddingLeft="16dp"
-                                    android:paddingTop="64dp"
-                                    android:paddingRight="16dp"
-                                    android:paddingBottom="64dp"
-                                    android:text="No favourites"
-                                    android:textAlignment="center"
-                                    android:textColor="@color/design_default_color_primary_dark"
-                                    android:textStyle="italic" />
+                                    layout="@layout/include_no_item_page_favorites" />
                             </LinearLayout>
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
@@ -361,11 +364,11 @@
                                     <!--app:srcCompat="@drawable/ic_add" />-->
                                     <!--TODO: implement sorting feature later-->
                                     <ImageButton
-                                        android:visibility="gone"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:background="@color/transparent"
-                                        android:src="@drawable/ic_sort" />
+                                        android:src="@drawable/ic_sort"
+                                        android:visibility="gone" />
 
                                     <View
                                         android:layout_width="@dimen/spacing_large"
@@ -423,7 +426,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:backgroundTint="@color/colorPrimary"
+        app:backgroundTint="@color/colorPrimaryDark"
+        android:background="@drawable/gradient_horizontal_button"
         app:hideOnScroll="true"
         app:navigationIcon="@drawable/ic_menu" />
 

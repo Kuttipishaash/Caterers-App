@@ -74,6 +74,8 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
     private Handler handler;
     private Runnable runnable;
 
+    private LinearLayout bottomButtons;
+
     private TextView vendorNameTextView, totalAmountTextView, noOfItemTextView;
 
     @Override
@@ -230,9 +232,11 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
             includeView.setVisibility(View.VISIBLE);
             cartItemsRecyclerView.setVisibility(View.GONE);
             cartInfoParent.setVisibility(View.GONE);
+            bottomButtons.setVisibility(View.GONE);
         } else {
             includeView.setVisibility(View.GONE);
             cartInfoParent.setVisibility(View.VISIBLE);
+            bottomButtons.setVisibility(View.VISIBLE);
             cartItemsRecyclerView.setVisibility(View.VISIBLE);
         }
     }
@@ -242,6 +246,8 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
         includeView = findViewById(R.id.include_cart_empty);
         includeView.setVisibility(View.GONE);
         cartInfoParent = findViewById(R.id.cart_order_info_parent);
+        bottomButtons = findViewById(R.id.cart_bottom_buttons);
+        bottomButtons.setVisibility(View.GONE);
         cartInfoParent.setVisibility(View.GONE);
         cartItemsRecyclerView = findViewById(R.id.act_cart_recyc_cart_items);
         checkoutButton = findViewById(R.id.act_cart_btn_checkout);
@@ -498,7 +504,7 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
                 "            <p style=\'border: 0; box-sizing: content-box; color: inherit; font-family: inherit; font-size: inherit; font-style: inherit; font-weight: inherit; line-height: inherit; list-style: none; padding: 0; text-decoration: none; vertical-align: top; margin: 0 0 0.25em;\'>(91) 555-1234</p>" +
                 "        </address>" +
                 "        <span style=\'border: 0; box-sizing: content-box; color: inherit; font-family: inherit; font-size: inherit; font-style: inherit; font-weight: inherit; line-height: inherit; list-style: none; padding: 0; text-decoration: none; vertical-align: top; display: block; float: right; margin: 0 0 1em 1em; max-height: 25%; max-width: 60%; position: relative;\'>" +
-                "            <h1 style=\'border: 0; box-sizing: content-box; font-family: inherit; font-size: inherit; font-style: inherit; font-weight: inherit; line-height: inherit; list-style: none; text-decoration: none; vertical-align: top; font: bold 100% sans-serif; letter-spacing: 0.5em; text-transform: uppercase; background: darkgrey; border-radius: 0.25em; color: #FFF; margin: 0 0 1em; text-align: center; padding: 0.5em 0.5em;\'>" + orderDetails.getCatererName() + "</h1>" +
+                "            <h1 style=\'border: 0; box-sizing: content-box; font-family: inherit; font-size: inherit; font-style: inherit; font-weight: inherit; line-height: inherit; list-style: none; text-decoration: none; vertical-align: top; font: bold 100% sans-serif; letter-spacing: 0.5em; text-transform: uppercase; background: darkgrey; border-radius: 0.25em; color: #FFF; margin: 0 0 1em; text-align: center; padding: 0.5em 0.5em;\'>" + orderDetails.getVendorName() + "</h1>" +
                 "        </span>" +
                 "    </header>" +
                 "" +

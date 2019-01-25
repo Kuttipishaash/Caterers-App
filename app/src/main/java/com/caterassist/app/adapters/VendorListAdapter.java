@@ -15,7 +15,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 import com.caterassist.app.R;
 import com.caterassist.app.activities.ViewVendorItemsActivity;
@@ -33,9 +32,6 @@ import java.util.ArrayList;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import es.dmoral.toasty.Toasty;
-
-import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.with;
-import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
 public class VendorListAdapter extends RecyclerView.Adapter<VendorListAdapter.ViewHolder> implements Filterable {
     private ArrayList<UserDetails> vendorsList;
@@ -149,11 +145,14 @@ public class VendorListAdapter extends RecyclerView.Adapter<VendorListAdapter.Vi
                 Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phoneNumber));
                 itemView.getContext().startActivity(callIntent);
             } else if (v.getId() == R.id.li_vendor_add_favourite) {
+                addFavouriteButton.setImageResource(R.drawable.ic_favorite);
+                addFavouriteButton.setMinimumWidth(40);
+                addFavouriteButton.setMinimumHeight(40);
                 String databasePath = FirebaseUtils.getDatabaseMainBranchName() + FirebaseUtils.FAVOURITE_VENDORS_BRANCH_NAME + FirebaseAuth.getInstance().getUid();
                 DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(databasePath);
                 databaseReference.child(filteredVendorsList.get(getAdapterPosition()).getUserID()).setValue(filteredVendorsList.get(getAdapterPosition()))
                         .addOnSuccessListener(aVoid -> Toasty.success(itemView.getContext(), "Added to favourites.").show())
-                        .addOnFailureListener(e -> Toasty.success(itemView.getContext(), "Couldn't add vendor to favourites").show());
+                        .addOnFailureListener(e -> Toasty.error(itemView.getContext(), "Couldn't add vendor to favourites").show());
             }
         }
     }

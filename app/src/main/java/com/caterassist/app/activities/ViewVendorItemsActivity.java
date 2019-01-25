@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -59,6 +60,7 @@ public class ViewVendorItemsActivity extends AppCompatActivity implements View.O
     private LinearLayout emailVendorImageBtn;
     private LinearLayout callVendorImageBtn;
     private LinearLayout addToFavoutitesImageBtn;
+    private ImageButton addToFavoutitesIcon;
     private ImageView vendorImageView;
     private TextView vendorNameTextView;
     private TextView vendorAddressTextView;
@@ -230,6 +232,7 @@ public class ViewVendorItemsActivity extends AppCompatActivity implements View.O
         toolbar = findViewById(R.id.vendor_items_toolbar);
 
         addToFavoutitesImageBtn = findViewById(R.id.act_vendor_add_to_fav);
+        addToFavoutitesIcon = findViewById(R.id.add_fav_icon);
         callVendorImageBtn = findViewById(R.id.act_vendor_call_vendor);
         emailVendorImageBtn = findViewById(R.id.act_vendor_mail_vendor);
         vendorImageView = findViewById(R.id.act_vendor_list_vendor_image);
@@ -242,12 +245,11 @@ public class ViewVendorItemsActivity extends AppCompatActivity implements View.O
     }
 
 
-
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.act_vendor_add_to_fav:
+                addToFavoutitesIcon.setImageResource(R.drawable.ic_favorite);
                 addVendorToFavourites();
                 break;
             case R.id.act_vendor_call_vendor:
