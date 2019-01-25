@@ -7,12 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.caterassist.app.R;
+import com.caterassist.app.activities.CatererProfileActivity;
 import com.caterassist.app.activities.OrderDetailsActivity;
 import com.caterassist.app.models.OrderDetails;
 import com.caterassist.app.utils.Constants;
@@ -113,6 +115,8 @@ public class VendorPendingOrdersAdapter extends RecyclerView.Adapter<VendorPendi
         TextView caterLocation;
         Button updateStatusBtn;
         Button rejectOrderBtn;
+        ImageButton deleteOrderBtn;
+        ImageButton viewCatererBtn;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -127,11 +131,15 @@ public class VendorPendingOrdersAdapter extends RecyclerView.Adapter<VendorPendi
             rejectOrderBtn = itemView.findViewById(R.id.li_caterer_order_reject);
             caterLocation = itemView.findViewById(R.id.li_caterer_order_info_vendor_location);
             caterProfileImage = itemView.findViewById(R.id.li_caterer_order_info_image_view);
-
+            deleteOrderBtn = itemView.findViewById(R.id.li_caterer_order_info_delete);
+            viewCatererBtn = itemView.findViewById(R.id.li_caterer_order_info_view_vendor);
 
             parentLayout.setOnClickListener(this);
             updateStatusBtn.setOnClickListener(this);
             rejectOrderBtn.setOnClickListener(this);
+            viewCatererBtn.setOnClickListener(this);
+
+            deleteOrderBtn.setVisibility(View.GONE);
         }
 
         @Override
@@ -146,6 +154,10 @@ public class VendorPendingOrdersAdapter extends RecyclerView.Adapter<VendorPendi
                 updateOrderStatus();
             } else if (v.getId() == rejectOrderBtn.getId()) {
                 rejectOrder();
+            } else if (v.getId() == viewCatererBtn.getId()) {
+                Intent viewCatererIntent = new Intent(itemView.getContext(), CatererProfileActivity.class);
+                viewCatererIntent.putExtra(Constants.IntentExtrasKeys.USER_ID, orderDetailsArrayList.get(getAdapterPosition()).getCatererID());
+                itemView.getContext().startActivity(viewCatererIntent);
             }
         }
 
@@ -164,45 +176,6 @@ public class VendorPendingOrdersAdapter extends RecyclerView.Adapter<VendorPendi
                             + "\nOrdered by: " + orderDetails.getCatererName()
                             + "\nOn: " + orderDetails.getOrderTime())
                     .setPositiveButton(android.R.string.yes, (dialog, which) -> {
-//                        String orderID = orderDetails.getOrderId();
-//                        String vendorOrderDatabasePath = FirebaseUtils.getDatabaseMainBranchName() +
-//                                FirebaseUtils.VENDOR_PENDING_ORDERS +
-//                                orderDetails.getVendorId()
-//                                + "/" + orderID;
-//                        String catererOrderDatabasePath = FirebaseUtils.getDatabaseMainBranchName() +
-//                                FirebaseUtils.ORDERS_CATERER_BRANCH +
-//                                orderDetails.getCatererID()
-//                                + "/" + orderID ;
-//                        String pendingOrdersCountDatabasePath = FirebaseUtils.getDatabaseMainBranchName() + FirebaseUtils.ORDERS_AWAITING_APPROVAL
-//                                + orderDetails.getVendorId();
-//                        DatabaseReference vendorDatabaseReference = FirebaseDatabase.getInstance().getReference(vendorOrderDatabasePath);
-//                        vendorDatabaseReference.setValue(null)
-//                                .addOnSuccessListener(aVoid -> {
-//                                    DatabaseReference catererDatabaseReference = FirebaseDatabase.getInstance().getReference(catererOrderDatabasePath);
-//                                    catererDatabaseReference.setValue(null)
-//                                            .addOnSuccessListener(aVoid1 -> {
-//                                                DatabaseReference pendingOrdersCountReference = FirebaseDatabase.getInstance().getReference(pendingOrdersCountDatabasePath);
-//                                                pendingOrdersCountReference.addListenerForSingleValueEvent(new ValueEventListener() {
-//                                                    @Override
-//                                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                                                        Integer x = dataSnapshot.getValue(Integer.class);
-//                                                        if(x != null){
-//                                                            int y = x.intValue();
-//                                                            if(y > 0)
-//                                                                y--;
-//                                                            pendingOrdersCountReference.setValue(y)
-//                                                                    .addOnSuccessListener(aVoid2 -> Toasty.info(itemView.getContext(), "Order rejected", Toast.LENGTH_SHORT).show())
-//                                                                    .addOnFailureListener(e -> Toasty.error(itemView.getContext(), "Order rejection failed!", Toast.LENGTH_SHORT).show());
-//                                                        }
-//                                                    }
-//
-//                                                    @Override
-//                                                    public void onCancelled(@NonNull DatabaseError databaseError) {
-//                                                        Toasty.error(itemView.getContext(), "Order rejection failed!", Toast.LENGTH_SHORT).show();
-//                                                    }
-//                                                });
-//                                                Toasty.info(itemView.getContext(), "Order rejected", Toast.LENGTH_SHORT).show();
-
                         rejectOrder(orderDetails.getCatererID(), orderDetails.getVendorName(), orderDetails.getOrderId(), orderDetails.getVendorId())
                                 .addOnCompleteListener(task -> {
                                     if (!task.isSuccessful()) {
@@ -220,10 +193,6 @@ public class VendorPendingOrdersAdapter extends RecyclerView.Adapter<VendorPendi
                                         Toasty.info(itemView.getContext(), "Order will be rejected", Toast.LENGTH_SHORT).show();
                                     }
                                 });
-//                                            })
-//                                            .addOnFailureListener(e -> Toasty.error(itemView.getContext(), "Order rejection failed!", Toast.LENGTH_SHORT).show());
-//                                })
-//                                .addOnFailureListener(e -> Toasty.error(itemView.getContext(), "Order rejection failed!", Toast.LENGTH_SHORT).show());
                     })
                     .setNegativeButton(android.R.string.no, (dialog, which) -> dialog.dismiss())
                     .show();

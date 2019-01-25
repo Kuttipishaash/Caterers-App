@@ -8,7 +8,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -30,6 +29,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import androidx.annotation.NonNull;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import es.dmoral.toasty.Toasty;
 
 public class CatererProfileActivity extends Activity implements View.OnClickListener {
@@ -43,7 +43,7 @@ public class CatererProfileActivity extends Activity implements View.OnClickList
     private TextView addressLine2TxtView;
     private LinearLayout callButton;
     private LinearLayout emailButton;
-    private LinearLayout parentLayout;
+    private CoordinatorLayout parentLayout;
 
     private LoadingDialog loadingDialog;
     private Handler handler;
@@ -144,7 +144,7 @@ public class CatererProfileActivity extends Activity implements View.OnClickList
         addressLine2TxtView = findViewById(R.id.act_user_prof_address_2);
         callButton = findViewById(R.id.act_user_prof_call_btn);
         emailButton = findViewById(R.id.act_user_prof_email);
-        parentLayout = findViewById(R.id.act_user_prof_parent_layout);
+        parentLayout = findViewById(R.id.act_user_prof_parent_layout_caterer);
 
         //TODO: initialize error layout
         parentLayout.setVisibility(View.GONE);
