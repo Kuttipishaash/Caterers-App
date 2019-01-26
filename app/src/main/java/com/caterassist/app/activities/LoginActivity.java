@@ -3,7 +3,9 @@ package com.caterassist.app.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -134,6 +136,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         termsCondTextView = findViewById(R.id.act_login_terms_conditions);
         forgotPasswordTextView = findViewById(R.id.act_login_forgot_password);
         sharedPreferences = getSharedPreferences(Constants.SharedPref.PREF_FILE, MODE_PRIVATE);
+        passwordEdtTxt.setTypeface(Typeface.DEFAULT);
+        passwordEdtTxt.setTransformationMethod(new PasswordTransformationMethod());
 
     }
 
