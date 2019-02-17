@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:fillViewport="true"
-    tools:context=".activities.PendingOrdersActivity">
+    tools:context=".activities.VendorPendingOrdersActivity">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -47,7 +47,7 @@
 
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/act_pending_orders_recyc_view"
+            android:id="@+id/act_vend_pending_orders_recyc_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

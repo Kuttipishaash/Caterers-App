@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -85,11 +84,6 @@ public class HistoryOrderInfoAdapter extends RecyclerView.Adapter<HistoryOrderIn
         }
 
         holder.orderTotalAmtTxtView.setText("₹" + String.valueOf(orderDetails.getOrderTotalAmount()));
-        //TODO: Set a notification dot for the order with extra notes.
-        if (orderDetails.getExtraNotes() != null && !orderDetails.getExtraNotes().equals("")) {
-//            holder.extraNotesLayout.setVisibility(View.VISIBLE);
-//            holder.extraNotesTxtView.setText(orderDetails.getExtraNotes());
-        }
     }
 
     @Override
@@ -107,8 +101,6 @@ public class HistoryOrderInfoAdapter extends RecyclerView.Adapter<HistoryOrderIn
         TextView nameTxtView;
         TextView orderTotalAmtTxtView;
         ImageView deleteOrderImageView;
-        LinearLayout extraNotesLayout;
-        TextView extraNotesTxtView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -121,8 +113,6 @@ public class HistoryOrderInfoAdapter extends RecyclerView.Adapter<HistoryOrderIn
             orderTimeStampTimeTxtView = itemView.findViewById(R.id.li_history_order_info_timestamp_time);
             orderTotalAmtTxtView = itemView.findViewById(R.id.li_history_order_info_order_total);
             deleteOrderImageView = itemView.findViewById(R.id.li_history_order_info_delete_btn);
-//            extraNotesLayout = itemView.findViewById(R.id.li_order_info_extra_notes_layout);
-//            extraNotesTxtView = itemView.findViewById(R.id.li_order_info_extra_notes);
 
             parentLayout.setOnClickListener(this);
             deleteOrderImageView.setOnClickListener(this);

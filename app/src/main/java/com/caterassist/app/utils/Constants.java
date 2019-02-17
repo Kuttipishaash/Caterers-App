@@ -35,6 +35,6 @@ public class Constants {
     }
 
     public static class UtilConstants {
-        public static final int LOADING_TIMEOUT = 10000; // 3 Seconds
+        public static final int LOADING_TIMEOUT = 3000; // 3 Seconds
     }
 }
