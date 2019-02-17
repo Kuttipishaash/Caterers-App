@@ -35,8 +35,8 @@ import es.dmoral.toasty.Toasty;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
-public class VendorPendingOrdersActivity extends Activity implements View.OnClickListener {
-    private static final String TAG = "VendorNewOrders";
+public class PendingOrdersActivity extends Activity implements View.OnClickListener {
+    private static final String TAG = "PendingOrders";
     Query query;
     ChildEventListener childEventListener;
     private ArrayList<OrderDetails> orderDetailsArrayList;
@@ -52,11 +52,11 @@ public class VendorPendingOrdersActivity extends Activity implements View.OnClic
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_vendor_pending_orders);
+        setContentView(R.layout.activity_pending_orders);
         noItemsView = findViewById(R.id.error_pending_orders_list_empty);
         dashboardLinkBtn = findViewById(R.id.no_dash);
         dashboardLinkBtn.setOnClickListener(this);
-        pendingOrdersRecycView = findViewById(R.id.act_vend_pending_orders_recyc_view);
+        pendingOrdersRecycView = findViewById(R.id.act_pending_orders_recyc_view);
         loadingDialog = new LoadingDialog(this, "Loading orders...");
         loadingDialog.show();
         handler = new Handler();
@@ -64,7 +64,7 @@ public class VendorPendingOrdersActivity extends Activity implements View.OnClic
             if (loadingDialog != null)
                 if (loadingDialog.isShowing()) {
                     loadingDialog.dismiss();
-                    Toast.makeText(VendorPendingOrdersActivity.this,
+                    Toast.makeText(PendingOrdersActivity.this,
                             "Please check your internet connection and try again!",
                             Toast.LENGTH_SHORT).show();
                     checkOrderEmpty();
@@ -155,7 +155,7 @@ public class VendorPendingOrdersActivity extends Activity implements View.OnClic
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.w(TAG, "postComments:onCancelled", databaseError.toException());
-                Toasty.error(VendorPendingOrdersActivity.this, "Failed to load pending orders.",
+                Toasty.error(PendingOrdersActivity.this, "Failed to load pending orders.",
                         Toast.LENGTH_SHORT).show();
             }
         };

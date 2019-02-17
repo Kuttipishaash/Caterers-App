@@ -5,18 +5,19 @@ import com.google.firebase.database.Exclude;
 import java.io.Serializable;
 
 public class OrderDetails implements Serializable {
-    String orderId;
-    String vendorId;
-    String catererID;
-    String vendorPhone;
-    String catererPhone;
-    String vendorName;
-    String catererName;
-    String vendorEmail;
-    String catererEmail;
-    int orderStatus;
-    String orderTime;
-    double orderTotalAmount;
+    private String orderId;
+    private String vendorId;
+    private String catererID;
+    private String vendorPhone;
+    private String catererPhone;
+    private String vendorName;
+    private String catererName;
+    private String vendorEmail;
+    private String catererEmail;
+    private int orderStatus;
+    private String orderTime;
+    private double orderTotalAmount;
+    private String extraNotes;
 
     @Exclude
     public String getOrderId() {
@@ -114,5 +115,13 @@ public class OrderDetails implements Serializable {
 
     public void setCatererEmail(String catererEmail) {
         this.catererEmail = catererEmail;
+    }
+
+    public String getExtraNotes() {
+        return extraNotes;
+    }
+
+    public void setExtraNotes(String extraNotes) {
+        this.extraNotes = extraNotes;
     }
 }

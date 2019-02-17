@@ -96,6 +96,10 @@ public class VendorPendingOrdersAdapter extends RecyclerView.Adapter<VendorPendi
         }
         holder.updateStatusBtn.setText(buttonText);
         holder.orderStatusTxtView.setText(statusText);
+        if (orderDetails.getExtraNotes() != null && !orderDetails.getExtraNotes().equals("")) {
+            holder.extraNotesLayout.setVisibility(View.VISIBLE);
+            holder.extraNotesTxtView.setText(orderDetails.getExtraNotes());
+        }
     }
 
     @Override
@@ -110,6 +114,7 @@ public class VendorPendingOrdersAdapter extends RecyclerView.Adapter<VendorPendi
         TextView orderTimeStampTxtView;
         TextView orderTimeStampTimeTxtView;
         TextView vendorNameTxtView;
+        TextView extraNotesTxtView;
         TextView orderTotalAmtTxtView;
         ImageView caterProfileImage;
         TextView caterLocation;
@@ -117,6 +122,7 @@ public class VendorPendingOrdersAdapter extends RecyclerView.Adapter<VendorPendi
         Button rejectOrderBtn;
         ImageButton deleteOrderBtn;
         ImageButton viewCatererBtn;
+        LinearLayout extraNotesLayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -124,6 +130,8 @@ public class VendorPendingOrdersAdapter extends RecyclerView.Adapter<VendorPendi
             orderIDTxtView = itemView.findViewById(R.id.li_caterer_order_info_id);
             orderStatusTxtView = itemView.findViewById(R.id.li_caterer_order_info_status);
             vendorNameTxtView = itemView.findViewById(R.id.li_caterer_order_info_vendor_name);
+            extraNotesTxtView = itemView.findViewById(R.id.li_order_info_extra_notes);
+            extraNotesLayout = itemView.findViewById(R.id.li_order_info_extra_notes_layout);
             orderTimeStampTxtView = itemView.findViewById(R.id.li_caterer_order_info_timestamp);
             orderTimeStampTimeTxtView = itemView.findViewById(R.id.li_caterer_order_info_timestamp_time);
             orderTotalAmtTxtView = itemView.findViewById(R.id.li_caterer_order_info_order_total);

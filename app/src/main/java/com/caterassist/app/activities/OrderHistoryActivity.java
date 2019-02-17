@@ -135,7 +135,11 @@ public class OrderHistoryActivity extends Activity implements View.OnClickListen
                 for (int i = 0; i < orderDetailsArrayList.size(); i++) {
                     if (orderDetailsArrayList.get(i).getOrderId().equals(orderKey)) {
                         orderDetailsArrayList.remove(i);
-                        orderDetails.setOrderId(dataSnapshot.getKey());
+                        if (orderDetails != null) {
+                            orderDetails.setOrderId(dataSnapshot.getKey());
+                        } else {
+                            Log.e(TAG, "onChildChanged: orderDetails object is null");
+                        }
                         orderDetailsArrayList.add(i, orderDetails);
                         historyOrderInfoAdapter.notifyDataSetChanged();
                         break;

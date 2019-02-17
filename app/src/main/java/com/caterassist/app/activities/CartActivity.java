@@ -56,7 +56,6 @@ import es.dmoral.toasty.Toasty;
 public class CartActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "CartActivity";
-
     private DatabaseReference cartItemsReference;
     private ChildEventListener cartItemsEventListener;
     private ArrayList<CartItem> cartItemsArrayList;
@@ -64,7 +63,6 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
     private LinearLayoutManager cartItemsLayoutManager;
     private CartAdapter cartItemsAdapter;
     private UserDetails vendorDetails;
-
     private RecyclerView cartItemsRecyclerView;
     private LinearLayout checkoutButton;
     private LinearLayout clearCartButton;
@@ -74,10 +72,9 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
     private LoadingDialog loadingDialog;
     private Handler handler;
     private Runnable runnable;
-
     private LinearLayout bottomButtons;
+    private TextView vendorNameTextView, totalAmountTextView, noOfItemTextView, extraNotesTxtView;
 
-    private TextView vendorNameTextView, totalAmountTextView, noOfItemTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -258,6 +255,7 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
         vendorNameTextView = findViewById(R.id.li_cart_vend_name);
         totalAmountTextView = findViewById(R.id.li_cart_total);
         noOfItemTextView = findViewById(R.id.li_no_of_items);
+        extraNotesTxtView = findViewById(R.id.act_cart_extra_notes);
 
         cartItemsArrayList = new ArrayList<>();
         checkoutButton.setOnClickListener(this);
@@ -376,18 +374,21 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
                             orderDetails.setVendorId(vendorDetails.getUserID());
                             orderDetails.setCatererID(FirebaseAuth.getInstance().getUid());
                             orderDetails.setOrderStatus(0);
+                            orderDetails.setExtraNotes(extraNotesTxtView.getText().toString());
                             orderDetails.setVendorName(vendorDetails.getUserName());
                             orderDetails.setVendorPhone(vendorDetails.getUserPhone());
                             orderDetails.setVendorEmail(vendorDetails.getUserEmail());
+
                             orderDetails.setOrderTotalAmount(orderTotalAmt);
                             orderDetails.setCatererName(catererDetails.getUserName());
                             orderDetails.setCatererEmail(catererDetails.getUserEmail());
+                            orderDetails.setCatererPhone(catererDetails.getUserPhone());
                             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
                             Date date = new Date();
                             orderDetails.setOrderTime(formatter.format(date));
 
                             String userOrdersItemsDatabasePath = FirebaseUtils.getDatabaseMainBranchName() +
-                                    FirebaseUtils.ORDERS_CATERER_BRANCH +
+                                    FirebaseUtils.CATERER_PENDING_ORDERS +
                                     FirebaseAuth.getInstance().getUid();
                             DatabaseReference checkoutReference = FirebaseDatabase.getInstance().getReference(userOrdersItemsDatabasePath);
                             cartItemsListToMail = new ArrayList<>();

@@ -220,6 +220,61 @@
             android:background="@color/grey_10" />
 
         <LinearLayout
+            android:id="@+id/li_order_info_extra_notes_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Notes for vendor" />
+
+            <TextView
+                android:id="@+id/li_order_info_extra_notes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="No extra notes for this order" />
+
+            <Button
+                android:id="@+id/li_order_info_extra_notes_edit_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="EDIT NOTE"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/li_order_info_extra_notes_edit_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/li_order_info_extra_notes_edit_txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/li_order_info_extra_notes_edit_submit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Set extra notes" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/grey_10" />
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="end"
@@ -251,6 +306,17 @@
                     android:paddingEnd="@dimen/activity_vertical_margin"
                     android:src="@drawable/ic_pageview"
                     android:visibility="visible" />
+
+                <ImageButton
+                    android:id="@+id/li_vendor_new_order_contact_vendor"
+                    android:layout_width="?actionBarSize"
+                    android:layout_height="match_parent"
+                    android:background="@color/transparent"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:paddingStart="@dimen/activity_vertical_margin"
+                    android:paddingEnd="@dimen/activity_vertical_margin"
+                    android:src="@drawable/ic_pageview"
+                    android:visibility="gone" />
             </LinearLayout>
 
 

@@ -114,7 +114,7 @@ public class VendorHomeActivity extends FragmentActivity implements View.OnClick
     }
 
     private void fetchPendingOrders() {
-        String databasePath = FirebaseUtils.getDatabaseMainBranchName() + FirebaseUtils.ORDERS_AWAITING_APPROVAL + FirebaseAuth.getInstance().getUid();
+        String databasePath = FirebaseUtils.getDatabaseMainBranchName() + FirebaseUtils.VENDOR_PENDING_ORDERS_COUNT + FirebaseAuth.getInstance().getUid();
         DatabaseReference awaitingOrdersReference = FirebaseDatabase.getInstance().getReference(databasePath);
         awaitingOrdersReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -268,7 +268,7 @@ public class VendorHomeActivity extends FragmentActivity implements View.OnClick
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.frag_vend_dash_awaiting_orders_fab) {
-            startActivity(new Intent(this, VendorPendingOrdersActivity.class));
+            startActivity(new Intent(this, PendingOrdersActivity.class));
         } else if (v.getId() == R.id.vendor_view_profile) {
             startActivity(new Intent(this, EditProfileActivity.class));
         } else if (v.getId() == R.id.act_home_fab) {

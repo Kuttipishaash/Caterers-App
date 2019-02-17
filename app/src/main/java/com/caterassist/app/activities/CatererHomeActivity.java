@@ -68,10 +68,10 @@ public class CatererHomeActivity extends FragmentActivity implements View.OnClic
     private LinearLayoutManager allVendorsLayoutManager;
     private VendorListAdapter allVendorsAdapter;
     private RecyclerView allVendorsRecyclerView;
-    private FloatingActionButton viewOrderHistoryFAB, viewCartFAB;
+    private FloatingActionButton viewOrderHistoryFAB, viewCartFAB, pendingOrdersFAB;
     private BottomAppBar bottomAppBar;
     private SearchView searchView;
-    private ImageView viewProfileFab;
+    private ImageView viewProfileImageView;
     private TextView profileName;
     private TextView profileLocation;
     private View noFavouritesFrag;
@@ -150,8 +150,8 @@ public class CatererHomeActivity extends FragmentActivity implements View.OnClic
                 Glide.with(CatererHomeActivity.this)
                         .setDefaultRequestOptions(requestOptions)
                         .load(uri)
-                        .into(viewProfileFab);
-            }).addOnFailureListener(exception -> viewProfileFab.setImageResource(R.drawable.ic_error_placeholder));
+                        .into(viewProfileImageView);
+            }).addOnFailureListener(exception -> viewProfileImageView.setImageResource(R.drawable.ic_error_placeholder));
         }
     }
 
@@ -321,10 +321,11 @@ public class CatererHomeActivity extends FragmentActivity implements View.OnClic
         allVendorsRecyclerView = findViewById(R.id.frag_cate_all_vendors);
         viewOrderHistoryFAB = findViewById(R.id.caterer_order_history);
         viewCartFAB = findViewById(R.id.act_caterer_cart);
+        pendingOrdersFAB = findViewById(R.id.caterer_pending_orders);
         favouriteVendorArrayList = new ArrayList<>();
         bottomAppBar = findViewById(R.id.bottom_app_bar_caterer);
 
-        viewProfileFab = findViewById(R.id.cater_view_profile);
+        viewProfileImageView = findViewById(R.id.cater_view_profile);
         profileName = findViewById(R.id.cater_home_name);
         profileLocation = findViewById(R.id.cater_home_location);
         noFavouritesFrag = findViewById(R.id.frag_cate_dash_fav_vendors_nothing);
@@ -332,19 +333,22 @@ public class CatererHomeActivity extends FragmentActivity implements View.OnClic
         noVendorsTxtView = findViewById(R.id.frag_cate_dash_vendors_nothing);
         noVendorsTxtView.setVisibility(View.GONE);
 
-        viewProfileFab.setOnClickListener(this);
+        viewProfileImageView.setOnClickListener(this);
         viewCartFAB.setOnClickListener(this);
         viewOrderHistoryFAB.setOnClickListener(this);
+        pendingOrdersFAB.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == viewProfileFab.getId()) {
+        if (v.getId() == viewProfileImageView.getId()) {
             startActivity(new Intent(this, EditProfileActivity.class));
         } else if (v.getId() == viewCartFAB.getId()) {
             startActivity(new Intent(CatererHomeActivity.this, CartActivity.class));
         } else if (v.getId() == viewOrderHistoryFAB.getId()) {
             startActivity(new Intent(CatererHomeActivity.this, OrderHistoryActivity.class));
+        } else if (v.getId() == pendingOrdersFAB.getId()) {
+            startActivity(new Intent(CatererHomeActivity.this, PendingOrdersActivity.class));
         }
 
     }
