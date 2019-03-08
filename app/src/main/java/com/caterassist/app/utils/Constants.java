@@ -35,6 +35,7 @@ public class Constants {
     }
 
     public static class UtilConstants {
-        public static final int LOADING_TIMEOUT = 3000; // 3 Seconds
+        //TODO : remove listeners after timeout inorder to prevent showing items loaded slowly after 10 secs
+        public static final int LOADING_TIMEOUT = 10000; // 10 Seconds
     }
 }

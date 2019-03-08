@@ -6,7 +6,6 @@ import android.os.Bundle;
 import com.caterassist.app.R;
 
 public class FAQActivity extends Activity {
-    private static final String TAG = "FAQActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -69,6 +69,7 @@ public class BottomNavigationDrawerFragment extends BottomSheetDialogFragment {
         Intent sharingIntent = new Intent(Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
         sharingIntent.putExtra(Intent.EXTRA_TEXT, shareText);
-        getActivity().startActivity(sharingIntent);
+        if (getActivity() != null)
+            getActivity().startActivity(sharingIntent);
     }
 }
