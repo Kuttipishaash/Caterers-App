@@ -36,7 +36,7 @@ import androidx.core.view.ViewCompat;
 import es.dmoral.toasty.Toasty;
 
 public class CatererProfileActivity extends Activity implements View.OnClickListener {
-
+    private static final String TAG = "CatererProfileAct";
     private String userID;
     private UserDetails userDetails;
 
