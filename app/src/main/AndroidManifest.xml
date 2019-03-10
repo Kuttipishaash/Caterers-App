@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.CatererProfileActivity"/>
+        <activity android:name=".activities.FAQActivity"></activity>
+        <activity android:name=".activities.CatererProfileActivity" />
         <activity android:name=".activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,7 +34,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.CartActivity" />
-        <activity android:name=".activities.FAQActivity" />
         <activity android:name=".activities.ContactUsActivity" />
         <activity android:name=".activities.AboutUsActivity" />
         <activity android:name=".activities.SettingsActivity" />
@@ -41,7 +41,7 @@
         <activity android:name=".activities.OrderHistoryActivity" />
         <activity android:name=".activities.AddEditItemActivity" />
         <activity android:name=".activities.SignUpActivity" />
-        <activity android:name=".activities.PendingOrdersActivity" />
+        <activity android:name=".activities.VendorPendingOrdersActivity" />
         <activity android:name=".activities.OrderDetailsActivity" />
         <activity android:name=".activities.EditProfileActivity" />
         <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity" />

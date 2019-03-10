@@ -46,7 +46,8 @@
             </LinearLayout>
 
 
-            <androidx.cardview.widget.CardView
+            <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/cart_summary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -153,19 +154,6 @@
                                 android:text="##"
                                 android:textSize="15sp" />
                         </LinearLayout>
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/item_history_amount">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/act_cart_extra_notes"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:hint="Notes for vendor"
-                                android:text="" />
-                        </com.google.android.material.textfield.TextInputLayout>
 
                     </RelativeLayout>
                 </RelativeLayout>

@@ -216,34 +216,6 @@
                                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                                     android:textColor="@color/grey_40" />
                             </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:gravity="center"
-                                android:orientation="vertical">
-
-                                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                                    android:id="@+id/caterer_pending_orders"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:clickable="true"
-                                    android:tint="@android:color/white"
-                                    app:backgroundTint="@color/yellow_600"
-                                    app:elevation="0dp"
-                                    app:fabSize="mini"
-                                    app:rippleColor="@android:color/white"
-                                    app:srcCompat="@drawable/ic_history" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/spacing_medium"
-                                    android:text="PENDING"
-                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-                                    android:textColor="@color/grey_40" />
-                            </LinearLayout>
                         </LinearLayout>
 
                         <View

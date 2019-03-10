@@ -56,5 +56,17 @@
     <string name="price_placeholder">₹00.00</string>
     <string name="stock_placeholder">00.00</string>
     <string name="item_name_placeholder">ItemName</string>
+    <string name="contact_address">No. 44/1688 F, Second Floor Samskara Junction, Pipeline Road, Palarivattom, Ernakulam, Kerala - 682025</string>
+    <string name="contact_phone">0484-282-4447</string>
+    <string name="about_desc"><![CDATA[Cater Bazar allows you to walk away from the drudgery of bazar shopping and welcome an easy relaxed way of browsing and shopping for groceries and all other cater items. Discover new products and shop for all your bulk grocery & cater needs from the comfort of your home or office. No more getting stuck in traffic jams, paying for parking, standing in long queues and carrying heavy goods – get everything you need, when you need, right at your doorstep.]]></string>
+    <string name="terms_and_conditions_text">While Cater Bazar takes all due care in ensuring the privacy and integrity of the information you provide, the possibility exists that this information could be unlawfully observed by a third party while in transit over the Internet or while stored on Cater Bazar systems. Cater Bazar accepts no liability should this occur.</string>
+    <string name="terms_and_conditions_title">Terms of use</string>
+    <string name="privacy_policy_title">Privacy Policy</string>
+    <string name="privacy_policy_text">Cater Bazar takes the confidentiality of personal data seriously. Any visitors to this App should read the terms of use carefully.</string>
+    <string name="about_title">About Us</string>
+    <string name="contact_us_title">Contact Us</string>
+    <string name="contact_address_title">Address</string>
+    <string name="contact_phone_title">Phone No.</string>
+    <string name="contact_email">abin@icloud.com</string>
 
 </resources>
