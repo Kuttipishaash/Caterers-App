@@ -346,13 +346,10 @@ public class OrderDetailsActivity extends Activity implements View.OnClickListen
                 })
                 .setNegativeButton(android.R.string.no, (dialog, which) -> dialog.dismiss())
                 .show();
-
-
     }
 
     private Task<String> rejectOrder(String catererID, String vendorName, String orderID, String vendorID) {
         // Create the arguments to the callable function.
-
         Map<String, Object> data = new HashMap<>();
         data.put("catererID", catererID);
         data.put("orderID", orderID);

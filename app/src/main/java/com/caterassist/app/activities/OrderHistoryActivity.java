@@ -135,9 +135,11 @@ public class OrderHistoryActivity extends Activity implements View.OnClickListen
                 for (int i = 0; i < orderDetailsArrayList.size(); i++) {
                     if (orderDetailsArrayList.get(i).getOrderId().equals(orderKey)) {
                         orderDetailsArrayList.remove(i);
-                        orderDetails.setOrderId(dataSnapshot.getKey());
-                        orderDetailsArrayList.add(i, orderDetails);
-                        historyOrderInfoAdapter.notifyDataSetChanged();
+                        if (orderDetails != null) {
+                            orderDetails.setOrderId(dataSnapshot.getKey());
+                            orderDetailsArrayList.add(i, orderDetails);
+                            historyOrderInfoAdapter.notifyDataSetChanged();
+                        }
                         break;
                     }
                 }
@@ -150,6 +152,7 @@ public class OrderHistoryActivity extends Activity implements View.OnClickListen
                     if (orderDetailsArrayList.get(i).getOrderId().equals(orderKey)) {
                         orderDetailsArrayList.remove(i);
                         historyOrderInfoAdapter.notifyDataSetChanged();
+                        break;
                     }
                 }
                 checkOrderEmpty();
