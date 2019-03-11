@@ -21,6 +21,7 @@ public class FirebaseUtils {
     public static final String ORDER_STATUS = "/orderStatus/";
     public static final String USER_PENDING_REGISTRATION_BRANCH = "/pendingRegistration";
     public static final String USER_TOKEN_BRANCH = "/userNotificationToken";
+    public static final String FAQ_BRANCH = "/faq";
 
 
     public static String getDatabaseMainBranchName() {

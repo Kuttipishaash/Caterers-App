@@ -1,6 +1,8 @@
 package com.caterassist.app.fragments;
 
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -41,21 +43,33 @@ public class BottomNavigationDrawerFragment extends BottomSheetDialogFragment {
             switch (menuItem.getItemId()) {
                 case R.id.main_nav_faq:
                     startActivity(new Intent(getActivity(), FAQActivity.class));
+                    this.dismiss();
                     break;
                 case R.id.main_nav_contact_us:
                     startActivity(new Intent(getActivity(), ContactUsActivity.class));
+                    this.dismiss();
                     break;
                 case R.id.main_nav_about_us:
                     startActivity(new Intent(getActivity(), AboutUsActivity.class));
+                    this.dismiss();
                     break;
                 case R.id.main_nav_share_app:
                     shareApp();
+                    this.dismiss();
                     break;
                 case R.id.main_nav_settings:
                     startActivity(new Intent(getActivity(), SettingsActivity.class));
+                    this.dismiss();
                     break;
                 case R.id.main_nav_logout:
-                    AppUtils.cleanUpAndLogout(getActivity());
+                    Activity activity = this.getActivity();
+                    new AlertDialog.Builder(activity)
+                            .setTitle("Log Out")
+                            .setMessage("Do you really want to log out?")
+                            .setPositiveButton(android.R.string.yes,
+                                    (dialog, whichButton) -> AppUtils.cleanUpAndLogout(activity))
+                            .setNegativeButton(android.R.string.no, null).show();
+                    this.dismiss();
                     break;
             }
             return true;
