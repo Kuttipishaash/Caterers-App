@@ -67,7 +67,7 @@ public class OrderDetailsActivity extends Activity implements View.OnClickListen
     private ArrayList<CartItem> cartItemArrayList;
     private OrderItemsAdapter orderItemsAdapter;
     private String orderBranchName;
-    private String orderId;
+    private String orderID;
     private OrderDetails orderDetails;
     private Handler handler;
     private Runnable runnable;
@@ -79,9 +79,9 @@ public class OrderDetailsActivity extends Activity implements View.OnClickListen
         setContentView(R.layout.activity_order_details);
         Intent intent = getIntent();
         orderBranchName = intent.getStringExtra(Constants.IntentExtrasKeys.ORDER_DETAILS_BRANCH);
-        orderId = intent.getStringExtra(Constants.IntentExtrasKeys.ORDER_ID);
+        orderID = intent.getStringExtra(Constants.IntentExtrasKeys.ORDER_ID);
         orderDetails = (OrderDetails) intent.getSerializableExtra(Constants.IntentExtrasKeys.ORDER_INFO);
-        if (orderBranchName != null && orderId != null) {
+        if (orderBranchName != null && orderID != null) {
             initViews();
             setOrderInfo();
             fetchItems();
@@ -124,7 +124,7 @@ public class OrderDetailsActivity extends Activity implements View.OnClickListen
             userNameTxtView.setText(orderDetails.getVendorName());
             setOrderStatus(false);
         }
-        orderIDTxtView.setText(orderId);
+        orderIDTxtView.setText(orderID);
 
         String totalAmount = "₹" + String.valueOf(orderDetails.getOrderTotalAmount());
         orderTotalAmtTxtView.setText(totalAmount);
@@ -193,7 +193,7 @@ public class OrderDetailsActivity extends Activity implements View.OnClickListen
         handler.postAtTime(runnable, System.currentTimeMillis() + Constants.UtilConstants.LOADING_TIMEOUT);
         handler.postDelayed(runnable, Constants.UtilConstants.LOADING_TIMEOUT);
         String databasePath = FirebaseUtils.getDatabaseMainBranchName() + orderBranchName +
-                FirebaseAuth.getInstance().getUid() + "/" + orderId + "/" + FirebaseUtils.ORDER_ITEMS_BRANCH;
+                FirebaseAuth.getInstance().getUid() + "/" + orderID + "/" + FirebaseUtils.ORDER_ITEMS_BRANCH;
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(databasePath);
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -283,7 +283,7 @@ public class OrderDetailsActivity extends Activity implements View.OnClickListen
                 startActivity(viewCatererIntent);
             } else {
                 Intent viewVendorIntent = new Intent(OrderDetailsActivity.this, ViewVendorItemsActivity.class);
-                viewVendorIntent.putExtra(Constants.IntentExtrasKeys.VIEW_VENDOR_ITEMS_INTENT_VENDOR_UID, orderDetails.getVendorId());
+                viewVendorIntent.putExtra(Constants.IntentExtrasKeys.VIEW_VENDOR_ITEMS_INTENT_VENDOR_UID, orderDetails.getVendorID());
                 startActivity(viewVendorIntent);
                 finish();
             }
@@ -297,7 +297,7 @@ public class OrderDetailsActivity extends Activity implements View.OnClickListen
     }
 
     private void deleteOrder() {
-        String orderID = orderDetails.getOrderId();
+        String orderID = orderDetails.getOrderID();
         String branch = AppUtils.isCurrentUserVendor(this) ? FirebaseUtils.ORDERS_VENDOR_BRANCH : FirebaseUtils.ORDERS_CATERER_BRANCH;
         String databasePath = FirebaseUtils.getDatabaseMainBranchName() + branch +
                 FirebaseAuth.getInstance().getUid() + "/" + orderID;
@@ -320,11 +320,11 @@ public class OrderDetailsActivity extends Activity implements View.OnClickListen
         String message = "Reject order?";
         String subMessage = " reject the following order ";
         builder.setTitle(message)
-                .setMessage("This action cannot be undone. You are about to" + subMessage + "\nOrder id :" + orderDetails.getOrderId()
+                .setMessage("This action cannot be undone. You are about to" + subMessage + "\nOrder id :" + orderDetails.getOrderID()
                         + "\nOrdered by: " + orderDetails.getCatererName()
                         + "\nOn: " + orderDetails.getOrderTime())
                 .setPositiveButton(android.R.string.yes, (dialog, which) -> {
-                    rejectOrder(orderDetails.getCatererID(), orderDetails.getVendorName(), orderDetails.getOrderId(), orderDetails.getVendorId())
+                    rejectOrder(orderDetails.getCatererID(), orderDetails.getVendorName(), orderDetails.getOrderID(), orderDetails.getVendorID())
                             .addOnCompleteListener(task -> {
                                 if (!task.isSuccessful()) {
                                     Exception e = task.getException();
@@ -390,13 +390,13 @@ public class OrderDetailsActivity extends Activity implements View.OnClickListen
 
         }
         builder.setTitle(message)
-                .setMessage("This action cannot be undone. You are about to" + subMessage + "\nOrder id :" + orderDetails.getOrderId()
+                .setMessage("This action cannot be undone. You are about to" + subMessage + "\nOrder id :" + orderDetails.getOrderID()
                         + "\nOrdered by: " + orderDetails.getCatererName()
                         + "\nOn: " + orderDetails.getOrderTime())
                 .setPositiveButton(android.R.string.yes, (dialog, which) -> {
                     String databasePath = FirebaseUtils.getDatabaseMainBranchName() + FirebaseUtils.VENDOR_PENDING_ORDERS +
                             FirebaseAuth.getInstance().getUid() + "/" +
-                            orderDetails.getOrderId() + "/" +
+                            orderDetails.getOrderID() + "/" +
                             FirebaseUtils.ORDER_INFO_BRANCH +
                             FirebaseUtils.ORDER_STATUS;
                     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(databasePath);

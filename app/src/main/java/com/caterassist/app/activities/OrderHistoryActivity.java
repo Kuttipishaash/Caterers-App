@@ -121,7 +121,7 @@ public class OrderHistoryActivity extends Activity implements View.OnClickListen
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 DataSnapshot orderDetailsSnapshot = dataSnapshot.child(FirebaseUtils.ORDER_INFO_BRANCH);
                 OrderDetails orderDetails = orderDetailsSnapshot.getValue(OrderDetails.class);
-                orderDetails.setOrderId(dataSnapshot.getKey());
+                orderDetails.setOrderID(dataSnapshot.getKey());
                 orderDetailsArrayList.add(orderDetails);
                 historyOrderInfoAdapter.notifyDataSetChanged();
                 checkOrderEmpty();
@@ -133,10 +133,10 @@ public class OrderHistoryActivity extends Activity implements View.OnClickListen
                 OrderDetails orderDetails = orderDetailsSnapshot.getValue(OrderDetails.class);
                 String orderKey = dataSnapshot.getKey();
                 for (int i = 0; i < orderDetailsArrayList.size(); i++) {
-                    if (orderDetailsArrayList.get(i).getOrderId().equals(orderKey)) {
+                    if (orderDetailsArrayList.get(i).getOrderID().equals(orderKey)) {
                         orderDetailsArrayList.remove(i);
                         if (orderDetails != null) {
-                            orderDetails.setOrderId(dataSnapshot.getKey());
+                            orderDetails.setOrderID(dataSnapshot.getKey());
                             orderDetailsArrayList.add(i, orderDetails);
                             historyOrderInfoAdapter.notifyDataSetChanged();
                         }
@@ -149,7 +149,7 @@ public class OrderHistoryActivity extends Activity implements View.OnClickListen
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
                 String orderKey = dataSnapshot.getKey();
                 for (int i = 0; i < orderDetailsArrayList.size(); i++) {
-                    if (orderDetailsArrayList.get(i).getOrderId().equals(orderKey)) {
+                    if (orderDetailsArrayList.get(i).getOrderID().equals(orderKey)) {
                         orderDetailsArrayList.remove(i);
                         historyOrderInfoAdapter.notifyDataSetChanged();
                         break;

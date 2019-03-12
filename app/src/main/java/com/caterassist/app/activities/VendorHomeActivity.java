@@ -114,7 +114,7 @@ public class VendorHomeActivity extends FragmentActivity implements View.OnClick
     }
 
     private void fetchPendingOrders() {
-        String databasePath = FirebaseUtils.getDatabaseMainBranchName() + FirebaseUtils.ORDERS_AWAITING_APPROVAL + FirebaseAuth.getInstance().getUid();
+        String databasePath = FirebaseUtils.getDatabaseMainBranchName() + FirebaseUtils.PENDING_VENDOR_ORDERS_COUNT + FirebaseAuth.getInstance().getUid();
         DatabaseReference awaitingOrdersReference = FirebaseDatabase.getInstance().getReference(databasePath);
         awaitingOrdersReference.addValueEventListener(new ValueEventListener() {
             @Override

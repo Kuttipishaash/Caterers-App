@@ -110,7 +110,7 @@ public class VendorPendingOrdersActivity extends Activity implements View.OnClic
                 DataSnapshot orderDetailsSnapshot = dataSnapshot.child(FirebaseUtils.ORDER_INFO_BRANCH);
                 OrderDetails orderDetails = orderDetailsSnapshot.getValue(OrderDetails.class);
                 if (orderDetails != null) {
-                    orderDetails.setOrderId(dataSnapshot.getKey());
+                    orderDetails.setOrderID(dataSnapshot.getKey());
                     orderDetailsArrayList.add(orderDetails);
                     pendingOrdersAdapter.notifyDataSetChanged();
                 }
@@ -123,9 +123,9 @@ public class VendorPendingOrdersActivity extends Activity implements View.OnClic
                 OrderDetails orderDetails = orderDetailsSnapshot.getValue(OrderDetails.class);
                 String orderKey = dataSnapshot.getKey();
                 for (int i = 0; i < orderDetailsArrayList.size(); i++) {
-                    if (orderDetailsArrayList.get(i).getOrderId().equals(orderKey)) {
+                    if (orderDetailsArrayList.get(i).getOrderID().equals(orderKey)) {
                         orderDetailsArrayList.remove(i);
-                        orderDetails.setOrderId(dataSnapshot.getKey());
+                        orderDetails.setOrderID(dataSnapshot.getKey());
                         orderDetailsArrayList.add(i, orderDetails);
                         pendingOrdersAdapter.notifyDataSetChanged();
                         break;
@@ -137,7 +137,7 @@ public class VendorPendingOrdersActivity extends Activity implements View.OnClic
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
                 String orderKey = dataSnapshot.getKey();
                 for (int i = 0; i < orderDetailsArrayList.size(); i++) {
-                    if (orderDetailsArrayList.get(i).getOrderId().equals(orderKey)) {
+                    if (orderDetailsArrayList.get(i).getOrderID().equals(orderKey)) {
                         orderDetailsArrayList.remove(i);
                         pendingOrdersAdapter.notifyDataSetChanged();
                     }

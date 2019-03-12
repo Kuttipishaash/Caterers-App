@@ -53,7 +53,7 @@ public class VendorPendingOrdersAdapter extends RecyclerView.Adapter<VendorPendi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         OrderDetails orderDetails = orderDetailsArrayList.get(position);
-        holder.orderIDTxtView.setText(orderDetails.getOrderId());
+        holder.orderIDTxtView.setText(orderDetails.getOrderID());
 
         String[] timeStampStr = orderDetails.getOrderTime().split(" ", 2);
 
@@ -147,7 +147,7 @@ public class VendorPendingOrdersAdapter extends RecyclerView.Adapter<VendorPendi
             if (v.getId() == parentLayout.getId()) {
                 Intent intent = new Intent(itemView.getContext(), OrderDetailsActivity.class);
                 intent.putExtra(Constants.IntentExtrasKeys.ORDER_DETAILS_BRANCH, FirebaseUtils.VENDOR_PENDING_ORDERS);
-                intent.putExtra(Constants.IntentExtrasKeys.ORDER_ID, orderDetailsArrayList.get(getAdapterPosition()).getOrderId());
+                intent.putExtra(Constants.IntentExtrasKeys.ORDER_ID, orderDetailsArrayList.get(getAdapterPosition()).getOrderID());
                 intent.putExtra(Constants.IntentExtrasKeys.ORDER_INFO, orderDetailsArrayList.get(getAdapterPosition()));
                 itemView.getContext().startActivity(intent);
             } else if (v.getId() == updateStatusBtn.getId()) {
@@ -172,11 +172,11 @@ public class VendorPendingOrdersAdapter extends RecyclerView.Adapter<VendorPendi
             String message = "Reject order?";
             String subMessage = " reject the following order ";
             builder.setTitle(message)
-                    .setMessage("This action cannot be undone. You are about to" + subMessage + "\nOrder id :" + orderDetails.getOrderId()
+                    .setMessage("This action cannot be undone. You are about to" + subMessage + "\nOrder id :" + orderDetails.getOrderID()
                             + "\nOrdered by: " + orderDetails.getCatererName()
                             + "\nOn: " + orderDetails.getOrderTime())
                     .setPositiveButton(android.R.string.yes, (dialog, which) -> {
-                        rejectOrder(orderDetails.getCatererID(), orderDetails.getVendorName(), orderDetails.getOrderId(), orderDetails.getVendorId())
+                        rejectOrder(orderDetails.getCatererID(), orderDetails.getVendorName(), orderDetails.getOrderID(), orderDetails.getVendorID())
                                 .addOnCompleteListener(task -> {
                                     if (!task.isSuccessful()) {
                                         Exception e = task.getException();
@@ -244,13 +244,13 @@ public class VendorPendingOrdersAdapter extends RecyclerView.Adapter<VendorPendi
 
             }
             builder.setTitle(message)
-                    .setMessage("This action cannot be undone. You are about to" + subMessage + "\nOrder id :" + orderDetails.getOrderId()
+                    .setMessage("This action cannot be undone. You are about to" + subMessage + "\nOrder id :" + orderDetails.getOrderID()
                             + "\nOrdered by: " + orderDetails.getCatererName()
                             + "\nOn: " + orderDetails.getOrderTime())
                     .setPositiveButton(android.R.string.yes, (dialog, which) -> {
                         String databasePath = FirebaseUtils.getDatabaseMainBranchName() + FirebaseUtils.VENDOR_PENDING_ORDERS +
                                 FirebaseAuth.getInstance().getUid() + "/" +
-                                orderDetailsArrayList.get(getAdapterPosition()).getOrderId() + "/" +
+                                orderDetailsArrayList.get(getAdapterPosition()).getOrderID() + "/" +
                                 FirebaseUtils.ORDER_INFO_BRANCH +
                                 FirebaseUtils.ORDER_STATUS;
                         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(databasePath);

@@ -42,9 +42,7 @@
 
     <string name="privacy_signup_2">"<u>Terms &amp; Conditions agreement, End-User License Agreement (EULA) and Privacy Policy.</u>"</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
+    <!-- Placeholders -->
     <string name="name_placeholder">ABCD Wholesale</string>
     <string name="amount_placeholder">₹0000</string>
     <string name="orderid_placeholder">-abcdefghijkl123</string>
@@ -56,17 +54,25 @@
     <string name="price_placeholder">₹00.00</string>
     <string name="stock_placeholder">00.00</string>
     <string name="item_name_placeholder">ItemName</string>
-    <string name="contact_address">No. 44/1688 F, Second Floor Samskara Junction, Pipeline Road, Palarivattom, Ernakulam, Kerala - 682025</string>
-    <string name="contact_phone">0484-282-4447</string>
+
+    <!-- About Us Activity -->
+    <string name="about_title">About Us</string>
     <string name="about_desc"><![CDATA[Cater Bazar allows you to walk away from the drudgery of bazar shopping and welcome an easy relaxed way of browsing and shopping for groceries and all other cater items. Discover new products and shop for all your bulk grocery & cater needs from the comfort of your home or office. No more getting stuck in traffic jams, paying for parking, standing in long queues and carrying heavy goods – get everything you need, when you need, right at your doorstep.]]></string>
     <string name="terms_and_conditions_text">While Cater Bazar takes all due care in ensuring the privacy and integrity of the information you provide, the possibility exists that this information could be unlawfully observed by a third party while in transit over the Internet or while stored on Cater Bazar systems. Cater Bazar accepts no liability should this occur.</string>
     <string name="terms_and_conditions_title">Terms of use</string>
     <string name="privacy_policy_title">Privacy Policy</string>
     <string name="privacy_policy_text">Cater Bazar takes the confidentiality of personal data seriously. Any visitors to this App should read the terms of use carefully.</string>
-    <string name="about_title">About Us</string>
+
+    <!-- Contact Us Activity-->
     <string name="contact_us_title">Contact Us</string>
-    <string name="contact_address_title">Address</string>
+    <string name="contact_address_title">Location</string>
     <string name="contact_phone_title">Phone No.</string>
-    <string name="contact_email">abin@icloud.com</string>
+    <string name="contact_address">No. 44/1688 F, Second Floor Samskara Junction, Pipeline Road, Palarivattom, Ernakulam, Kerala - 682025</string>
+    <string name="contact_phone">0485&#8211;282&#8211;4447</string>
+    <string name="contact_email">abininlive@icloud.com</string>
+
+    <!-- FAQ Activity -->
+    <string name="action_faq">FAQ</string>
+    <string name="have_you_read_faq">Have you read our FAQ yet?</string>
 
 </resources>
