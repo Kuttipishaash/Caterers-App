@@ -57,7 +57,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/spacing_mlarge"
                     android:gravity="center"
-                    android:text="Create an account to log in &amp; use our services." />
+                    android:text="@string/sign_up_instruction" />
 
             </LinearLayout>
 
@@ -104,7 +104,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:drawableStart="@drawable/ic_person"
-                            android:hint="Business Name" />
+                            android:hint="@string/label_name" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <View
@@ -121,7 +121,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:drawableStart="@drawable/ic_mail"
-                            android:hint="Email"
+                            android:hint="@string/label_email"
                             android:inputType="textEmailAddress" />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -167,7 +167,7 @@
                             android:layout_weight="1"
                             android:buttonTint="@color/colorPrimary"
                             android:gravity="center"
-                            android:text="Caterer" />
+                            android:text="@string/user_type_caterer" />
 
                         <RadioButton
                             android:id="@+id/act_sign_category_vendor"
@@ -176,7 +176,7 @@
                             android:layout_weight="1"
                             android:buttonTint="@color/colorPrimary"
                             android:gravity="center"
-                            android:text="Vendor" />
+                            android:text="@string/user_type_vendor" />
                     </RadioGroup>
 
                     <View
@@ -193,7 +193,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:drawableStart="@drawable/ic_lock"
-                            android:hint="Password"
+                            android:hint="@string/label_password"
                             android:inputType="textPassword" />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -207,7 +207,7 @@
                             style="@style/SignUpTextInput"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Re enter password"
+                            android:hint="@string/label_repeat_password"
                             android:inputType="textPassword" />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -225,7 +225,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:drawableStart="@drawable/ic_phone"
-                            android:hint="Phone"
+                            android:hint="@string/label_phone"
                             android:inputType="phone" />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -256,7 +256,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="8dp"
-                                android:text="Address"
+                                android:text="@string/label_address"
                                 android:textSize="18sp" />
                         </LinearLayout>
 
@@ -270,7 +270,7 @@
                                 style="@style/SignUpTextInput"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="Street Name" />
+                                android:hint="@string/label_street_name" />
 
                         </com.google.android.material.textfield.TextInputLayout>
 
@@ -283,7 +283,7 @@
                                 style="@style/SignUpTextInput"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="Location Name" />
+                                android:hint="@string/label_location" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -295,7 +295,7 @@
                                 style="@style/SignUpTextInput"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="District Name" />
+                                android:hint="@string/label_district" />
                         </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
 
@@ -312,20 +312,20 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="By signing up you are also agreeing to comply with our" />
+                            android:text="@string/sign_up_footer_1" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="@string/privacy_signup_2"
+                            android:text="@string/sign_up_footer_2"
                             android:textColor="@color/colorAccent" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="NOTE: You can only login, once the verification is done." />
+                            android:text="@string/sign_up_footer_3" />
 
 
                     </LinearLayout>
@@ -362,7 +362,7 @@
                 android:drawableEnd="@drawable/ic_chevron_right"
                 android:paddingStart="45dp"
                 android:paddingEnd="25dp"
-                android:text="Sign Up" />
+                android:text="@string/label_sign_up" />
 
             <View
                 android:layout_width="match_parent"

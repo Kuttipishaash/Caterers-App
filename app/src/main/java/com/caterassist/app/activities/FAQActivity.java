@@ -22,6 +22,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class FAQActivity extends Activity {
 
+    private static final String TAG = "FAQ";
+
     private RecyclerView faqRecyclerView;
     private ArrayList<FAQ> faqArrayList;
     private FAQAdapter faqAdapter;

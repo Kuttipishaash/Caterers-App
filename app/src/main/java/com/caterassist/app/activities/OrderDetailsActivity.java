@@ -45,7 +45,7 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
 public class OrderDetailsActivity extends Activity implements View.OnClickListener {
-    private static final String TAG = "OrderDetailsAct";
+    private static final String TAG = "OrderDetails";
 
     private RecyclerView orderItemsRecyclerView;
     private TextView userTypeTxtView;
@@ -282,7 +282,7 @@ public class OrderDetailsActivity extends Activity implements View.OnClickListen
                 viewCatererIntent.putExtra(Constants.IntentExtrasKeys.USER_ID, orderDetails.getCatererID());
                 startActivity(viewCatererIntent);
             } else {
-                Intent viewVendorIntent = new Intent(OrderDetailsActivity.this, ViewVendorItemsActivity.class);
+                Intent viewVendorIntent = new Intent(OrderDetailsActivity.this, VendorCatalogActivity.class);
                 viewVendorIntent.putExtra(Constants.IntentExtrasKeys.VIEW_VENDOR_ITEMS_INTENT_VENDOR_UID, orderDetails.getVendorID());
                 startActivity(viewVendorIntent);
                 finish();

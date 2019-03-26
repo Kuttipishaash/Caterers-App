@@ -53,7 +53,7 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
 public class CatererHomeActivity extends FragmentActivity implements View.OnClickListener {
-    private static final String TAG = "CatererDash";
+    private static final String TAG = "CatererHome";
     private static final int CALL_PERMISSION_REQ_CODE = 100;
     private ArrayList<UserDetails> allVendorsArrayList;
     private Toolbar toolbar;

@@ -54,7 +54,7 @@ import static android.view.View.VISIBLE;
 
 public class VendorHomeActivity extends FragmentActivity implements View.OnClickListener {
 
-    private static final String TAG = "VendorDash";
+    private static final String TAG = "VendorHome";
     private static final int CALL_PERMISSION_REQ_CODE = 100;
     TextView awaitingOrderNumberTxtView;
     private BottomAppBar bottomAppBar;

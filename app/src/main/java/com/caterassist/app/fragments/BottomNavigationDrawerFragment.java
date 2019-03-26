@@ -14,7 +14,6 @@ import com.caterassist.app.R;
 import com.caterassist.app.activities.AboutUsActivity;
 import com.caterassist.app.activities.ContactUsActivity;
 import com.caterassist.app.activities.FAQActivity;
-import com.caterassist.app.activities.SettingsActivity;
 import com.caterassist.app.utils.AppUtils;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.navigation.NavigationView;
@@ -57,15 +56,12 @@ public class BottomNavigationDrawerFragment extends BottomSheetDialogFragment {
                     shareApp();
                     this.dismiss();
                     break;
-                case R.id.main_nav_settings:
-                    startActivity(new Intent(getActivity(), SettingsActivity.class));
-                    this.dismiss();
-                    break;
+
                 case R.id.main_nav_logout:
                     Activity activity = this.getActivity();
                     new AlertDialog.Builder(activity)
-                            .setTitle("Log Out")
-                            .setMessage("Do you really want to log out?")
+                            .setTitle(getString(R.string.dialog_title_logout))
+                            .setMessage(getString(R.string.dialog_message_logout_confirmation))
                             .setPositiveButton(android.R.string.yes,
                                     (dialog, whichButton) -> AppUtils.cleanUpAndLogout(activity))
                             .setNegativeButton(android.R.string.no, null).show();
@@ -79,7 +75,7 @@ public class BottomNavigationDrawerFragment extends BottomSheetDialogFragment {
     }
 
     private void shareApp() {
-        String shareText = "Download CaterAssist from Google Play to assist you with your catering or vending services: " + getString(R.string.app_link);
+        String shareText = getString(R.string.dialog_message_share_app) + getString(R.string.app_link);
         Intent sharingIntent = new Intent(Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
         sharingIntent.putExtra(Intent.EXTRA_TEXT, shareText);

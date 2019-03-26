@@ -34,13 +34,14 @@
     <string name="dialog_message_delete_order_history">Are you sure to delete this order from your order history? This action cannot be undone.</string>
     <string name="dialog_title_clear_cart">Clearing Cart Items</string>
     <string name="dialog_message_clear_cart">Are you sure to clear your cart? This will remove all the items from your cart.</string>
+
+    <!-- Toast strings -->
     <string name="toast_cannot_clear_cart">Cart couldn\'t be cleard! Please try again.</string>
     <string name="toast_cart_cleared">Cart cleared</string>
     <string name="toast_checkout_success">Checkout successful</string>
     <string name="toast_checkout_failed">Checkout failed</string>
     <string name="toast_added_item_qty_less_than_zero">The quantity should be greater than zero.</string>
 
-    <string name="privacy_signup_2">"<u>Terms &amp; Conditions agreement, End-User License Agreement (EULA) and Privacy Policy.</u>"</string>
 
     <!-- Placeholders -->
     <string name="name_placeholder">ABCD Wholesale</string>
@@ -54,6 +55,24 @@
     <string name="price_placeholder">₹00.00</string>
     <string name="stock_placeholder">00.00</string>
     <string name="item_name_placeholder">ItemName</string>
+
+    <!-- Form Strings -->
+    <string name="label_email">Email</string>
+    <string name="label_name">Business Name</string>
+
+    <!-- Sign Up Activity -->
+    <string name="label_sign_up">Sign Up</string>
+    <string name="sign_up_instruction"><![CDATA[Create an account to log in & use our services.]]></string>
+    <string name="label_password">Password</string>
+    <string name="label_repeat_password">Re enter password</string>
+    <string name="label_phone">Phone</string>
+    <string name="label_address">Address</string>
+    <string name="label_street_name">Street Name</string>
+    <string name="label_location">Location Name</string>
+    <string name="label_district">District Name</string>
+    <string name="sign_up_footer_1">By signing up you are also agreeing to comply with our</string>
+    <string name="sign_up_footer_2">"<u>Terms &amp; Conditions agreement, End-User License Agreement (EULA) and Privacy Policy.</u>"</string>
+    <string name="sign_up_footer_3">NOTE: You can only login, once the verification is done.</string>
 
     <!-- About Us Activity -->
     <string name="about_title">About Us</string>
@@ -74,5 +93,19 @@
     <!-- FAQ Activity -->
     <string name="action_faq">FAQ</string>
     <string name="have_you_read_faq">Have you read our FAQ yet?</string>
+
+    <!-- User types-->
+    <string name="user_type_caterer">Caterer</string>
+    <string name="user_type_vendor">Vendor</string>
+    <string name="toast_no_item_stock">The quantity entered is not currently in stock.</string>
+    <string name="toast_add_to_cart_fail">Adding to cart failed</string>
+    <string name="action_view_cart">View Cart</string>
+    <string name="info_added_to_cart">Item added to cart</string>
+    <string name="title_remove_from_cart">Remove from cart</string>
+    <string name="toast_cannot_delete_incomplete_order">You cannot delete an unfulfilled order!</string>
+    <string name="dialog_title_logout">Log Out</string>
+    <string name="dialog_message_logout_confirmation">Do you really want to log out?</string>
+    <string name="dialog_message_share_app">Download CaterAssist from Google Play to assist you with your catering or vending services:</string>
+
 
 </resources>

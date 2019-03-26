@@ -37,6 +37,7 @@ import es.dmoral.toasty.Toasty;
 public class LoginActivity extends Activity implements View.OnClickListener {
 
     private static final String TAG = "LoginActivity";
+
     private TextInputEditText usernameEdtTxt;
     private TextInputEditText passwordEdtTxt;
     private TextView signUpLinearLayout, termsCondTextView, forgotPasswordTextView;

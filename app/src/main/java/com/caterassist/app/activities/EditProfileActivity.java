@@ -39,7 +39,7 @@ import id.zelory.compressor.Compressor;
 
 public class EditProfileActivity extends Activity implements View.OnClickListener {
     private UserDetails userDetails;
-    private static final String TAG = "ProfileAct";
+    private static final String TAG = "EditProfile";
     //Views
     private TextView emailTxtView;
     private TextView phoneTxtView;

@@ -20,6 +20,8 @@ import es.dmoral.toasty.Toasty;
 
 public class ForgotPassword extends AppCompatActivity implements View.OnClickListener {
 
+    private static final String TAG = "ForgotPassword";
+
     private Button resetPasswordButton;
     private EditText forgotEmail;
 

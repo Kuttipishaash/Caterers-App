@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.caterassist.app.R;
-import com.caterassist.app.activities.ViewVendorItemsActivity;
+import com.caterassist.app.activities.VendorCatalogActivity;
 import com.caterassist.app.models.UserDetails;
 import com.caterassist.app.utils.Constants;
 import com.caterassist.app.utils.FirebaseUtils;
@@ -139,7 +139,7 @@ public class VendorListAdapter extends RecyclerView.Adapter<VendorListAdapter.Vi
         public void onClick(View v) {
             if (v.getId() == R.id.li_vendor_parent_layout) {
                 String uID = filteredVendorsList.get(getAdapterPosition()).getUserID();
-                Intent viewVendorItemsIntent = new Intent(itemView.getContext(), ViewVendorItemsActivity.class);
+                Intent viewVendorItemsIntent = new Intent(itemView.getContext(), VendorCatalogActivity.class);
                 viewVendorItemsIntent.putExtra(Constants.IntentExtrasKeys.VIEW_VENDOR_ITEMS_INTENT_VENDOR_UID, uID);
                 itemView.getContext().startActivity(viewVendorItemsIntent);
             } else if (v.getId() == R.id.li_vendor_call) {

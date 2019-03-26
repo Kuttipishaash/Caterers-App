@@ -16,7 +16,7 @@ import androidx.cardview.widget.CardView;
 import es.dmoral.toasty.Toasty;
 
 public class ContactUsActivity extends Activity implements View.OnClickListener, View.OnLongClickListener {
-    private static final String TAG = "ContactUsActivity";
+    private static final String TAG = "ContactUs";
     private CardView callCard;
     private CardView emailCard;
     private TextView faqLinkTxtView;

@@ -18,11 +18,6 @@
             android:icon="@drawable/ic_share"
             android:title="Share App" />
         <item
-            android:id="@+id/main_nav_settings"
-            android:icon="@drawable/ic_settings"
-            android:title="Settings"
-            android:visible="false" />
-        <item
             android:id="@+id/main_nav_logout"
             android:icon="@drawable/ic_exit"
             android:title="Logout" />

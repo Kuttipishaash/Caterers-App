@@ -120,7 +120,7 @@ public class AddToCartDialog extends DialogFragment implements View.OnClickListe
             case R.id.diag_add_to_cart_confirm_button:
                 Double inputQuantity = Double.parseDouble(itemQuantitiyEdtTxt.getText().toString());
                 if (inputQuantity > vendorItem.getStock() && getContext() != null) {
-                    Toasty.warning(getContext(), "The quantity entered is not currently in stock.", Toast.LENGTH_SHORT).show();
+                    Toasty.warning(getContext(), getString(R.string.toast_no_item_stock), Toast.LENGTH_SHORT).show();
                 } else {
                     addToCart(inputQuantity);
                     dismiss();
@@ -150,7 +150,7 @@ public class AddToCartDialog extends DialogFragment implements View.OnClickListe
                             .setValue(vendorDetails)
                             .addOnSuccessListener(aVoid1 -> showCartSnack())).addOnFailureListener(e -> {
                 if (getContext() != null) {
-                    Toasty.error(getContext(), "Adding to cart failed").show();
+                    Toasty.error(getContext(), getString(R.string.toast_add_to_cart_fail)).show();
 
                 }
             });
@@ -169,14 +169,14 @@ public class AddToCartDialog extends DialogFragment implements View.OnClickListe
             Snacky.builder()
                     .setActivity(getActivity())
                     .setBackgroundColor(getResources().getColor(R.color.colorPrimary))
-                    .setActionText("View Cart")
+                    .setActionText(getString(R.string.action_view_cart))
                     .setActionClickListener(v -> {
                         startActivity(new Intent(getActivity(), CartActivity.class));
                         if (getActivity() != null) {
                             getActivity().finish();
                         }
                     })
-                    .setText("Item added to cart")
+                    .setText(getString(R.string.info_added_to_cart))
                     .setIcon(R.drawable.ic_cart)
                     .setActionTextTypefaceStyle(Typeface.BOLD)
                     .setActionTextColor(getResources().getColor(R.color.white))

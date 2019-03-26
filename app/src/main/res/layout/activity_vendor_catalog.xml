@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/gradient_light"
     android:fitsSystemWindows="true"
-    tools:context=".activities.ViewVendorItemsActivity">
+    tools:context=".activities.VendorCatalogActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar_layout"

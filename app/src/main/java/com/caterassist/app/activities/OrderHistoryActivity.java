@@ -37,7 +37,7 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
 public class OrderHistoryActivity extends Activity implements View.OnClickListener {
-    private static final String TAG = "CatererOrderInfo";
+    private static final String TAG = "OrderHistory";
     private HistoryOrderInfoAdapter historyOrderInfoAdapter;
     private boolean isVendor;
     private Query query;

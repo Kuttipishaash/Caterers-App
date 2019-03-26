@@ -9,8 +9,6 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -45,7 +43,7 @@ import id.zelory.compressor.Compressor;
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static final int PICK_IMAGE = 1;
-    public static final String TAG = "SignUpActivity";
+    public static final String TAG = "SignUp";
     private Uri imageFileUri;
     private TextInputEditText nameEdtTxt;
     private TextInputEditText emailEdtTxt;
