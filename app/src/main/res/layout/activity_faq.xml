@@ -47,7 +47,7 @@
                     android:text="@string/action_faq"
                     android:textAllCaps="true"
                     android:textColor="#fff"
-                    android:textSize="30dp"
+                    android:textSize="30sp"
                     android:textStyle="bold" />
             </LinearLayout>
 

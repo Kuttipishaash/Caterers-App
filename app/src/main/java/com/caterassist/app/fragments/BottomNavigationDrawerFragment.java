@@ -25,7 +25,7 @@ import androidx.annotation.NonNull;
  */
 public class BottomNavigationDrawerFragment extends BottomSheetDialogFragment {
 
-    NavigationView navigationView;
+    private NavigationView navigationView;
     private View parentView;
 
     public BottomNavigationDrawerFragment() {
