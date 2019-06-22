@@ -37,22 +37,22 @@ import es.dmoral.toasty.Toasty;
 public class AddEditItemActivity extends Activity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     private static final String TAG = "AddEditItemAct";
-    ArrayList<String> categoriesArrayList;
-    ArrayList<String> itemNamesArrayList;
-    ArrayList<Item> itemsArrayList;
-    Spinner itemCategorySpinner;
-    TextView itemCategoryTxtView;
-    Spinner itemNameSpinner;
-    TextView itemNameTxtView;
-    TextView titleTextView;
-    EditText itemRateEdtTxt;
-    EditText itemStockEdtTxt;
-    ImageView itemImageView;
-    TextView unitTextView;
-    Button saveButton;
-    VendorItem vendorItem;
+    private ArrayList<String> categoriesArrayList;
+    private ArrayList<String> itemNamesArrayList;
+    private ArrayList<Item> itemsArrayList;
+    private Spinner itemCategorySpinner;
+    private TextView itemCategoryTxtView;
+    private Spinner itemNameSpinner;
+    private TextView itemNameTxtView;
+    private TextView titleTextView;
+    private EditText itemRateEdtTxt;
+    private EditText itemStockEdtTxt;
+    private ImageView itemImageView;
+    private TextView unitTextView;
+    private Button saveButton;
+    private VendorItem vendorItem;
 
-    boolean isEdit;
+    private boolean isEdit;
 
 
     @Override

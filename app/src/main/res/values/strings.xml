@@ -34,17 +34,16 @@
     <string name="dialog_message_delete_order_history">Are you sure to delete this order from your order history? This action cannot be undone.</string>
     <string name="dialog_title_clear_cart">Clearing Cart Items</string>
     <string name="dialog_message_clear_cart">Are you sure to clear your cart? This will remove all the items from your cart.</string>
+
+    <!-- Toast strings -->
     <string name="toast_cannot_clear_cart">Cart couldn\'t be cleard! Please try again.</string>
     <string name="toast_cart_cleared">Cart cleared</string>
     <string name="toast_checkout_success">Checkout successful</string>
     <string name="toast_checkout_failed">Checkout failed</string>
     <string name="toast_added_item_qty_less_than_zero">The quantity should be greater than zero.</string>
 
-    <string name="privacy_signup_2">"<u>Terms &amp; Conditions agreement, End-User License Agreement (EULA) and Privacy Policy.</u>"</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
+    <!-- Placeholders -->
     <string name="name_placeholder">ABCD Wholesale</string>
     <string name="amount_placeholder">₹0000</string>
     <string name="orderid_placeholder">-abcdefghijkl123</string>
@@ -56,21 +55,61 @@
     <string name="price_placeholder">₹00.00</string>
     <string name="stock_placeholder">00.00</string>
     <string name="item_name_placeholder">ItemName</string>
-    <string name="contact_address">No. 44/1688 F, Second Floor Samskara Junction, Pipeline Road, Palarivattom, Ernakulam, Kerala - 682025</string>
-    <string name="contact_phone">0484-282-4447</string>
+
+    <!-- Form Strings -->
+    <string name="label_email">Email</string>
+    <string name="label_name">Business Name</string>
+
+    <!-- Sign Up Activity -->
+    <string name="label_sign_up">Sign Up</string>
+    <string name="sign_up_instruction"><![CDATA[Create an account to log in & use our services.]]></string>
+    <string name="label_password">Password</string>
+    <string name="label_repeat_password">Re enter password</string>
+    <string name="label_phone">Phone</string>
+    <string name="label_address">Address</string>
+    <string name="label_street_name">Street Name</string>
+    <string name="label_location">Location Name</string>
+    <string name="label_district">District Name</string>
+    <string name="sign_up_footer_1">By signing up you are also agreeing to comply with our</string>
+    <string name="sign_up_footer_2">"<u>Terms &amp; Conditions agreement, End-User License Agreement (EULA) and Privacy Policy.</u>"</string>
+    <string name="sign_up_footer_3">NOTE: You can only login, once the verification is done.</string>
+
+    <!-- About Us Activity -->
+    <string name="about_title">About Us</string>
     <string name="about_desc"><![CDATA[Cater Bazar allows you to walk away from the drudgery of bazar shopping and welcome an easy relaxed way of browsing and shopping for groceries and all other cater items. Discover new products and shop for all your bulk grocery & cater needs from the comfort of your home or office. No more getting stuck in traffic jams, paying for parking, standing in long queues and carrying heavy goods – get everything you need, when you need, right at your doorstep.]]></string>
     <string name="terms_and_conditions_text">While Cater Bazar takes all due care in ensuring the privacy and integrity of the information you provide, the possibility exists that this information could be unlawfully observed by a third party while in transit over the Internet or while stored on Cater Bazar systems. Cater Bazar accepts no liability should this occur.</string>
     <string name="terms_and_conditions_title">Terms of use</string>
     <string name="privacy_policy_title">Privacy Policy</string>
     <string name="privacy_policy_text">Cater Bazar takes the confidentiality of personal data seriously. Any visitors to this App should read the terms of use carefully.</string>
-    <string name="about_title">About Us</string>
+
+    <!-- Contact Us Activity-->
     <string name="contact_us_title">Contact Us</string>
-    <string name="contact_address_title">Address</string>
+    <string name="contact_address_title">Location</string>
     <string name="contact_phone_title">Phone No.</string>
-    <string name="contact_email">abin@icloud.com</string>
     <string name="toast_image_intent_null">Image picker option is missing!</string>
     <string name="lbl_set_profile_photo">Set profile image</string>
     <string name="lbl_take_camera_picture">Take a picture</string>
     <string name="lbl_choose_from_gallery">Choose from gallery</string>
+    <string name="contact_address">No. 44/1688 F, Second Floor Samskara Junction, Pipeline Road, Palarivattom, Ernakulam, Kerala - 682025</string>
+    <string name="contact_phone">0485&#8211;282&#8211;4447</string>
+    <string name="contact_email">abininlive@icloud.com</string>
+
+    <!-- FAQ Activity -->
+    <string name="action_faq">FAQ</string>
+    <string name="have_you_read_faq">Have you read our FAQ yet?</string>
+
+    <!-- User types-->
+    <string name="user_type_caterer">Caterer</string>
+    <string name="user_type_vendor">Vendor</string>
+    <string name="toast_no_item_stock">The quantity entered is not currently in stock.</string>
+    <string name="toast_add_to_cart_fail">Adding to cart failed</string>
+    <string name="action_view_cart">View Cart</string>
+    <string name="info_added_to_cart">Item added to cart</string>
+    <string name="title_remove_from_cart">Remove from cart</string>
+    <string name="toast_cannot_delete_incomplete_order">You cannot delete an unfulfilled order!</string>
+    <string name="dialog_title_logout">Log Out</string>
+    <string name="dialog_message_logout_confirmation">Do you really want to log out?</string>
+    <string name="dialog_message_share_app">Download CaterAssist from Google Play to assist you with your catering or vending services:</string>
+
 
 </resources>

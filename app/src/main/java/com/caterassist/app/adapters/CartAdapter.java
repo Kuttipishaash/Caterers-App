@@ -116,7 +116,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartItemViewHo
             } else {
                 builder = new AlertDialog.Builder(itemView.getContext());
             }
-            builder.setTitle("Remove from cart")
+            builder.setTitle(activity.getString(R.string.title_remove_from_cart))
                     .setMessage("Are you sure you want to remove " + cartItemsArrayList.get(getAdapterPosition()).getName() + " from cart?")
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {

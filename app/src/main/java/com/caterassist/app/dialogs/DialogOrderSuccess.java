@@ -122,7 +122,7 @@ public class DialogOrderSuccess extends DialogFragment implements View.OnClickLi
             Intent intent = new Intent(getContext(), OrderDetailsActivity.class);
 
             intent.putExtra(Constants.IntentExtrasKeys.ORDER_DETAILS_BRANCH, FirebaseUtils.ORDERS_CATERER_BRANCH);
-            intent.putExtra(Constants.IntentExtrasKeys.ORDER_ID, orderDetails.getOrderId());
+            intent.putExtra(Constants.IntentExtrasKeys.ORDER_ID, orderDetails.getOrderID());
             intent.putExtra(Constants.IntentExtrasKeys.ORDER_INFO, orderDetails);
             if (getContext() != null) {
                 getContext().startActivity(intent);

@@ -54,7 +54,7 @@ import static android.view.View.VISIBLE;
 
 public class VendorHomeActivity extends FragmentActivity implements View.OnClickListener {
 
-    private static final String TAG = "VendorDash";
+    private static final String TAG = "VendorHome";
     private static final int CALL_PERMISSION_REQ_CODE = 100;
     TextView awaitingOrderNumberTxtView;
     private BottomAppBar bottomAppBar;
@@ -114,7 +114,7 @@ public class VendorHomeActivity extends FragmentActivity implements View.OnClick
     }
 
     private void fetchPendingOrders() {
-        String databasePath = FirebaseUtils.getDatabaseMainBranchName() + FirebaseUtils.ORDERS_AWAITING_APPROVAL + FirebaseAuth.getInstance().getUid();
+        String databasePath = FirebaseUtils.getDatabaseMainBranchName() + FirebaseUtils.PENDING_VENDOR_ORDERS_COUNT + FirebaseAuth.getInstance().getUid();
         DatabaseReference awaitingOrdersReference = FirebaseDatabase.getInstance().getReference(databasePath);
         awaitingOrdersReference.addValueEventListener(new ValueEventListener() {
             @Override

@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:text="Item Name"
             android:textColor="@color/grey_900"
-            android:textSize="18dp"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
         <TextView

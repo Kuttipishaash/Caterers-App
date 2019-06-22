@@ -17,7 +17,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 import com.caterassist.app.R;
-import com.caterassist.app.activities.ViewVendorItemsActivity;
+import com.caterassist.app.activities.VendorCatalogActivity;
 import com.caterassist.app.models.UserDetails;
 import com.caterassist.app.utils.Constants;
 import com.caterassist.app.utils.FirebaseUtils;
@@ -128,7 +128,7 @@ public class FavouriteVendorsAdapter extends RecyclerView.Adapter<FavouriteVendo
                     break;
                 case R.id.list_item_favourite_vendor:
                     String uID = favouriteVendorArrayList.get(position).getUserID();
-                    Intent viewVendorItemsIntent = new Intent(context, ViewVendorItemsActivity.class);
+                    Intent viewVendorItemsIntent = new Intent(context, VendorCatalogActivity.class);
                     viewVendorItemsIntent.putExtra(Constants.IntentExtrasKeys.VIEW_VENDOR_ITEMS_INTENT_VENDOR_UID, uID);
                     context.startActivity(viewVendorItemsIntent);
                     break;

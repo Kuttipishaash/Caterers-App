@@ -1,6 +1,8 @@
 package com.caterassist.app.fragments;
 
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +14,6 @@ import com.caterassist.app.R;
 import com.caterassist.app.activities.AboutUsActivity;
 import com.caterassist.app.activities.ContactUsActivity;
 import com.caterassist.app.activities.FAQActivity;
-import com.caterassist.app.activities.SettingsActivity;
 import com.caterassist.app.utils.AppUtils;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.navigation.NavigationView;
@@ -24,7 +25,7 @@ import androidx.annotation.NonNull;
  */
 public class BottomNavigationDrawerFragment extends BottomSheetDialogFragment {
 
-    NavigationView navigationView;
+    private NavigationView navigationView;
     private View parentView;
 
     public BottomNavigationDrawerFragment() {
@@ -41,21 +42,30 @@ public class BottomNavigationDrawerFragment extends BottomSheetDialogFragment {
             switch (menuItem.getItemId()) {
                 case R.id.main_nav_faq:
                     startActivity(new Intent(getActivity(), FAQActivity.class));
+                    this.dismiss();
                     break;
                 case R.id.main_nav_contact_us:
                     startActivity(new Intent(getActivity(), ContactUsActivity.class));
+                    this.dismiss();
                     break;
                 case R.id.main_nav_about_us:
                     startActivity(new Intent(getActivity(), AboutUsActivity.class));
+                    this.dismiss();
                     break;
                 case R.id.main_nav_share_app:
                     shareApp();
+                    this.dismiss();
                     break;
-                case R.id.main_nav_settings:
-                    startActivity(new Intent(getActivity(), SettingsActivity.class));
-                    break;
+
                 case R.id.main_nav_logout:
-                    AppUtils.cleanUpAndLogout(getActivity());
+                    Activity activity = this.getActivity();
+                    new AlertDialog.Builder(activity)
+                            .setTitle(getString(R.string.dialog_title_logout))
+                            .setMessage(getString(R.string.dialog_message_logout_confirmation))
+                            .setPositiveButton(android.R.string.yes,
+                                    (dialog, whichButton) -> AppUtils.cleanUpAndLogout(activity))
+                            .setNegativeButton(android.R.string.no, null).show();
+                    this.dismiss();
                     break;
             }
             return true;
@@ -65,7 +75,7 @@ public class BottomNavigationDrawerFragment extends BottomSheetDialogFragment {
     }
 
     private void shareApp() {
-        String shareText = "Download CaterAssist from Google Play to assist you with your catering or vending services: " + getString(R.string.app_link);
+        String shareText = getString(R.string.dialog_message_share_app) + getString(R.string.app_link);
         Intent sharingIntent = new Intent(Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
         sharingIntent.putExtra(Intent.EXTRA_TEXT, shareText);

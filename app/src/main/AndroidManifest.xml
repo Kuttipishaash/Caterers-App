@@ -38,8 +38,7 @@
         <activity android:name=".activities.CartActivity" />
         <activity android:name=".activities.ContactUsActivity" />
         <activity android:name=".activities.AboutUsActivity" />
-        <activity android:name=".activities.SettingsActivity" />
-        <activity android:name=".activities.ViewVendorItemsActivity" />
+        <activity android:name=".activities.VendorCatalogActivity" />
         <activity android:name=".activities.OrderHistoryActivity" />
         <activity android:name=".activities.AddEditItemActivity" />
         <activity android:name=".activities.SignUpActivity" />

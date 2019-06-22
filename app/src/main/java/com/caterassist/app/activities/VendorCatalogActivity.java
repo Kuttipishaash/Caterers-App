@@ -43,9 +43,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import es.dmoral.toasty.Toasty;
 
-public class ViewVendorItemsActivity extends AppCompatActivity implements View.OnClickListener {
+public class VendorCatalogActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static final String TAG = "VendorItemsViewAct";
+    private static final String TAG = "VendorCatalog";
     private String vendorUID;
     private UserDetails vendorDetails;
 
@@ -69,7 +69,7 @@ public class ViewVendorItemsActivity extends AppCompatActivity implements View.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_vendor_items);
+        setContentView(R.layout.activity_vendor_catalog);
         Intent intent = getIntent();
         if (intent.getStringExtra(Constants.IntentExtrasKeys.VIEW_VENDOR_ITEMS_INTENT_VENDOR_UID) != null) {
             vendorUID = intent.getStringExtra(Constants.IntentExtrasKeys.VIEW_VENDOR_ITEMS_INTENT_VENDOR_UID);
@@ -77,7 +77,7 @@ public class ViewVendorItemsActivity extends AppCompatActivity implements View.O
             fetchVendorDetails();
         } else {
             Toasty.error(this, "No vendor data", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(ViewVendorItemsActivity.this, VendorHomeActivity.class));
+            startActivity(new Intent(VendorCatalogActivity.this, VendorHomeActivity.class));
             finish();
         }
         initComponent();
@@ -108,10 +108,10 @@ public class ViewVendorItemsActivity extends AppCompatActivity implements View.O
                 vendorDetails = dataSnapshot.getValue(UserDetails.class);
                 vendorDetails.setUserID(vendorUID);
                 vendorItemsAdapter = new VendorItemsAdapter();
-                vendorItemsAdapter.setParentActivity(ViewVendorItemsActivity.this);
+                vendorItemsAdapter.setParentActivity(VendorCatalogActivity.this);
                 vendorItemsAdapter.setVendorDetails(vendorDetails);
                 vendorItemsAdapter.setVendorItemArrayList(vendorItemsArrayList);
-                vendorItemsLayoutManager = new LinearLayoutManager(ViewVendorItemsActivity.this, RecyclerView.VERTICAL, false);
+                vendorItemsLayoutManager = new LinearLayoutManager(VendorCatalogActivity.this, RecyclerView.VERTICAL, false);
                 vendorItemsRecyclerView.setLayoutManager(vendorItemsLayoutManager);
                 vendorItemsRecyclerView.setAdapter(vendorItemsAdapter);
                 //Set vendor image
@@ -122,7 +122,7 @@ public class ViewVendorItemsActivity extends AppCompatActivity implements View.O
                         RequestOptions requestOptions = new RequestOptions();
                         requestOptions.placeholder(R.drawable.placeholder);
                         requestOptions.error(R.drawable.ic_error_placeholder);
-                        Glide.with(ViewVendorItemsActivity.this.getApplicationContext())
+                        Glide.with(VendorCatalogActivity.this.getApplicationContext())
                                 .setDefaultRequestOptions(requestOptions)
                                 .load(uri)
                                 .into(vendorImageView);
@@ -210,7 +210,7 @@ public class ViewVendorItemsActivity extends AppCompatActivity implements View.O
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.w(TAG, "postComments:onCancelled", databaseError.toException());
-                Toasty.error(ViewVendorItemsActivity.this, "Failed to load favourite vendors.",
+                Toasty.error(VendorCatalogActivity.this, "Failed to load favourite vendors.",
                         Toast.LENGTH_SHORT).show();
             }
         };
@@ -290,13 +290,13 @@ public class ViewVendorItemsActivity extends AppCompatActivity implements View.O
                         + FirebaseAuth.getInstance().getUid();
                 DatabaseReference favouriteUsersDbRef = FirebaseDatabase.getInstance().getReference(favouriteUserPath);
                 favouriteUsersDbRef.child(vendorUID).setValue(vendorDetails)
-                        .addOnSuccessListener(aVoid -> Toasty.success(ViewVendorItemsActivity.this, "Vendor added to favourites").show())
-                        .addOnFailureListener(e -> Toasty.error(ViewVendorItemsActivity.this, "Vendor couldn't be added to favourites. Try Again!").show());
+                        .addOnSuccessListener(aVoid -> Toasty.success(VendorCatalogActivity.this, "Vendor added to favourites").show())
+                        .addOnFailureListener(e -> Toasty.error(VendorCatalogActivity.this, "Vendor couldn't be added to favourites. Try Again!").show());
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toasty.error(ViewVendorItemsActivity.this, "Vendor couldn't be added to favourites. Try Again!").show();
+                Toasty.error(VendorCatalogActivity.this, "Vendor couldn't be added to favourites. Try Again!").show();
             }
         });
     }
