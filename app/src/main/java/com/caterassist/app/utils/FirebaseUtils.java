@@ -19,15 +19,15 @@ public class FirebaseUtils {
     public static final String VENDOR_PENDING_ORDERS = "pendingVendorOrders/";
     public static final String ORDERS_AWAITING_APPROVAL = "ordersPending/";
     public static final String ORDER_STATUS = "/orderStatus/";
-    public static final String USER_PENDING_REGISTRATION_BRANCH = "/pendingRegistration";
+    public static final String USER_PENDING_REGISTRATION_BRANCH = "pendingRegistration";
     public static final String USER_TOKEN_BRANCH = "/userNotificationToken";
 
 
     public static String getDatabaseMainBranchName() {
         if (BuildConfig.DEBUG)
-            return "/dev/";
+            return "/prod/";
         else
-            return "/production/";
+            return "/prod/";
         //TODO: Change the branch for production
     }
 }
