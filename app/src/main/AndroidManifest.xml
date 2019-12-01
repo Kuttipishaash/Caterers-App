@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.caterassist.app">
+    package="com.caterbazar">
 
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -14,9 +14,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.FAQActivity"></activity>
-        <activity android:name=".activities.CatererProfileActivity" />
-        <activity android:name=".activities.LoginActivity">
+        <activity android:name="com.caterbazar.activities.FAQActivity"/>
+        <activity android:name="com.caterbazar.activities.CatererProfileActivity" />
+        <activity android:name="com.caterbazar.activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -24,7 +24,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.VendorHomeActivity">
+        <activity android:name="com.caterbazar.activities.VendorHomeActivity">
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
@@ -33,19 +33,19 @@
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.CartActivity" />
-        <activity android:name=".activities.ContactUsActivity" />
-        <activity android:name=".activities.AboutUsActivity" />
-        <activity android:name=".activities.SettingsActivity" />
-        <activity android:name=".activities.ViewVendorItemsActivity" />
-        <activity android:name=".activities.OrderHistoryActivity" />
-        <activity android:name=".activities.AddEditItemActivity" />
-        <activity android:name=".activities.SignUpActivity" />
-        <activity android:name=".activities.VendorPendingOrdersActivity" />
-        <activity android:name=".activities.OrderDetailsActivity" />
-        <activity android:name=".activities.EditProfileActivity" />
+        <activity android:name="com.caterbazar.activities.CartActivity" />
+        <activity android:name="com.caterbazar.activities.ContactUsActivity" />
+        <activity android:name="com.caterbazar.activities.AboutUsActivity" />
+        <activity android:name="com.caterbazar.activities.SettingsActivity" />
+        <activity android:name="com.caterbazar.activities.ViewVendorItemsActivity" />
+        <activity android:name="com.caterbazar.activities.OrderHistoryActivity" />
+        <activity android:name="com.caterbazar.activities.AddEditItemActivity" />
+        <activity android:name="com.caterbazar.activities.SignUpActivity" />
+        <activity android:name="com.caterbazar.activities.VendorPendingOrdersActivity" />
+        <activity android:name="com.caterbazar.activities.OrderDetailsActivity" />
+        <activity android:name="com.caterbazar.activities.EditProfileActivity" />
         <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity" />
-        <activity android:name=".activities.CatererHomeActivity" />
+        <activity android:name="com.caterbazar.activities.CatererHomeActivity" />
         <!--
              Set custom default icon. This is used when no icon is set for incoming notification messages.
              See README(https://goo.gl/l4GJaQ) for more.
@@ -61,13 +61,13 @@
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorAccent" />
 
-        <service android:name=".utils.FirebaseNotificationService">
+        <service android:name="com.caterbazar.utils.FirebaseNotificationService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
-        <activity android:name=".activities.ForgotPassword" />
+        <activity android:name="com.caterbazar.activities.ForgotPassword" />
     </application>
 
 </manifest>

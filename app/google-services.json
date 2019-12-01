@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "722594763648",
+    "firebase_url": "https://caterassistant-75178.firebaseio.com",
+    "project_id": "caterassistant-75178",
+    "storage_bucket": "caterassistant-75178.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:722594763648:android:053ac97d8fca066278e765",
+        "android_client_info": {
+          "package_name": "com.caterbazar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "722594763648-l6iecj7082i34qccb68enp8h2r6jl6dg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.caterbazar",
+            "certificate_hash": "a427046b9acf49d14395bf5453e199cda2632d3e"
+          }
+        },
+        {
+          "client_id": "722594763648-03ph6kda91bl3hdi3s9jnqbrdtbp315s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBeGtrJY9zBPLYxYqbp5bymxblpnVlkIGE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "722594763648-03ph6kda91bl3hdi3s9jnqbrdtbp315s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

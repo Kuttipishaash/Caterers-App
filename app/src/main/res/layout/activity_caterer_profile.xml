@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/gradient_light"
     android:fitsSystemWindows="true"
-    tools:context=".activities.CatererHomeActivity">
+    tools:context="com.caterbazar.activities.CatererHomeActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/caterer_profile_app_bar_layout"

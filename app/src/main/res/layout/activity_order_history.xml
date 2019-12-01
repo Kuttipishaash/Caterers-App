@@ -7,7 +7,7 @@
     android:clickable="false"
     android:focusable="false"
     android:orientation="vertical"
-    tools:context=".activities.OrderHistoryActivity">
+    tools:context="com.caterbazar.activities.OrderHistoryActivity">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
