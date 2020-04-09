@@ -58,6 +58,7 @@ public class VendorHomeActivity extends FragmentActivity implements View.OnClick
     private static final int CALL_PERMISSION_REQ_CODE = 100;
     TextView awaitingOrderNumberTxtView;
     private BottomAppBar bottomAppBar;
+    private ImageView backgroundImageView;
     private FloatingActionButton addEditItemFAB;
     private DatabaseReference vendingItemsReference;
     private ChildEventListener vendingItemsEventListener;
@@ -101,6 +102,7 @@ public class VendorHomeActivity extends FragmentActivity implements View.OnClick
         orderHistoryFab = findViewById(R.id.frag_vend_dash_order_history);
         viewProfileFab = findViewById(R.id.vendor_view_profile);
         profileName = findViewById(R.id.vendor_home_name);
+        backgroundImageView = findViewById(R.id.background_title);
         profileLocation = findViewById(R.id.vendor_home_location);
         noVendingItems = findViewById(R.id.frag_vend_no_vending_items);
         noVendingItems.setVisibility(View.GONE);
@@ -111,6 +113,8 @@ public class VendorHomeActivity extends FragmentActivity implements View.OnClick
         awaitingOrdersFab.setOnClickListener(this);
         orderHistoryFab.setOnClickListener(this);
         viewProfileFab.setOnClickListener(this);
+
+        Glide.with(this).load(R.drawable.vector_back).into(backgroundImageView);
     }
 
     private void fetchPendingOrders() {
@@ -373,23 +377,17 @@ public class VendorHomeActivity extends FragmentActivity implements View.OnClick
     private void setupBottomAppBar() {
         bottomAppBar.replaceMenu(R.menu.bottom_bar_overflow_menu_vendor);
 
-        bottomAppBar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                BottomSheetDialogFragment bottomSheetDialogFragment = new BottomNavigationDrawerFragment();
-                bottomSheetDialogFragment.show(getSupportFragmentManager(), bottomSheetDialogFragment.getTag());
-            }
+        bottomAppBar.setNavigationOnClickListener(v -> {
+            BottomSheetDialogFragment bottomSheetDialogFragment = new BottomNavigationDrawerFragment();
+            bottomSheetDialogFragment.show(getSupportFragmentManager(), bottomSheetDialogFragment.getTag());
         });
-        bottomAppBar.setOnMenuItemClickListener(new androidx.appcompat.widget.Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.btm_sheet_vendor_order_history:
-                        startActivity(new Intent(VendorHomeActivity.this, OrderHistoryActivity.class));
-                        break;
-                }
-                return true;
+        bottomAppBar.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.btm_sheet_vendor_order_history:
+                    startActivity(new Intent(VendorHomeActivity.this, OrderHistoryActivity.class));
+                    break;
             }
+            return true;
         });
     }
 
