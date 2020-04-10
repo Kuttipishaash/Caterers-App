@@ -68,7 +68,7 @@ public class FavouriteVendorsAdapter extends RecyclerView.Adapter<FavouriteVendo
 
                 Glide.with(activity.getApplicationContext())
                         .setDefaultRequestOptions(requestOptions)
-                        .load(uri)
+                        .load(uri).thumbnail(0.1f)
                         .transition(DrawableTransitionOptions.withCrossFade())
                         .apply(requestOptions)
                         .into(holder.vendorImage);

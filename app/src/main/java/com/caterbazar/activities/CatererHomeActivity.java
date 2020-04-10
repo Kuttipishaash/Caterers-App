@@ -57,6 +57,7 @@ public class CatererHomeActivity extends FragmentActivity implements View.OnClic
     private static final int CALL_PERMISSION_REQ_CODE = 100;
     private ArrayList<UserDetails> allVendorsArrayList;
     private Toolbar toolbar;
+    private ImageView backgroundImageView;
     private DatabaseReference favouriteVendorsReference;
     private ValueEventListener favouriteVendorsEventListener;
     private ValueEventListener vendorsEventListener;
@@ -149,7 +150,7 @@ public class CatererHomeActivity extends FragmentActivity implements View.OnClic
                         .override(100, 100);
                 Glide.with(CatererHomeActivity.this)
                         .setDefaultRequestOptions(requestOptions)
-                        .load(uri)
+                        .load(uri).thumbnail(0.1f)
                         .into(viewProfileFab);
             }).addOnFailureListener(exception -> viewProfileFab.setImageResource(R.drawable.ic_error_placeholder));
         }
@@ -333,10 +334,14 @@ public class CatererHomeActivity extends FragmentActivity implements View.OnClic
         noFavouritesFrag.setVisibility(View.GONE);
         noVendorsTxtView = findViewById(R.id.frag_cate_dash_vendors_nothing);
         noVendorsTxtView.setVisibility(View.GONE);
+        backgroundImageView = findViewById(R.id.background_title);
+
 
         viewProfileFab.setOnClickListener(this);
         viewCartFAB.setOnClickListener(this);
         viewOrderHistoryFAB.setOnClickListener(this);
+
+        Glide.with(this).load(R.drawable.vector_back).into(backgroundImageView);
     }
 
     @Override

@@ -71,7 +71,7 @@ public class VendorListAdapter extends RecyclerView.Adapter<VendorListAdapter.Vi
                         .override(150, 150);
                 Glide.with(activity.getApplicationContext())
                         .setDefaultRequestOptions(requestOptions)
-                        .load(uri)
+                        .load(uri).thumbnail(0.1f)
                         .into(holder.vendorImageView);
             }).addOnFailureListener(exception -> holder.vendorImageView.setImageResource(R.drawable.ic_error_placeholder));
         } else {

@@ -83,7 +83,7 @@ public class EditProfileActivity extends Activity implements View.OnClickListene
                 requestOptions.error(R.drawable.ic_error_placeholder);
                 Glide.with(EditProfileActivity.this)
                         .setDefaultRequestOptions(requestOptions)
-                        .load(uri)
+                        .load(uri).thumbnail(0.1f)
                         .into(profileImage);
                 profileImageUri = uri;
             }).addOnFailureListener(exception -> Log.i(TAG, "setInitialValues: No profile image link"));

@@ -1,28 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
 
     <ImageView
+        android:id="@+id/background_image"
         android:layout_width="match_parent"
         android:layout_height="400dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:alpha="0.25"
-        android:background="@drawable/food"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:orientation="vertical">
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -37,12 +42,12 @@
                 android:padding="@dimen/title_padding">
 
                 <TextView
+                    style="@style/ActivityHeaderTextViewWhite"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="Sign Up"
-                    style="@style/ActivityHeaderTextViewWhite"/>
+                    android:text="Sign Up" />
 
                 <View
                     android:layout_width="55dp"
@@ -84,14 +89,14 @@
                     android:id="@+id/linearLayout5"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:orientation="vertical"
                     android:layout_marginStart="@dimen/spacing_large"
                     android:layout_marginEnd="@dimen/spacing_large"
+                    android:layout_marginBottom="8dp"
+                    android:orientation="vertical"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="parent">
+                    app:layout_constraintTop_toBottomOf="@+id/act_sign_user_img">
 
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -330,7 +335,26 @@
 
                     </LinearLayout>
 
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/spacing_large" />
 
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/act_sign_submit"
+                        style="@style/Rounded_Button_Accent"
+                        android:layout_width="300dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/rounded_button"
+                        android:drawableEnd="@drawable/ic_chevron_right"
+                        android:paddingStart="45dp"
+                        android:paddingEnd="25dp"
+                        android:text="Sign Up" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/spacing_mxlarge" />
                 </LinearLayout>
 
                 <ImageButton
@@ -343,30 +367,10 @@
                     app:layout_constraintEnd_toEndOf="@+id/act_sign_user_img"
                     app:layout_constraintStart_toEndOf="@+id/act_sign_user_img"
                     app:srcCompat="@drawable/ic_edit" />
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/spacing_large" />
 
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/act_sign_submit"
-                style="@style/Rounded_Button_Accent"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/rounded_button"
-                android:drawableEnd="@drawable/ic_chevron_right"
-                android:paddingStart="45dp"
-                android:paddingEnd="25dp"
-                android:text="Sign Up" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/spacing_mxlarge" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

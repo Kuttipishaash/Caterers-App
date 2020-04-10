@@ -117,7 +117,7 @@ public class AddEditItemActivity extends Activity implements View.OnClickListene
                         requestOptions.error(R.drawable.ic_error_placeholder);
                         Glide.with(AddEditItemActivity.this)
                                 .setDefaultRequestOptions(requestOptions)
-                                .load(uri)
+                                .load(uri).thumbnail(0.1f)
                                 .into(itemImageView);
                     }).addOnFailureListener(exception -> itemImageView.setImageResource(R.drawable.ic_error_placeholder));
                 }
@@ -247,7 +247,7 @@ public class AddEditItemActivity extends Activity implements View.OnClickListene
                     requestOptions.error(R.drawable.ic_error_placeholder);
                     Glide.with(AddEditItemActivity.this)
                             .setDefaultRequestOptions(requestOptions)
-                            .load(uri)
+                            .load(uri).thumbnail(0.1f)
                             .into(itemImageView);
                 }).addOnFailureListener(exception -> itemImageView.setImageResource(R.drawable.ic_error_placeholder));
             }

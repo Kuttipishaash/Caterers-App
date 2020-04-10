@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.Design.Light">
@@ -10,6 +10,11 @@
         <item name="windowNoTitle">true</item>
         <item name="android:fontFamily">sans-serif-light</item>
         <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="AppThemeWithActionBar" parent="AppTheme">
+        <item name="windowActionBar">true</item>
+        <item name="windowNoTitle">false</item>
     </style>
 
     <style name="WithActionBar" parent="Theme.Design.Light">
@@ -68,8 +73,8 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="SignUpTextInput" parent="Base.Widget.MaterialComponents.TextInputEditText">
-        <item name="android:drawableTint">@color/colorAccent</item>
+    <style name="SignUpTextInput">
+        <item name="android:drawableTint" tools:ignore="NewApi">@color/colorAccent</item>
         <item name="android:drawablePadding">8dp</item>
     </style>
 

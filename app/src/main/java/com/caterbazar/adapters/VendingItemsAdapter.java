@@ -63,7 +63,7 @@ public class VendingItemsAdapter extends RecyclerView.Adapter<VendingItemsAdapte
                         .override(140, 140);
                 Glide.with(activity.getApplicationContext())
                         .setDefaultRequestOptions(requestOptions)
-                        .load(uri)
+                        .load(uri).thumbnail(0.1f)
                         .into(holder.itemImage);
             }).addOnFailureListener(exception -> holder.itemImage.setImageResource(R.drawable.ic_error_placeholder));
         }

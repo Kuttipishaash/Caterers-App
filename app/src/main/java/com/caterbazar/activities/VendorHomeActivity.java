@@ -348,7 +348,7 @@ public class VendorHomeActivity extends FragmentActivity implements View.OnClick
                         .override(100, 100);
                 Glide.with(VendorHomeActivity.this.getApplicationContext())
                         .setDefaultRequestOptions(requestOptions)
-                        .load(uri)
+                        .load(uri).thumbnail(0.1f)
                         .into(viewProfileFab);
             }).addOnFailureListener(exception -> viewProfileFab.setImageResource(R.drawable.ic_error_placeholder));
         }

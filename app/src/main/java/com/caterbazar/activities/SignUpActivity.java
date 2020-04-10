@@ -16,8 +16,12 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
+import com.bumptech.glide.Glide;
 import com.caterbazar.R;
 import com.caterbazar.models.UserDetails;
 import com.caterbazar.utils.FirebaseUtils;
@@ -34,8 +38,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import es.dmoral.toasty.Toasty;
 import id.zelory.compressor.Compressor;
 
@@ -47,6 +49,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private Uri imageFileUri;
     private TextInputEditText nameEdtTxt;
     private TextInputEditText emailEdtTxt;
+    private ImageView backgroundImage;
     private TextInputEditText phoneEdtTxt;
     private TextInputEditText streetEdtTxt;
     private TextInputEditText locationEdtTxt;
@@ -75,6 +78,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private void initViews() {
         nameEdtTxt = findViewById(R.id.act_sign_name_edt_txt);
         emailEdtTxt = findViewById(R.id.act_sign_email_edt_txt);
+        backgroundImage = findViewById(R.id.background_image);
         phoneEdtTxt = findViewById(R.id.act_sign_phone_edt_txt);
         streetEdtTxt = findViewById(R.id.act_sign_street_edt_txt);
         locationEdtTxt = findViewById(R.id.act_sign_location_edt_txt);
@@ -90,6 +94,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         catergoryRadGrp.check(catererRadBtn.getId());
         submitBtn.setOnClickListener(this);
         chooseImageBtn.setOnClickListener(this);
+        Glide.with(this).load(R.drawable.food).thumbnail(0.5f).into(backgroundImage);
     }
 
     private void setValidation() {
@@ -189,8 +194,11 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
         StorageReference storageRef = FirebaseStorage.getInstance().getReference("images/" + userDetails.getUserEmail());
         UploadTask uploadTask = storageRef.putFile(imageFileUri);
-        uploadTask.addOnFailureListener(exception
-                -> Toasty.error(SignUpActivity.this, "Registration request failed!", Toast.LENGTH_LONG).show())
+        uploadTask
+                .addOnFailureListener(exception
+                        -> {
+                    Toasty.error(SignUpActivity.this, "Registration request failed!", Toast.LENGTH_LONG).show();
+                })
                 .addOnSuccessListener(taskSnapshot
                         -> {
                     Log.i(TAG, "signUp: Image uploaded.");

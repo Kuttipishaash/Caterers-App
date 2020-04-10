@@ -90,7 +90,7 @@ public class AddToCartDialog extends DialogFragment implements View.OnClickListe
                         .override(70, 70);
                 Glide.with(itemImage.getContext())
                         .setDefaultRequestOptions(requestOptions)
-                        .load(uri)
+                        .load(uri).thumbnail(0.1f)
                         .into(itemImage);
             }).addOnFailureListener(exception -> itemImage.setImageResource(R.drawable.ic_error_placeholder));
         }

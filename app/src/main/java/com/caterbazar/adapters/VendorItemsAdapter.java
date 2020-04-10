@@ -82,7 +82,7 @@ public class VendorItemsAdapter extends RecyclerView.Adapter<VendorItemsAdapter.
 
                 Glide.with(parentActivity.getApplicationContext())
                         .setDefaultRequestOptions(requestOptions)
-                        .load(uri)
+                        .load(uri).thumbnail(0.1f)
                         .transition(DrawableTransitionOptions.withCrossFade())
                         .apply(requestOptions)
                         .into(holder.image);

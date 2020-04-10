@@ -124,7 +124,7 @@ public class ViewVendorItemsActivity extends AppCompatActivity implements View.O
                         requestOptions.error(R.drawable.ic_error_placeholder);
                         Glide.with(ViewVendorItemsActivity.this.getApplicationContext())
                                 .setDefaultRequestOptions(requestOptions)
-                                .load(uri)
+                                .load(uri).thumbnail(0.1f)
                                 .into(vendorImageView);
                     }).addOnFailureListener(exception -> vendorImageView.setImageResource(R.drawable.ic_error_placeholder));
                 }

@@ -27,7 +27,7 @@ public class FirebaseUtils {
         if (BuildConfig.DEBUG)
             return "/dev/";
         else
-            return "/production/";
+            return "/prod/";
         //TODO: Change the branch for production
     }
 }

@@ -58,7 +58,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartItemViewHo
                 requestOptions.error(R.drawable.ic_error_placeholder);
                 Glide.with(activity.getApplicationContext())
                         .setDefaultRequestOptions(requestOptions)
-                        .load(uri)
+                        .load(uri).thumbnail(0.1f)
                         .into(holder.itemImageView);
             }).addOnFailureListener(exception -> holder.itemImageView.setImageResource(R.drawable.ic_error_placeholder));
         }

@@ -145,7 +145,7 @@ public class CatererProfileActivity extends Activity implements View.OnClickList
                 requestOptions.error(R.drawable.ic_error_placeholder);
                 Glide.with(CatererProfileActivity.this.getApplicationContext())
                         .setDefaultRequestOptions(requestOptions)
-                        .load(uri)
+                        .load(uri).thumbnail(0.1f)
                         .into(userImage);
             }).addOnFailureListener(exception -> userImage.setImageResource(R.drawable.ic_error_placeholder));
         }
