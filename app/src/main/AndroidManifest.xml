@@ -8,15 +8,23 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.caterbazar.activities.FAQActivity" />
-        <activity android:name="com.caterbazar.activities.CatererProfileActivity" />
-        <activity android:name="com.caterbazar.activities.LoginActivity">
+        <activity
+            android:name="com.caterbazar.activities.FAQActivity"
+            android:theme="@style/AppThemeNoActionBar" />
+        <activity
+            android:name="com.caterbazar.activities.CatererProfileActivity"
+            android:theme="@style/AppThemeNoActionBar" />
+
+        <activity
+            android:name="com.caterbazar.activities.LoginActivity"
+            android:theme="@style/AppThemeNoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -24,7 +32,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.caterbazar.activities.VendorHomeActivity">
+        <activity
+            android:name="com.caterbazar.activities.VendorHomeActivity"
+            android:theme="@style/AppThemeNoActionBar">
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
@@ -33,19 +43,42 @@
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
         </activity>
-        <activity android:name="com.caterbazar.activities.CartActivity" />
-        <activity android:name="com.caterbazar.activities.ContactUsActivity" />
-        <activity android:name="com.caterbazar.activities.AboutUsActivity" />
-        <activity android:name="com.caterbazar.activities.SettingsActivity" />
-        <activity android:name="com.caterbazar.activities.ViewVendorItemsActivity" />
-        <activity android:name="com.caterbazar.activities.OrderHistoryActivity" />
-        <activity android:name="com.caterbazar.activities.AddEditItemActivity" />
-        <activity android:name="com.caterbazar.activities.SignUpActivity" />
-        <activity android:name="com.caterbazar.activities.VendorPendingOrdersActivity" />
-        <activity android:name="com.caterbazar.activities.OrderDetailsActivity" />
-        <activity android:name="com.caterbazar.activities.EditProfileActivity" />
-        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity" />
-        <activity android:name="com.caterbazar.activities.CatererHomeActivity" />
+        <activity
+            android:name="com.caterbazar.activities.CartActivity"
+            android:theme="@style/AppThemeNoActionBar" />
+        <activity
+            android:name="com.caterbazar.activities.ContactUsActivity"
+            android:theme="@style/AppThemeNoActionBar" />
+        <activity
+            android:name="com.caterbazar.activities.AboutUsActivity"
+            android:theme="@style/AppThemeNoActionBar" />
+        <activity
+            android:name="com.caterbazar.activities.SettingsActivity"
+            android:theme="@style/AppThemeNoActionBar" />
+        <activity
+            android:name="com.caterbazar.activities.ViewVendorItemsActivity"
+            android:theme="@style/AppThemeNoActionBar" />
+        <activity
+            android:name="com.caterbazar.activities.OrderHistoryActivity"
+            android:theme="@style/AppThemeNoActionBar" />
+        <activity
+            android:name="com.caterbazar.activities.AddEditItemActivity"
+            android:theme="@style/AppThemeNoActionBar" />
+        <activity
+            android:name="com.caterbazar.activities.SignUpActivity"
+            android:theme="@style/AppThemeNoActionBar" />
+        <activity
+            android:name="com.caterbazar.activities.VendorPendingOrdersActivity"
+            android:theme="@style/AppThemeNoActionBar" />
+        <activity
+            android:name="com.caterbazar.activities.OrderDetailsActivity"
+            android:theme="@style/AppThemeNoActionBar" />
+        <activity
+            android:name="com.caterbazar.activities.EditProfileActivity"
+            android:theme="@style/AppThemeNoActionBar" />
+        <activity
+            android:name="com.caterbazar.activities.CatererHomeActivity"
+            android:theme="@style/AppThemeNoActionBar" />
         <!--
              Set custom default icon. This is used when no icon is set for incoming notification messages.
              See README(https://goo.gl/l4GJaQ) for more.
@@ -61,13 +94,18 @@
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorAccent" />
 
+        <activity android:name="com.facebook.flipper.android.diagnostics.FlipperDiagnosticActivity"
+            android:exported="true"/>
+
         <service android:name="com.caterbazar.utils.FirebaseNotificationService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
-        <activity android:name="com.caterbazar.activities.ForgotPassword" />
+        <activity
+            android:name="com.caterbazar.activities.ForgotPassword"
+            android:theme="@style/AppThemeNoActionBar" />
     </application>
 
 </manifest>

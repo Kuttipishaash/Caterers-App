@@ -182,9 +182,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             userDetails.setUserLocationName(locationEdtTxt.getText().toString());
         if (districtEdtTxt.getText() != null)
             userDetails.setUserDistrictName(districtEdtTxt.getText().toString());
-        if (imageFileUri == null) {
-            imageFileUri = Uri.parse("android.resource://com.caterassist.app/drawable/user_placeholder");
-        }
+
         int checkedRadBtnId = catergoryRadGrp.getCheckedRadioButtonId();
         if (checkedRadBtnId == catererRadBtn.getId()) {
             userDetails.setIsVendor(false);
@@ -192,6 +190,15 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             userDetails.setIsVendor(true);
         }
 
+        if (imageFileUri == null) {
+            addUserInfoToDatabase("");
+        }
+        else{
+            uploadImageAndAddUserInfoToDatabase();
+        }
+    }
+
+    private void uploadImageAndAddUserInfoToDatabase(){
         StorageReference storageRef = FirebaseStorage.getInstance().getReference("images/" + userDetails.getUserEmail());
         UploadTask uploadTask = storageRef.putFile(imageFileUri);
         uploadTask
@@ -203,31 +210,35 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                         -> {
                     Log.i(TAG, "signUp: Image uploaded.");
                     String imagePath = taskSnapshot.getMetadata().getPath();
-                    userDetails.setUserImageUrl(imagePath);
-                    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-                    firebaseAuth.createUserWithEmailAndPassword(userDetails.getUserEmail(), passwordEdtTxt.getText().toString())
-                            .addOnCompleteListener(this, task -> {
-                                if (task.isSuccessful()) {
-                                    // Sign in success, update UI with the signed-in user's information
-                                    String databasePath = FirebaseUtils.getDatabaseMainBranchName() + FirebaseUtils.USER_PENDING_REGISTRATION_BRANCH;
-                                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(databasePath);
-                                    databaseReference.child(FirebaseAuth.getInstance().getUid()).setValue(userDetails)
-                                            .addOnSuccessListener(aVoid -> {
-                                                Toasty.success(SignUpActivity.this, "Registration request recorded successfully.", Toast.LENGTH_LONG).show();
-                                                finish();
-                                            })
-                                            .addOnFailureListener(e ->
-                                                    Toasty.error(SignUpActivity.this, "Registration request failed!", Toast.LENGTH_LONG).show());
+                    addUserInfoToDatabase(imagePath);
+                });
+    }
 
-                                    Log.d(TAG, "createUserWithEmail:success");
-                                    firebaseAuth.signOut();
-                                } else {
-                                    // If sign in fails, display a message to the user.
-                                    Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                    Toasty.error(SignUpActivity.this, "Registration request failed!",
-                                            Toast.LENGTH_SHORT).show();
-                                }
-                            });
+    private void addUserInfoToDatabase(String imagePath) {
+        userDetails.setUserImageUrl(imagePath);
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        firebaseAuth.createUserWithEmailAndPassword(userDetails.getUserEmail(), passwordEdtTxt.getText().toString())
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        // Sign in success, update UI with the signed-in user's information
+                        String databasePath = FirebaseUtils.getDatabaseMainBranchName() + FirebaseUtils.USER_PENDING_REGISTRATION_BRANCH;
+                        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(databasePath);
+                        databaseReference.child(FirebaseAuth.getInstance().getUid()).setValue(userDetails)
+                                .addOnSuccessListener(aVoid -> {
+                                    Toasty.success(SignUpActivity.this, "Registration request recorded successfully.", Toast.LENGTH_LONG).show();
+                                    finish();
+                                })
+                                .addOnFailureListener(e ->
+                                        Toasty.error(SignUpActivity.this, "Registration request failed!", Toast.LENGTH_LONG).show());
+
+                        Log.d(TAG, "createUserWithEmail:success");
+                        firebaseAuth.signOut();
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                        Toasty.error(SignUpActivity.this, "Registration request failed!",
+                                Toast.LENGTH_SHORT).show();
+                    }
                 });
     }
 }

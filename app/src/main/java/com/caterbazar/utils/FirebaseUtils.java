@@ -28,6 +28,5 @@ public class FirebaseUtils {
             return "/dev/";
         else
             return "/prod/";
-        //TODO: Change the branch for production
     }
 }

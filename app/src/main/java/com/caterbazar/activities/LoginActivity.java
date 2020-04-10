@@ -225,6 +225,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                     editor.apply();
                     generateNotificationToken();
                 } else {
+                    firebaseAuth.signOut();
                     Log.e(TAG, "onDataChange: Failed to fetch");
                     fabProgressCircle.hide();
                     Toasty.error(LoginActivity.this, "Login failed! Please try again.", Toast.LENGTH_SHORT).show();
@@ -233,6 +234,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+                firebaseAuth.signOut();
                 userDetails = null;
             }
         };
